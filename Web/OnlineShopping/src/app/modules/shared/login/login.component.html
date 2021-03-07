@@ -1,0 +1,48 @@
+<div class="body">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <div class="card-group">
+          <div class="card p-4">
+            <div class="card-body">
+              <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" #f="ngForm">
+                <h1 style="text-align:center" class="mb-4">Login</h1>
+
+                <div class="input-group mb-4">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  </div>
+                  <input type="text" class="form-control sty1" placeholder="Username" formControlName="username"
+                    [ngClass]="{
+                  'is-invalid':
+                    (loginForm.controls.username.touched && loginForm.controls.username.invalid) ||
+                    (submitted && loginForm.controls.username.invalid) }">
+                </div>
+                <div class="input-group mb-4">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                  </div>
+                  <input type="password" class="form-control" placeholder="Password" formControlName="password"
+                    [ngClass]="{
+                  'is-invalid':
+                    (loginForm.controls.password.touched && loginForm.controls.password.invalid) ||
+                    (submitted && loginForm.controls.password.invalid) }">
+                </div>
+
+                <div class="row">
+                  <div class="col-6">
+                    <button type="submit" class="btn btn-dark px-4">Login</button>
+                  </div>
+                  <div class="col-6 text-right">
+                    <button type="button" class="btn btn-link px-0" routerLink="/register">Register</button>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

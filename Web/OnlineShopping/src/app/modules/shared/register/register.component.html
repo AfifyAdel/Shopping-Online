@@ -1,0 +1,49 @@
+<div class="body">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <div class="card p-4">
+          <div class="card-body ">
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              <h1 style="text-align:center" class="mb-4">Register</h1>
+
+              <div class="input-group mb-4">
+
+                <input type="text" class="form-control" placeholder="First Name" formControlName="firstname" [ngClass]="{
+                  'is-invalid':
+                    (registerForm.controls.firstname.touched && registerForm.controls.firstname.invalid) ||
+                    (submitted && registerForm.controls.firstname.invalid) }">
+              </div>
+              <div class="input-group mb-4">
+                <input type="text" class="form-control" placeholder="Last Name" formControlName="lastname" [ngClass]="{
+                  'is-invalid':
+                    (registerForm.controls.lastname.touched && registerForm.controls.lastname.invalid) ||
+                    (submitted && registerForm.controls.lastname.invalid) }">
+              </div>
+              <div class="input-group mb-4">
+                <input type="text" class="form-control" placeholder="Username" formControlName="username" [ngClass]="{
+                  'is-invalid':
+                    (registerForm.controls.username.touched && registerForm.controls.username.invalid) ||
+                    (submitted && registerForm.controls.username.invalid) }">
+              </div>
+              <div class="input-group mb-4">
+                <input type="text" class="form-control" placeholder="Email" formControlName="email" [ngClass]="{
+                  'is-invalid':
+                    (registerForm.controls.email.touched && registerForm.controls.email.invalid) ||
+                    (submitted && registerForm.controls.email.invalid) }">
+              </div>
+              <div class="input-group mb-4">
+                <input type="password" class="form-control" placeholder="Password" formControlName="password" [ngClass]="{
+                  'is-invalid':
+                    (registerForm.controls.password.touched && registerForm.controls.password.invalid) ||
+                    (submitted && registerForm.controls.password.invalid) }">
+              </div>
+
+              <button type="submit" class="btn btn-block btn-dark">Register</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+/API/OnlineShopping/.vs
+/API/OnlineShopping/APIs/OnlineShoppingAPIs/bin
+/API/OnlineShopping/APIs/OnlineShoppingAPIs/obj
+/API/OnlineShopping/Backend/BusinessLogic/bin
+/API/OnlineShopping/Backend/BusinessLogic/obj
+/API/OnlineShopping/Backend/DataAccess/bin
+/API/OnlineShopping/Backend/DataAccess/obj
+/API/OnlineShopping/Backend/Domain/bin
+/API/OnlineShopping/Backend/Domain/obj
+/Web/OnlineShopping/node_modules

@@ -1,0 +1,21 @@
+.body{
+  width: 100vw;
+  height: 100vh;
+      display: flex;
+    align-items: center;
+overflow: hidden;
+background-image: url('../../../../assets/LoginImage.jpg');
+background-size: cover;
+background-repeat: no-repeat;
+background-position: right;
+}
+.card{
+  background-color: rgba(0,0,0,.5);
+    height: 400px;
+    max-width: 400px;
+    margin: auto;
+    color: #fff;
+}
+.btn-link{
+  color: #ddd;
+}
