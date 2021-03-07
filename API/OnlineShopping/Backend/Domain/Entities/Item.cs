@@ -15,7 +15,13 @@ namespace Domain.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public int UOM { get; set; }
+        public UnitOfMeasure UnitOfMeasure { get; set; }
         public int Quantity { get; set; }
+        public long TaxId { get; set; }
+        public long DiscountId { get; set; }
+        public Tax Tax { get; set; }
+        public Discount Discount { get; set; }
+        public string ImagePath { get; set; }
         public string AttributesJson { get; set; }
         [NotMapped]
         public List<string> Attributes { get; set; }

@@ -13,37 +13,50 @@ namespace DataAccess.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly OSDataContext _db;
         private readonly UserManager<User> _userManager;
-        public UserRepository(OSDataContext db, UserManager<User> userManager)
+        public UserRepository(UserManager<User> userManager)
         {
-            _db = db;
             _userManager = userManager;
         }
 
         public async Task<User> GetByID(string id)
         {
-            return await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
+            using (var context = new OSDataContext())
+            {
+                return await context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            }
         }
 
         public async Task<User> GetByUsername(string username)
         {
-            return await _db.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            using (var context = new OSDataContext())
+            {
+                return await context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            }
         }
         public async Task<User> GetByEmail(string email)
         {
-            return await _db.Users.FirstOrDefaultAsync(x => x.Email == email);
+            using (var context = new OSDataContext())
+            {
+                return await context.Users.FirstOrDefaultAsync(x => x.Email == email);
+            }
         }
         public async Task<List<User>> GetUsers()
         {
-            return await _db.Users.ToListAsync();
+            using (var context = new OSDataContext())
+            {
+                return await context.Users.ToListAsync();
+            }
         }
 
         public async Task<IdentityResult> Insert(User user,string password)
         {
-            var res= await _userManager.CreateAsync(user, password);
-            await _db.SaveChangesAsync();
-            return res;
+            using (var context = new OSDataContext())
+            {
+                var res = await _userManager.CreateAsync(user, password);
+                await context.SaveChangesAsync();
+                return res;
+            }
         }
 
         public async Task<bool> IsUserInRole(User user,string role)
@@ -53,19 +66,25 @@ namespace DataAccess.Repositories
 
         public async Task<bool> AddUserToRole(User user, string role)
         {
-            await _userManager.AddToRoleAsync(user, role);
-            await _db.SaveChangesAsync();
-            return true;
+            using (var context = new OSDataContext())
+            {
+                await _userManager.AddToRoleAsync(user, role);
+                await context.SaveChangesAsync();
+                return true;
+            }
         }
 
         public async Task<string> GetUserRole(string id)
         {
-            var userRole = await _db.UserRoles.FirstOrDefaultAsync(x => x.UserId == id);
+            using (var context = new OSDataContext())
+            {
+                var userRole = await context.UserRoles.FirstOrDefaultAsync(x => x.UserId == id);
 
-            if (userRole != null)
-                return await _db.Roles.Where(x => x.Id == userRole.RoleId).Select(g => g.Name).FirstOrDefaultAsync();
+                if (userRole != null)
+                    return await context.Roles.Where(x => x.Id == userRole.RoleId).Select(g => g.Name).FirstOrDefaultAsync();
 
-            return null;
+                return null;
+            }
         }
     }
 }

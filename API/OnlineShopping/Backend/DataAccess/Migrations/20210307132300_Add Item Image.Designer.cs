@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(OSDataContext))]
-    [Migration("20210306162635_Create Database")]
-    partial class CreateDatabase
+    [Migration("20210307132300_Add Item Image")]
+    partial class AddItemImage
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,24 @@ namespace DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Domain.Entities.Discount", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Discount");
+                });
 
             modelBuilder.Entity("Domain.Entities.Item", b =>
                 {
@@ -34,16 +52,31 @@ namespace DataAccess.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("DiscountId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<long>("TaxId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("UOM")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DiscountId");
+
+                    b.HasIndex("TaxId");
+
+                    b.HasIndex("UOM");
 
                     b.ToTable("Items");
                 });
@@ -58,6 +91,9 @@ namespace DataAccess.Migrations
                     b.Property<string>("CustomerId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<long>("DiscountId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("datetime2");
 
@@ -70,12 +106,19 @@ namespace DataAccess.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<long>("TaxId")
+                        .HasColumnType("bigint");
+
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("DiscountId");
+
+                    b.HasIndex("TaxId");
 
                     b.ToTable("Orders");
                 });
@@ -147,16 +190,36 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "275a1589-83b5-4014-a412-8b6f29ef48f6",
-                            ConcurrencyStamp = "8e5c4586-b85c-4c4d-a8cc-e469184ef5d5",
-                            Name = "Admin"
+                            Id = "544b7a16-104b-4497-8bd9-8f2a16fdfe4b",
+                            ConcurrencyStamp = "69c15c1a-540e-4659-8978-19362dd0fcc6",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "4c220172-1aed-4a42-a96a-a8b13a4f37bf",
-                            ConcurrencyStamp = "ef4a6725-01d2-4852-974e-20a13222998d",
-                            Name = "Customer"
+                            Id = "d792e885-053d-4e39-93f8-d2c06ec91983",
+                            ConcurrencyStamp = "77b4c2ff-165e-4473-b317-abfb8341ffec",
+                            Name = "Customer",
+                            NormalizedName = "CUSTOMER"
                         });
+                });
+
+            modelBuilder.Entity("Domain.Entities.Tax", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tax");
                 });
 
             modelBuilder.Entity("Domain.Entities.UnitOfMeasure", b =>
@@ -360,14 +423,57 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Item", b =>
+                {
+                    b.HasOne("Domain.Entities.Discount", "Discount")
+                        .WithMany()
+                        .HasForeignKey("DiscountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Tax", "Tax")
+                        .WithMany()
+                        .HasForeignKey("TaxId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.UnitOfMeasure", "UnitOfMeasure")
+                        .WithMany()
+                        .HasForeignKey("UOM")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Discount");
+
+                    b.Navigation("Tax");
+
+                    b.Navigation("UnitOfMeasure");
+                });
+
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
-                    b.HasOne("Domain.Entities.User", "User")
+                    b.HasOne("Domain.Entities.User", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("User");
+                    b.HasOne("Domain.Entities.Discount", "Discount")
+                        .WithMany()
+                        .HasForeignKey("DiscountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Tax", "Tax")
+                        .WithMany()
+                        .HasForeignKey("TaxId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Discount");
+
+                    b.Navigation("Tax");
                 });
 
             modelBuilder.Entity("Domain.Entities.OrderDetail", b =>

@@ -51,20 +51,31 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Items",
+                name: "Discount",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UOM = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    AttributesJson = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.PrimaryKey("PK_Discount", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tax",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tax", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,6 +209,8 @@ namespace DataAccess.Migrations
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    TaxId = table.Column<long>(type: "bigint", nullable: false),
+                    DiscountId = table.Column<long>(type: "bigint", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
@@ -207,6 +220,55 @@ namespace DataAccess.Migrations
                         name: "FK_Orders_AspNetUsers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Discount_DiscountId",
+                        column: x => x.DiscountId,
+                        principalTable: "Discount",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Tax_TaxId",
+                        column: x => x.TaxId,
+                        principalTable: "Tax",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UOM = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    TaxId = table.Column<long>(type: "bigint", nullable: false),
+                    DiscountId = table.Column<long>(type: "bigint", nullable: false),
+                    AttributesJson = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Items_Discount_DiscountId",
+                        column: x => x.DiscountId,
+                        principalTable: "Discount",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Items_Tax_TaxId",
+                        column: x => x.TaxId,
+                        principalTable: "Tax",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Items_UnitOfMeasures_UOM",
+                        column: x => x.UOM,
+                        principalTable: "UnitOfMeasures",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -240,12 +302,12 @@ namespace DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "275a1589-83b5-4014-a412-8b6f29ef48f6", "8e5c4586-b85c-4c4d-a8cc-e469184ef5d5", "Admin", null });
+                values: new object[] { "fb95a46d-e992-4bc2-b289-31b4ab81f0af", "293f8327-045c-48c9-a96d-3fc2488cc78e", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "4c220172-1aed-4a42-a96a-a8b13a4f37bf", "ef4a6725-01d2-4852-974e-20a13222998d", "Customer", null });
+                values: new object[] { "dd70941d-fedd-4296-8727-9412db7a7da0", "5fd1b3bd-5acf-48b9-b3e7-d2c4850e14bb", "Customer", "CUSTOMER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -287,9 +349,34 @@ namespace DataAccess.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Items_DiscountId",
+                table: "Items",
+                column: "DiscountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_TaxId",
+                table: "Items",
+                column: "TaxId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_UOM",
+                table: "Items",
+                column: "UOM");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerId",
                 table: "Orders",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_DiscountId",
+                table: "Orders",
+                column: "DiscountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_TaxId",
+                table: "Orders",
+                column: "TaxId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrdersDetails_OrderId",
@@ -321,16 +408,22 @@ namespace DataAccess.Migrations
                 name: "OrdersDetails");
 
             migrationBuilder.DropTable(
-                name: "UnitOfMeasures");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "UnitOfMeasures");
 
             migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Discount");
+
+            migrationBuilder.DropTable(
+                name: "Tax");
         }
     }
 }

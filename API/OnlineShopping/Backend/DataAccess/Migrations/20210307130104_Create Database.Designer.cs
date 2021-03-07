@@ -4,14 +4,16 @@ using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(OSDataContext))]
-    partial class OSDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210307130104_Create Database")]
+    partial class CreateDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,9 +54,6 @@ namespace DataAccess.Migrations
 
                     b.Property<long>("DiscountId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -188,15 +187,15 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "544b7a16-104b-4497-8bd9-8f2a16fdfe4b",
-                            ConcurrencyStamp = "69c15c1a-540e-4659-8978-19362dd0fcc6",
+                            Id = "fb95a46d-e992-4bc2-b289-31b4ab81f0af",
+                            ConcurrencyStamp = "293f8327-045c-48c9-a96d-3fc2488cc78e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d792e885-053d-4e39-93f8-d2c06ec91983",
-                            ConcurrencyStamp = "77b4c2ff-165e-4473-b317-abfb8341ffec",
+                            Id = "dd70941d-fedd-4296-8727-9412db7a7da0",
+                            ConcurrencyStamp = "5fd1b3bd-5acf-48b9-b3e7-d2c4850e14bb",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });

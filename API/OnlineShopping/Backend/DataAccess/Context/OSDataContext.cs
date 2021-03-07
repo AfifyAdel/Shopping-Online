@@ -20,6 +20,8 @@ namespace DataAccess.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrdersDetails { get; set; }
         public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
+        public DbSet<Tax> Taxes { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
             try
@@ -41,7 +43,7 @@ namespace DataAccess.Context
             //Customer Can Make Orders
             builder.Entity<User>()
             .HasMany<Order>(s => s.Orders)
-            .WithOne(g => g.User)
+            .WithOne(g => g.Customer)
             .HasForeignKey(s => s.CustomerId).OnDelete(DeleteBehavior.Cascade);
 
             //Order have list of order detail
@@ -50,6 +52,38 @@ namespace DataAccess.Context
             .WithOne(g => g.Order)
             .HasForeignKey(s => s.OrderId).OnDelete(DeleteBehavior.Cascade);
 
+            //Order Has one tax and discount
+            builder.Entity<Order>()
+            .HasOne<Tax>(s => s.Tax)
+            .WithMany()
+            .HasForeignKey(s => s.TaxId).OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Order>()
+            .HasOne<Discount>(s => s.Discount)
+            .WithMany()
+            .HasForeignKey(s => s.DiscountId).OnDelete(DeleteBehavior.Cascade);
+
+            //Items Has one tax and discount and uom
+            builder.Entity<Item>()
+            .HasOne<Tax>(s => s.Tax)
+            .WithMany()
+            .HasForeignKey(s => s.TaxId).OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Item>()
+            .HasOne<Discount>(s => s.Discount)
+            .WithMany()
+            .HasForeignKey(s => s.DiscountId).OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Item>()
+            .HasOne<UnitOfMeasure>(s => s.UnitOfMeasure)
+            .WithMany()
+            .HasForeignKey(s => s.UOM).OnDelete(DeleteBehavior.Cascade);
+
+            //Customer Can Make Orders
+            builder.Entity<User>()
+            .HasMany<Order>(s => s.Orders)
+            .WithOne(g => g.Customer)
+            .HasForeignKey(s => s.CustomerId).OnDelete(DeleteBehavior.Cascade);
 
             //Add Roles
             builder.Entity<Role>().HasData(
