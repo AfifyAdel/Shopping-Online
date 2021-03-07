@@ -28,6 +28,14 @@ namespace DataAccess.Repositories
             }
         }
 
+        public async Task<List<Order>> GetOrders()
+        {
+            using (var context = new OSDataContext())
+            {
+                return await context.Orders.ToListAsync();
+            }
+        }
+
         public async Task<bool> Insert(Order order)
         {
             using (var context = new OSDataContext())

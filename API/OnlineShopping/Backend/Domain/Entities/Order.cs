@@ -7,7 +7,6 @@ namespace Domain.Entities
 {
     public class Order
     {
-        //	Tax Code	 Tax Value	 Discount Code	 Discount Value
         [Key]
         public long Id { get; set; }
         public DateTime? OrderDate { get; set; }

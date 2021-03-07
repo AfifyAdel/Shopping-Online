@@ -8,6 +8,7 @@ namespace Domain.Repositories
 {
     public interface IOrderRepository
     {
+        Task<List<Order>> GetOrders();
         Task ChangeStatus(long orderId,int orderStatus);
         Task<bool> Insert(Order order);
         Task<List<Order>> GetCustomerOrders(string customerId);
