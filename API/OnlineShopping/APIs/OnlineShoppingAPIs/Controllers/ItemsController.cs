@@ -25,7 +25,7 @@ namespace OnlineShoppingAPIs.Controllers
         }
         [Route(ItemsURLs.GetItems)]
         [HttpGet]
-        public async Task<GeneralResponse<List<Item>>> Login()
+        public async Task<GeneralResponse<List<Item>>> GetItems()
         {
             try
             {
@@ -95,7 +95,7 @@ namespace OnlineShoppingAPIs.Controllers
         }
         [Route(ItemsURLs.DeleteItem)]
         [HttpPost]
-        public async Task<GeneralResponse<bool>> DeleteItem(long id)
+        public async Task<GeneralResponse<bool>> DeleteItem([FromBody] long id)
         {
             try
             {

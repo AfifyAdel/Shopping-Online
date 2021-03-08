@@ -1,5 +1,6 @@
 ﻿using Domain.Communication;
 using Domain.Entities;
+using Domain.Models;
 using Domain.Repositories;
 using Domain.Services;
 using System;
@@ -19,11 +20,11 @@ namespace BusinessLogic.Services
             this.orderRepository = orderRepository;
             this.orderDetailsRepository = orderDetailsRepository;
         }
-        public async Task<GeneralResponse<bool>> ChangeStatus(long orderId, int orderStatus)
+        public async Task<GeneralResponse<bool>> ChangeStatus(OrderStatusModel model)
         {
             try
             {
-                await orderRepository.ChangeStatus(orderId,orderStatus);
+                await orderRepository.ChangeStatus(model.OrderId,model.OrderStatus);
                 return new GeneralResponse<bool>(true);
             }
             catch (Exception ex)
