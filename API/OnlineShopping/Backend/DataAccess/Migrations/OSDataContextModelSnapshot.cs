@@ -21,9 +21,9 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Domain.Entities.Discount", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Code")
@@ -34,7 +34,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Discount");
+                    b.ToTable("Discounts");
                 });
 
             modelBuilder.Entity("Domain.Entities.Item", b =>
@@ -44,14 +44,14 @@ namespace DataAccess.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AttributesJson")
+                    b.Property<string>("Attributes")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("DiscountId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("DiscountId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
@@ -62,8 +62,8 @@ namespace DataAccess.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<long>("TaxId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("TaxId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UOM")
                         .HasColumnType("int");
@@ -89,8 +89,8 @@ namespace DataAccess.Migrations
                     b.Property<string>("CustomerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<long>("DiscountId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("DiscountId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("datetime2");
@@ -104,8 +104,8 @@ namespace DataAccess.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<long>("TaxId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("TaxId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -188,15 +188,15 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "544b7a16-104b-4497-8bd9-8f2a16fdfe4b",
-                            ConcurrencyStamp = "69c15c1a-540e-4659-8978-19362dd0fcc6",
+                            Id = "58b8df75-9281-4944-af88-745aa5054428",
+                            ConcurrencyStamp = "1446c8e4-5fe2-43ab-af3c-c64edf94f4d2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d792e885-053d-4e39-93f8-d2c06ec91983",
-                            ConcurrencyStamp = "77b4c2ff-165e-4473-b317-abfb8341ffec",
+                            Id = "9dda5926-8a9a-4789-8ad5-cb018dbadc27",
+                            ConcurrencyStamp = "a3dd81ba-9f7c-449e-b6c9-5534daf9200e",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -204,20 +204,20 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Domain.Entities.Tax", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Value")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tax");
+                    b.ToTable("Taxes");
                 });
 
             modelBuilder.Entity("Domain.Entities.UnitOfMeasure", b =>

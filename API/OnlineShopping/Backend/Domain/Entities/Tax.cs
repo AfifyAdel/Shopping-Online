@@ -8,8 +8,8 @@ namespace Domain.Entities
     public class Tax
     {
         [Key]
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string Code { get; set; }
-        public int Value { get; set; }
+        public decimal Value { get; set; }
     }
 }

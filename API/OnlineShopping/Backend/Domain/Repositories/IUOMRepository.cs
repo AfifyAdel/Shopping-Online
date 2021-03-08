@@ -8,6 +8,7 @@ namespace Domain.Repositories
 {
     public interface IUOMRepository
     {
+        Task<UnitOfMeasure> GetById(int id);
         Task<UnitOfMeasure> GetByCode(string code);
         Task<List<UnitOfMeasure>> GetUOMs();
         Task<bool> Insert(UnitOfMeasure uom);

@@ -9,19 +9,25 @@ import { OrdersComponent } from './orders/orders.component';
 import { UnitOfMeasuresComponent } from './unitOfMeasures/unitOfMeasures.component';
 import { TaxesComponent } from './taxes/taxes.component';
 import { DiscountsComponent } from './discounts/discounts.component';
+import { DataTablesModule } from 'angular-datatables';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { AdduomComponent } from './unitOfMeasures/adduom/adduom.component';
+import { AddtaxComponent } from './taxes/addtax/addtax.component';
+import { AdddiscountComponent } from './discounts/adddiscount/adddiscount.component';
 
 
 
 
 @NgModule({
   declarations: [
-    LayoutComponent, ProductsComponent, OrdersComponent, UnitOfMeasuresComponent, TaxesComponent, DiscountsComponent
+    LayoutComponent, ProductsComponent, OrdersComponent, UnitOfMeasuresComponent,
+    TaxesComponent, DiscountsComponent, AdduomComponent, AddtaxComponent, AdddiscountComponent
   ],
 
   imports: [
     CommonModule,
     AdminRoutingModule,
-    SharedModule, ReactiveFormsModule, FormsModule
+    SharedModule, ReactiveFormsModule, FormsModule, DataTablesModule, NgxSpinnerModule
   ]
 })
 export class AdminModule { }

@@ -1,4 +1,5 @@
 ﻿using Domain.Communication;
+using Domain.Constants.Enums;
 using Domain.Entities;
 using Domain.Repositories;
 using Domain.Services;
@@ -21,6 +22,11 @@ namespace BusinessLogic.Services
         {
             try
             {
+                var taxDB = await taxRepository.GetByCode(tax.Code);
+                if (taxDB != null)
+                {
+                    return new GeneralResponse<bool>("This tax code already exist",EResponseStatus.Error);
+                }
                 var result = await taxRepository.Insert(tax);
                 return new GeneralResponse<bool>(true);
             }

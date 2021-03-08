@@ -12,14 +12,25 @@ namespace BusinessLogic.Services
     public class ItemsService : IItemsService
     {
         private readonly IItemsRepository itemsRepository;
-        public ItemsService(IItemsRepository itemsRepository)
+        private readonly IDiscountRepositoy discountRepositoy;
+        private readonly ITaxRepository taxRepository;
+        private readonly IUOMRepository uomRepository;
+
+        public ItemsService(IItemsRepository itemsRepository,IDiscountRepositoy discountRepositoy,
+            ITaxRepository taxRepository,IUOMRepository uomRepository)
         {
             this.itemsRepository = itemsRepository;
+            this.discountRepositoy = discountRepositoy;
+            this.taxRepository = taxRepository;
+            this.uomRepository = uomRepository;
         }
         public async Task<GeneralResponse<bool>> AddItem(Item item)
         {
             try
             {
+                item.Discount = await discountRepositoy.GetById(item.DiscountId);
+                item.Tax = await taxRepository.GetById(item.TaxId);
+                item.UnitOfMeasure = await uomRepository.GetById(item.UOM);
                 var result = await itemsRepository.Insert(item);
                 return new GeneralResponse<bool>(true);
             }
@@ -52,6 +63,9 @@ namespace BusinessLogic.Services
         {
             try
             {
+                item.Discount = await discountRepositoy.GetById(item.DiscountId);
+                item.Tax = await taxRepository.GetById(item.TaxId);
+                item.UnitOfMeasure = await uomRepository.GetById(item.UOM);
                 var result = await itemsRepository.Update(item);
                 return new GeneralResponse<bool>(true);
             }

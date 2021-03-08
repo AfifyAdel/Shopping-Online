@@ -4,6 +4,7 @@ using Domain.Constants.URLs;
 using Domain.Entities;
 using Domain.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingAPIs.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     [ApiController]
     public class UOMController : ControllerBase
     {

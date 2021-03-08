@@ -41,9 +41,6 @@ namespace BusinessLogic.Services
 
             if (response.Succeeded)
             {
-                if (await _roleManager.RoleExistsAsync(EUserRole.Admin.ToString()))
-                    if (!await _userRepository.IsUserInRole(user, EUserRole.Customer.ToString()) && !await _userRepository.IsUserInRole(user, EUserRole.Admin.ToString()))
-                        await _userRepository.AddUserToRole(user, EUserRole.Customer.ToString());
 
                 var roleName = await _userRepository.GetUserRole(user.Id);
                 var role = roleName == "Admin" ? EUserRole.Admin : EUserRole.Customer;
@@ -52,7 +49,8 @@ namespace BusinessLogic.Services
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     UserName = user.UserName,
-                    Role = (int)role
+                    Role = (int)role,
+                    Id = user.Id
                 };
                 return new GeneralResponse<AuthModel>(auth);
             }
@@ -92,6 +90,9 @@ namespace BusinessLogic.Services
 
                 if (result.Succeeded)
                 {
+                    var user = await _userRepository.GetByUsername(newUser.UserName);
+                    await _userRepository.AddUserToRole(newUser, EUserRole.Customer.ToString());
+
                     return new GeneralResponse<bool>(true);
                 }
                 else

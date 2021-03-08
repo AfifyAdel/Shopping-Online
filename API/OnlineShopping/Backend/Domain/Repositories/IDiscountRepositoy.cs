@@ -8,6 +8,7 @@ namespace Domain.Repositories
 {
     public interface IDiscountRepositoy
     {
+        Task<Discount> GetById(int id);
         Task<Discount> GetByCode(string code);
         Task<List<Discount>> GetDiscounts();
         Task<bool> Insert(Discount discount);

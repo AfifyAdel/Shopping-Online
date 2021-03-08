@@ -67,10 +67,21 @@ namespace OnlineShoppingAPIs
 
             //Inject Repositories
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IDiscountRepositoy, DiscountRepositoy>();
+            services.AddScoped<IItemsRepository, ItemsRepository>();
+            services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<ITaxRepository, TaxRepository>();
+            services.AddScoped<IUOMRepository, UOMRepository>();
 
 
             //Inject Services
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IDiscountService, DiscountService>();
+            services.AddScoped<IItemsService, ItemsService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ITaxesService, TaxesService>();
+            services.AddScoped<IUOMService, UOMService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,6 +103,8 @@ namespace OnlineShoppingAPIs
                 .AllowCredentials()); // allow credentials
 
             app.UseAuthentication();
+
+            app.UseCookiePolicy();
 
             app.UseAuthorization();
 

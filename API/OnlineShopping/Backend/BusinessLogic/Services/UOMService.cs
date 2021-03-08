@@ -1,4 +1,5 @@
 ﻿using Domain.Communication;
+using Domain.Constants.Enums;
 using Domain.Entities;
 using Domain.Repositories;
 using Domain.Services;
@@ -21,6 +22,11 @@ namespace BusinessLogic.Services
         {
             try
             {
+                var uomDB = await uomRepository.GetByCode(uom.UOM);
+                if (uomDB != null)
+                {
+                    return new GeneralResponse<bool>("This unit of measure already exist", EResponseStatus.Error);
+                }
                 var result = await uomRepository.Insert(uom);
                 return new GeneralResponse<bool>(true);
             }

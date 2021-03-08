@@ -15,8 +15,8 @@ namespace Domain.Entities
         public int Status { get; set; }
         public string CustomerId { get; set; }
         public User Customer { get; set; }
-        public long TaxId { get; set; }
-        public long DiscountId { get; set; }
+        public int TaxId { get; set; }
+        public int DiscountId { get; set; }
         public Tax Tax { get; set; }
         public Discount Discount { get; set; }
         public decimal TotalPrice { get; set; }

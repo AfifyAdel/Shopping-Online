@@ -1,4 +1,5 @@
 ﻿using Domain.Communication;
+using Domain.Constants.Enums;
 using Domain.Entities;
 using Domain.Repositories;
 using Domain.Services;
@@ -21,6 +22,11 @@ namespace BusinessLogic.Services
         {
             try
             {
+                var discountDB = await discountRepository.GetByCode(discount.Code);
+                if (discountDB != null)
+                {
+                    return new GeneralResponse<bool>("This discount code already exist", EResponseStatus.Error);
+                }
                 var result = await discountRepository.Insert(discount);
                 return new GeneralResponse<bool>(true);
             }

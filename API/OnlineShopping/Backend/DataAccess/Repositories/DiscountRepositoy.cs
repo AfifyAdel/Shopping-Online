@@ -33,6 +33,14 @@ namespace DataAccess.Repositories
             }
         }
 
+        public async Task<Discount> GetById(int id)
+        {
+            using (var context = new OSDataContext())
+            {
+                return await context.Discounts.FirstOrDefaultAsync(x => x.Id == id);
+            }
+        }
+
         public async Task<List<Discount>> GetDiscounts()
         {
             using (var context = new OSDataContext())

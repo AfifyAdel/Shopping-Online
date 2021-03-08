@@ -33,6 +33,14 @@ namespace DataAccess.Repositories
             }
         }
 
+        public async Task<UnitOfMeasure> GetById(int id)
+        {
+            using (var context = new OSDataContext())
+            {
+                return await context.UnitOfMeasures.FirstOrDefaultAsync(x => x.Id == id);
+            }
+        }
+
         public async Task<List<UnitOfMeasure>> GetUOMs()
         {
             using (var context = new OSDataContext())
