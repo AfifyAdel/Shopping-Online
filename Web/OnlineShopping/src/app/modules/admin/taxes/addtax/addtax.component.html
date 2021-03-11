@@ -1,47 +1,40 @@
-<div class="white-popup-block mfp-hide">
-  <div class="mfp-title">
-    <h3>Add Tax</h3>
-  </div>
-  <div class="list-group-popup">
-    <form [formGroup]="addForm" class="w-100">
-      <div class="text-left">
-        <div class="row">
-          <div class="col-lg-3 col-md-3 col-3">
-            <span class="lbl">
-              Code
-            </span>
-            <span class="text-danger">*</span>
-          </div>
-          <div class="col-lg-9 col-md-9 col-9 form-group">
-            <input type="text" formControlName="code" tabindex="1" class="form-control" [ngClass]="{
+<h4 class="my-3">Add Tax</h4>
+
+<form [formGroup]="addForm" class="w-100">
+
+  <div class="row">
+    <div class="col-lg-1 col-md-2 col-3">
+      <span class="lbl">
+        Code
+      </span>
+      <span class="text-danger">*</span>
+    </div>
+    <div class="col-lg-4 col-md-5 col-9 form-group">
+      <input type="text" formControlName="code" tabindex="1" class="form-control" [ngClass]="{
                   'is-invalid':
                     (form.code.touched && form.code.invalid) ||
                     (submittedAdd && form.code.invalid) }" />
-          </div>
-        </div>
-        <div class="row val">
-          <div class="col-lg-3 col-md-3 col-3">
-            <span class="lbl">
-              Value
-            </span>
-            <span class="text-danger">*</span>
-          </div>
-          <div class="col-lg-9 col-md-9 col-9 form-group ">
-            <input type="text" formControlName="value" tabindex="2" class="form-control" [ngClass]="{
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-1 col-md-2 col-3">
+      <span class="lbl">
+        Value
+      </span>
+      <span class="text-danger">*</span>
+    </div>
+    <div class="col-lg-4 col-md-5 col-9 form-group ">
+      <input type="text" formControlName="value" tabindex="2" class="form-control value" [ngClass]="{
                   'is-invalid':
                     (form.value.touched && form.value.invalid) ||
-                    (submittedAdd && form.value.invalid) }" />
-            <span class="per">%</span>
-          </div>
-        </div>
-
-      </div>
-      <div class="row d-flex justify-content-center">
-        <div class="col-sm-12 form-group d-flex justify-content-center">
-          <button type="button" class="btn btn-primary" (click)="submit()">Save</button>
-        </div>
-      </div>
-
-    </form>
+                    (submittedAdd && form.value.invalid) }" /> <span class="per">%</span>
+    </div>
   </div>
-</div>
+
+  <div class="row ">
+    <div class="col-sm-12 form-group r">
+      <button type="button" class="btn btn-dark" (click)="submit()">Save</button>
+    </div>
+  </div>
+
+</form>

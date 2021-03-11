@@ -1,15 +1,17 @@
-.white-popup-block{
-  display: table-cell;
-    padding: 32px;
-}
-.list-group-popup{
-  margin-top: 42px;
-  min-width: 500px;
-}
+
 .per{
-      font-size: larger;
-      margin-left: 3px;
+    position: absolute;
+    top: 0px;
+    right: 25px;
+    font-size: 16px;
+    opacity: .7;
 }
 .form-control{
-  display: flex;
+  height: 25px;
+  &.value.is-invalid{
+background-image: none !important;
+  }
+}
+.btn{
+      padding: 2px 10px;
 }

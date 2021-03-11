@@ -15,7 +15,7 @@ export class AccountService {
   headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
 
   Login(model: LoginModel): Observable<any> {
-    debugger;
+
     return this._http.post<any>(Apis.login, model, { headers: this.headers }).pipe();
   }
 

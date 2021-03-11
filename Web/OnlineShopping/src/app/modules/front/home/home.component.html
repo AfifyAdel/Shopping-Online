@@ -1,24 +1,26 @@
 <div class="row p-3">
-  <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 pb-4">
+  <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 pb-4" *ngFor="let item of products">
     <div class="card">
       <div class="row">
         <div class="col-12">
           <div class="containe">
 
             <div class="image">
-              <img src="assets/LoginImage.jpg" alt="img">
+              <img src={{getImagePath(item.imagePath)}} alt="img">
             </div>
           </div>
         </div>
         <div class="col-12 details">
-          <p>sfsnkasfjashghs ghsiogo iusgwieogj gihsodlkgl so gshgsksk</p>
+          <p>{{item.name}} <span style="color: red;">(available {{item.quantity}})</span></p>
         </div>
         <div class="col-12 price">
-          <p>100 EGP</p>
-          <p class="discount">150 EGP</p>
+          <p>{{clacDiscount(calcTax(item.price,item.taxId),item.discountId)}}</p>
+          <p class="discount"
+            *ngIf="clacDiscount(calcTax(item.price,item.taxId),item.discountId) !== calcTax(item.price,item.taxId)">
+            {{calcTax(item.price,item.taxId)}}</p>
         </div>
         <div class="col-12 card-button">
-          <button class="btn-success form-control">Add to Cart</button>
+          <button class="btn-success form-control" (click)="addItemToCard(item.id)">Add to Cart</button>
         </div>
       </div>
     </div>
@@ -26,3 +28,5 @@
 
 
 </div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.4)" size="default" type="ball-spin-clockwise">
+</ngx-spinner>

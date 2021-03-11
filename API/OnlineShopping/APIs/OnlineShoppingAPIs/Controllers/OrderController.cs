@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingAPIs.Controllers
 {
-    [Authorize]
     [ApiController]
     public class OrderController : ControllerBase
     {
@@ -92,6 +91,20 @@ namespace OnlineShoppingAPIs.Controllers
             try
             {
                 var response = await orderService.Insert(order);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return new GeneralResponse<bool>(ex.Message, EResponseStatus.Exception);
+            }
+        }
+        [Route(OrderURLs.Update)]
+        [HttpPost]
+        public async Task<GeneralResponse<bool>> Update([FromBody] Order order)
+        {
+            try
+            {
+                var response = await orderService.Update(order);
                 return response;
             }
             catch (Exception ex)

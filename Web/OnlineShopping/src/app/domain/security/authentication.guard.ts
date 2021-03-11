@@ -15,7 +15,7 @@ export class AuthenticationGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     let currentUser = JSON.parse(localStorage.getItem('_cuser') || '{}');
-    debugger;
+
     if (Object.keys(currentUser).length !== 0) {
       if (next.url.length == 0) {
         if (currentUser.role !== Eusertypes.Admin)

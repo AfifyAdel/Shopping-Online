@@ -11,5 +11,6 @@ namespace Domain.Constants.URLs
         public const string GetCustomerOrders = "api/Order/GetCustomerOrders/{customerId}";
         public const string ChangeStatus = "api/Order/ChangeStatus";
         public const string Insert = "api/Order/Insert";
+        public const string Update = "api/Order/Update";
     }
 }

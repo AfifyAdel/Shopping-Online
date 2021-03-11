@@ -11,9 +11,6 @@ namespace DataAccess.Repositories
 {
     public class ItemsRepository : IItemsRepository
     {
-        public ItemsRepository()
-        {
-        }
         public async Task<bool> DeleteAsync(long id)
         {
             var item = new Item()
@@ -48,7 +45,7 @@ namespace DataAccess.Repositories
         {
             using (var context = new OSDataContext())
             {
-                await context.AddAsync(item);
+                await context.AddAsync<Item>(item);
                 await context.SaveChangesAsync();
                 return true;
             }

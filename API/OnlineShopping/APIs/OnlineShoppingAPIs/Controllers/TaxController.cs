@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingAPIs.Controllers
 {
-    [AllowAnonymous]
     [ApiController]
     public class TaxController : ControllerBase
     {

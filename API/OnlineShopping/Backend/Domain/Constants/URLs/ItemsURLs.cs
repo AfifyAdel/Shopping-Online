@@ -10,5 +10,6 @@ namespace Domain.Constants.URLs
         public const string AddItem = "api/Items/AddItem";
         public const string UpdateItem = "api/Items/UpdateItem";
         public const string DeleteItem = "api/Items/DeleteItem";
+        public const string GetItemById = "api/Items/GetItemById/{id}";
     }
 }

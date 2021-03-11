@@ -14,6 +14,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { AdduomComponent } from './unitOfMeasures/adduom/adduom.component';
 import { AddtaxComponent } from './taxes/addtax/addtax.component';
 import { AdddiscountComponent } from './discounts/adddiscount/adddiscount.component';
+import { AddproductComponent } from './products/addproduct/addproduct.component';
+import { ViewdetailsComponent } from './viewdetails/viewdetails.component';
 
 
 
@@ -21,7 +23,8 @@ import { AdddiscountComponent } from './discounts/adddiscount/adddiscount.compon
 @NgModule({
   declarations: [
     LayoutComponent, ProductsComponent, OrdersComponent, UnitOfMeasuresComponent,
-    TaxesComponent, DiscountsComponent, AdduomComponent, AddtaxComponent, AdddiscountComponent
+    TaxesComponent, DiscountsComponent, AdduomComponent, AddtaxComponent, AdddiscountComponent,
+    AddproductComponent, ViewdetailsComponent
   ],
 
   imports: [

@@ -30,7 +30,7 @@ export class UnitOfMeasuresComponent implements OnInit {
   }
 
   getUOMs() {
-    debugger;
+
     this.SpinnerService.show();
     this.uomService.getUOMs().subscribe(responce => {
       if (responce.resource && responce.status == Responsestatus.success) {

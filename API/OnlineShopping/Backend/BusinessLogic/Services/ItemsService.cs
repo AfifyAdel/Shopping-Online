@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
+using Domain.Constants.Enums;
 
 namespace BusinessLogic.Services
 {
@@ -28,9 +30,6 @@ namespace BusinessLogic.Services
         {
             try
             {
-                item.Discount = await discountRepositoy.GetById(item.DiscountId);
-                item.Tax = await taxRepository.GetById(item.TaxId);
-                item.UnitOfMeasure = await uomRepository.GetById(item.UOM);
                 var result = await itemsRepository.Insert(item);
                 return new GeneralResponse<bool>(true);
             }
@@ -50,6 +49,19 @@ namespace BusinessLogic.Services
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public async Task<GeneralResponse<Item>> GetItemById(long id)
+        {
+            var item = (await itemsRepository.GetItems()).FirstOrDefault(x=>x.Id==id);
+            if (item != null)
+            {
+                return new GeneralResponse<Item>(item);
+            }
+            else
+            {
+                return new GeneralResponse<Item>("Cann't find this item!",EResponseStatus.Error);
             }
         }
 

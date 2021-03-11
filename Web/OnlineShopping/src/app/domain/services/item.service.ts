@@ -14,7 +14,9 @@ export class ItemService {
   getItems(): Observable<any> {
     return this._http.get<any>(Apis.getItems).pipe();
   }
-
+  getItemById(id): Observable<any> {
+    return this._http.get<any>(Apis.getItemById + id).pipe();
+  }
 
   addItem(data: FormData): Observable<any> {
     return this._http.post<any>(Apis.addItem, data, {

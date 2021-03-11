@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
@@ -11,7 +11,7 @@ import { DiscountService } from 'src/app/domain/services/discount.service';
   templateUrl: './discounts.component.html',
   styleUrls: ['./discounts.component.scss']
 })
-export class DiscountsComponent implements OnInit {
+export class DiscountsComponent implements OnDestroy, OnInit {
   discounts: Array<Discount>
   dtTrigger: Subject<any> = new Subject<any>();
   dtOptions: DataTables.Settings = {};
@@ -22,17 +22,17 @@ export class DiscountsComponent implements OnInit {
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers'
-
     };
     this.getDiscounts();
   }
 
   getDiscounts() {
-    debugger;
+
     this.SpinnerService.show();
     this.discountService.getDiscounts().subscribe(responce => {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.discounts = responce.resource;
+        this.discounts = this.discounts.filter(x => x.id !== 1);
         this.dtTrigger.next();
       } else if (responce.status == Responsestatus.error) {
         alert(responce.message);

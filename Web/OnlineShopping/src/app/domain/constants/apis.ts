@@ -34,6 +34,7 @@ export class Apis {
   static getCustomerOrders = Apis.domainName + 'api/Order/GetCustomerOrders/';
   static changeStatus = Apis.domainName + 'api/Order/ChangeStatus';
   static addOrder = Apis.domainName + 'api/Order/Insert';
+  static updateOrder = Apis.domainName + 'api/Order/Update';
 
 
   //Item
@@ -41,5 +42,5 @@ export class Apis {
   static addItem = Apis.domainName + 'api/Items/AddItem';
   static updateItem = Apis.domainName + 'api/Items/UpdateItem';
   static deleteItem = Apis.domainName + 'api/Items/DeleteItem';
-
+  static getItemById = Apis.domainName + 'api/Items/GetItemById/';
 }

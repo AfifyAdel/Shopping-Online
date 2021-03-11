@@ -5,12 +5,15 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { LayoutComponent } from './layout/layout.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { OrderDetailsComponent } from './order-details/order-details.component';
+import { DataTablesModule } from 'angular-datatables';
 
 
 
 @NgModule({
   declarations: [
-    HomeComponent, LayoutComponent
+    HomeComponent, LayoutComponent, OrderDetailsComponent
   ],
   providers: [
     DatePipe
@@ -19,7 +22,7 @@ import { LayoutComponent } from './layout/layout.component';
     CommonModule,
     FrontRoutingModule,
     SharedModule,
-    ReactiveFormsModule, FormsModule
+    ReactiveFormsModule, FormsModule, NgxSpinnerModule, DataTablesModule
   ]
 })
 export class FrontModule { }

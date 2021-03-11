@@ -1,0 +1,29 @@
+@media(max-width:767.9px) {
+  .order {
+    order: 2;
+  }
+}
+.ppicture {
+  min-width: 180px;
+  max-width: 180px;
+  min-height: 180px;
+  max-height: 180px;
+  margin: auto;
+}
+.uploader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+
+  label {
+    margin-right: 10px;
+  }
+}
+.form-control{
+  height: 25px;
+  padding: 0 5px;
+}
+select.is-invalid{
+  background-image: none;
+}

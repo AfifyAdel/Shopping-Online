@@ -41,9 +41,8 @@ namespace BusinessLogic.Services
 
             if (response.Succeeded)
             {
-
-                var roleName = await _userRepository.GetUserRole(user.Id);
-                var role = roleName == "Admin" ? EUserRole.Admin : EUserRole.Customer;
+                var roleDB = await _roleManager.FindByIdAsync(user.RoleId);
+                var role = roleDB.Name == "Admin" ? EUserRole.Admin : EUserRole.Customer;
                 var auth = new AuthModel()
                 {
                     FirstName = user.FirstName,
@@ -77,22 +76,20 @@ namespace BusinessLogic.Services
                 {
                     return new GeneralResponse<bool>("Email already exists", EResponseStatus.Error);
                 }
-
+                var customerRole = await _roleManager.FindByNameAsync(EUserRole.Customer.ToString());
                 var newUser = new User()
                 {
                     Email = registerModel.Email,
                     FirstName=registerModel.FirstName,
                     LastName=registerModel.LastName,
-                    UserName = registerModel.UserName
+                    UserName = registerModel.UserName,
+                    RoleId = customerRole.Id
                 };
                 
                 var result = await _userRepository.Insert(newUser, registerModel.Password);
 
                 if (result.Succeeded)
                 {
-                    var user = await _userRepository.GetByUsername(newUser.UserName);
-                    await _userRepository.AddUserToRole(newUser, EUserRole.Customer.ToString());
-
                     return new GeneralResponse<bool>(true);
                 }
                 else
@@ -114,18 +111,16 @@ namespace BusinessLogic.Services
                 var admin = await _userRepository.GetByUsername("Admin");
                 if (admin == null)
                 {
+                    var adminRole = await _roleManager.FindByNameAsync(EUserRole.Admin.ToString());
                     var newUser = new User()
                     {
                         UserName = "Admin",
                         Email = "Admin@Admin.com",
-                        EmailConfirmed = true
+                        EmailConfirmed = true,
+                        RoleId = adminRole.Id
                     };
 
-                    var result = await _userRepository.Insert(newUser, "123456");
-                    if (result.Succeeded)
-                    {
-                        await _userRepository.AddUserToRole(newUser, EUserRole.Admin.ToString());
-                    }
+                    await _userRepository.Insert(newUser, "123456");
                 }
             }
             catch (Exception ex)

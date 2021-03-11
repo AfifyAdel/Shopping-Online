@@ -35,6 +35,14 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Discounts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "0",
+                            Value = 0m
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Item", b =>
@@ -58,6 +66,9 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -188,15 +199,15 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "58b8df75-9281-4944-af88-745aa5054428",
-                            ConcurrencyStamp = "1446c8e4-5fe2-43ab-af3c-c64edf94f4d2",
+                            Id = "9e463adb-5249-4640-8a42-2fdb09747a60",
+                            ConcurrencyStamp = "6468b468-1c5f-43e4-bd33-48ec11c4d40a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "9dda5926-8a9a-4789-8ad5-cb018dbadc27",
-                            ConcurrencyStamp = "a3dd81ba-9f7c-449e-b6c9-5534daf9200e",
+                            Id = "28e0293f-47a8-45bb-b0d5-c58001a387ad",
+                            ConcurrencyStamp = "c7739ce0-98a6-4d53-80b9-e5aa87bb66aa",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -218,6 +229,14 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Taxes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "0",
+                            Value = 0m
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.UnitOfMeasure", b =>
@@ -228,11 +247,9 @@ namespace DataAccess.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UOM")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -293,6 +310,9 @@ namespace DataAccess.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

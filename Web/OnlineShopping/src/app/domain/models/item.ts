@@ -6,7 +6,7 @@ export class Item {
   id: number;
   name: string;
   description: string;
-  uOM: number;
+  uom: number;
   unitOfMeasure: UnitOfMeasure;
   quantity: number;
   taxId: number;
@@ -15,4 +15,5 @@ export class Item {
   discount: Discount;
   imagePath: string;
   attributes: string;
+  price: number;
 }

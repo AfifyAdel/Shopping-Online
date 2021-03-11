@@ -37,7 +37,7 @@ namespace DataAccess.Repositories
         {
             using (var context = new OSDataContext())
             {
-                return await context.Discounts.FirstOrDefaultAsync(x => x.Id == id);
+                return await context.Discounts.AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync(x => x.Id == id);
             }
         }
 

@@ -15,5 +15,6 @@ namespace Domain.Services
         Task<GeneralResponse<List<Order>>> GetCustomerOrders(string customerId);
         Task<GeneralResponse<bool>> ChangeStatus(OrderStatusModel model);
         Task<GeneralResponse<bool>> Insert(Order order);
+        Task<GeneralResponse<bool>> Update(Order order);
     }
 }

@@ -7,12 +7,12 @@
   <!-- Topbar Navbar -->
   <ul class="navbar-nav ml-auto">
 
-    <li *ngIf="model.role==2" class="nav-item dropdown no-arrow card-icon">
+    <li *ngIf="model.role==2" class="nav-item dropdown no-arrow card-icon" (click)="navigateToDetails()">
 
       <div class="box">
         <div class="notification">
           <i class="fas fa-cart-arrow-down ic"></i>
-          <span class="num">4</span>
+          <span class="num">{{counter}}</span>
         </div>
       </div>
 

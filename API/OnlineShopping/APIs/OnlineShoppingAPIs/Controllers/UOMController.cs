@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingAPIs.Controllers
 {
-    [AllowAnonymous]
     [ApiController]
     public class UOMController : ControllerBase
     {

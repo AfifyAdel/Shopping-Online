@@ -13,7 +13,7 @@ export class UnitofmeasureService {
   headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
 
   getUOMs(): Observable<any> {
-    debugger;
+
     return this._http.get<any>(Apis.getUOMs).pipe();
   }
   getUOMByCode(code: string): Observable<any> {

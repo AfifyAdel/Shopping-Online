@@ -17,7 +17,7 @@ export class SessionGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    debugger;
+
     const currentUser = JSON.parse(localStorage.getItem('_cuser') || '{}');
     if (Object.keys(currentUser).length !== 0) {
       let util = new Util(this._router);

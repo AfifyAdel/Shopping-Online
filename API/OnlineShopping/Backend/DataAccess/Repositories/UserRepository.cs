@@ -58,33 +58,6 @@ namespace DataAccess.Repositories
                 return res;
             }
         }
-
-        public async Task<bool> IsUserInRole(User user,string role)
-        {
-           return await _userManager.IsInRoleAsync(user, role);
-        }
-
-        public async Task<bool> AddUserToRole(User user, string role)
-        {
-            using (var context = new OSDataContext())
-            {
-                await _userManager.AddToRoleAsync(user, role);
-                await context.SaveChangesAsync();
-                return true;
-            }
-        }
-
-        public async Task<string> GetUserRole(string id)
-        {
-            using (var context = new OSDataContext())
-            {
-                var userRole = await context.UserRoles.FirstOrDefaultAsync(x => x.UserId == id);
-
-                if (userRole != null)
-                    return await context.Roles.Where(x => x.Id == userRole.RoleId).Select(g => g.Name).FirstOrDefaultAsync();
-
-                return null;
-            }
-        }
+        
     }
 }

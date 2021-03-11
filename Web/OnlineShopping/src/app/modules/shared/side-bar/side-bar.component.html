@@ -1,26 +1,26 @@
 <div class="sidebar-container">
   <ul class="sidebar-navigation">
-    <li>
+    <li (click)="currentSelected = 'Products'" [ngClass]="{'active': currentSelected === 'Products'}">
       <a routerLink="/admin/products">
         <i class="fab fa-product-hunt" aria-hidden="true"></i> Products
       </a>
     </li>
-    <li>
+    <li (click)="currentSelected = 'Orders'" [ngClass]="{'active': currentSelected === 'Orders'}">
       <a routerLink="/admin/orders">
         <i class="fas fa-th-list" aria-hidden="true"></i> Orders
       </a>
     </li>
-    <li>
+    <li (click)="currentSelected = 'Measures'" [ngClass]="{'active': currentSelected === 'Measures'}">
       <a routerLink="/admin/uom">
         <i class="fas fa-weight" aria-hidden="true"></i> Unit Of Measures
       </a>
     </li>
-    <li>
+    <li (click)="currentSelected = 'Taxes'" [ngClass]="{'active': currentSelected === 'Taxes'}">
       <a routerLink="/admin/taxes">
         <i class="fas fa-coins" aria-hidden="true"></i> Taxes
       </a>
     </li>
-    <li>
+    <li (click)="currentSelected = 'Discounts'" [ngClass]="{'active': currentSelected === 'Discounts'}">
       <a routerLink="/admin/discounts">
         <i class="fas fa-comments-dollar" aria-hidden="true"></i> Discounts
       </a>

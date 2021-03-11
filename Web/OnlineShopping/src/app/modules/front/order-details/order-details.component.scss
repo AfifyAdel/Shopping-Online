@@ -1,0 +1,29 @@
+
+.tabo{
+    margin-top: 55px;
+}
+table.dataTable thead .sorting_asc,table.dataTable thead .sorting_desc,table.dataTable thead .sorting{
+  background-image: none !important;
+}
+table.dataTable thead th, table.dataTable tfoot th {
+    font-weight: bold;
+    background: #eee;
+    padding: 5px 10px!important;
+}
+
+.delete-icon{
+  a{
+    color: #212529;
+    i{
+      color: #212529;
+    }
+  }
+}
+.ord{
+    position: inherit;
+
+}
+.wrapper {
+    text-align: center;
+}
+

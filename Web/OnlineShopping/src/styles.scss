@@ -4,5 +4,34 @@
 body{
   margin:0;
   padding: 0;
+  overflow-y: auto ;
   overflow-x: hidden;
+}
+.container-fluid{
+      overflow: auto;
+    height: calc(100vh - 76px);
+}
+
+.btn , i{
+  cursor: pointer;
+}
+//table style
+.dataTables_length{
+  display: none  !important;
+}
+.paginate_button.current{
+  background:  #eee !important;
+  border:none !important
+}
+.dataTable ,.dataTables_filter,.dataTables_info,.dataTables_paginate{
+  transform: translateY(-38px);
+}
+//end table style
+li.active{
+  background-color: #2574A9;
+}
+.order-c{
+  .dataTable ,.dataTables_filter,.dataTables_info,.dataTables_paginate{
+  transform: translateY(30px) !important;
+}
 }

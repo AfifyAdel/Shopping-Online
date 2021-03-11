@@ -4,11 +4,13 @@ import { AdddiscountComponent } from './discounts/adddiscount/adddiscount.compon
 import { DiscountsComponent } from './discounts/discounts.component';
 import { LayoutComponent } from './layout/layout.component';
 import { OrdersComponent } from './orders/orders.component';
+import { AddproductComponent } from './products/addproduct/addproduct.component';
 import { ProductsComponent } from './products/products.component';
 import { AddtaxComponent } from './taxes/addtax/addtax.component';
 import { TaxesComponent } from './taxes/taxes.component';
 import { AdduomComponent } from './unitOfMeasures/adduom/adduom.component';
 import { UnitOfMeasuresComponent } from './unitOfMeasures/unitOfMeasures.component';
+import { ViewdetailsComponent } from './viewdetails/viewdetails.component';
 
 
 
@@ -24,6 +26,9 @@ const routes: Routes = [
       { path: "adduom", component: AdduomComponent },
       { path: "addtax", component: AddtaxComponent },
       { path: "adddiscount", component: AdddiscountComponent },
+      { path: "additem", component: AddproductComponent },
+      { path: "edititem/:id", component: AddproductComponent },
+      { path: "viewdetails/:id", component: ViewdetailsComponent }
     ]
   }
 ];

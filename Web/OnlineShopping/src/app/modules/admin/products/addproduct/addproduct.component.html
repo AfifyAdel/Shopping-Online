@@ -1,0 +1,193 @@
+<div class="d-sm-flex align-items-center justify-content-between mt-3">
+  <h1 class="h4">Add Product</h1>
+</div>
+
+<form [formGroup]="addProductForm" class="w-100">
+  <div class="row">
+    <div class="col-md-8 order">
+      <div class="row ">
+        <div class="col-lg-6 form-group">
+          <div class="row">
+            <div class="col-lg-6">
+              <span class="lbl">
+                Name
+              </span>
+              <span class="text-danger">*</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <input type="text" class="form-control" tabindex="1" formControlName="name" [ngClass]="{
+                    'is-invalid':
+                      (formControls.name.touched &&
+                        formControls.name.invalid) ||
+                      (submitted && formControls.name.invalid)
+                  }" />
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 form-group">
+          <div class="row">
+            <div class="col-lg-6">
+              <span class="lbl">
+                Quantity
+              </span>
+              <span class="text-danger">*</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <input type="number" class="form-control" min="0" tabindex="2" formControlName="quantity" [ngClass]="{
+                            'is-invalid':
+                              (formControls.quantity.touched &&
+                                formControls.quantity.invalid) ||
+                              (submitted && formControls.quantity.invalid)
+                          }" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-lg-6 form-group">
+          <div class="row">
+            <div class="col-lg-6">
+              <span class="lbl">
+                Attributes
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <input type="text" class="form-control" tabindex="1" formControlName="attributes" />
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 form-group">
+          <div class="row">
+            <div class="col-lg-6">
+              <span class="lbl">
+                Price
+              </span>
+              <span class="text-danger">*</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <input type="number" class="form-control" min="0" tabindex="2" formControlName="price" [ngClass]="{
+                                    'is-invalid':
+                                      (formControls.price.touched &&
+                                        formControls.price.invalid) ||
+                                      (submitted && formControls.price.invalid)
+                                  }" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-lg-6 form-group">
+          <div class="row">
+            <div class="col-lg-6">
+              <span class="lbl">
+                Description
+              </span>
+              <span class="text-danger">*</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <input type="text" class="form-control" tabindex="3" formControlName="description" [ngClass]="{
+                    'is-invalid':
+                      (formControls.description.touched &&
+                        formControls.description.invalid) ||
+                      (submitted && formControls.description.invalid)
+                  }" />
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 form-group">
+          <div class="row">
+            <div class="col-md-12">
+              <span class="lbl">
+                UOM
+              </span>
+              <span class="text-danger">*</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <select class="form-control" tabindex="4" formControlName="uom" [ngClass]="{
+                                  'is-invalid':
+                                    (formControls.uom.touched &&
+                                      formControls.uom.invalid) ||
+                                    (submitted && formControls.uom.invalid)
+                                }">
+                <option value="{{null}}" selected disabled>--None--</option>
+                <option *ngFor="let i of uoms;" value="{{i.id}}">{{i.uom}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-lg-6 form-group">
+          <div class="row">
+            <div class="col-md-12">
+              <span class="lbl">
+                Tax Code
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <select class="form-control" tabindex="5" formControlName="taxcode">
+                <option *ngFor="let i of taxes;" value="{{i.id}}">{{i.code}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 form-group">
+          <div class="row">
+            <div class="col-md-12">
+              <span class="lbl">
+                Discount Code
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <select class="form-control" tabindex="6" formControlName="discountcode">
+                <option *ngFor="let i of discounts;" value="{{i.id}}">{{i.code}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-lg-12 d-flex">
+          <img class="ppicture" id="imgUploadUrl" [src]="imgURL" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 uploader">
+          <input type="file" #file class="form-control d-none" id="btnUploadEdit" value="Add" multiple=""
+            accept="image/*" (change)="getImageFile(file.files)" title="Upload" />
+          <label for="btnUploadEdit" class="btn btn-dark" title="Upload Image" Upload Image><i
+              class="fas fa-upload"></i></label>
+
+          <input name="delete" type="button" (click)="deleteImage()" class="btn btn-icode d-none" value="Delete"
+            id="DeleteImage" title="Remove" />
+          <label for="DeleteImage" class="btn btn-dark" title="Remove Image"><i class="far fa-trash-alt"></i></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <button class="btn btn-dark mt-3" type="submit" (click)="addProductSubmit()">Submit</button>
+</form>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.4)" size="default" type="ball-spin-clockwise">
+</ngx-spinner>

@@ -12,6 +12,8 @@ namespace Domain.Entities
         public string LastName { get; set; }
         public string CustomerDescriptionL { get; set; }
         public string CustomerDescriptionA { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string RoleId { get; set; }
         public ICollection<Order> Orders { get; set; }
     }
 }

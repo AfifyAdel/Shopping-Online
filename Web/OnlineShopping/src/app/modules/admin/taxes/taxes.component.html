@@ -1,25 +1,24 @@
+<button class="btn btn-dark mt-3" type="submit" (click)="openAddTax()">Add Tax</button>
+
 <div class="tabo">
   <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
     <thead>
       <tr>
         <th>Code</th>
         <th>Value</th>
-        <th>Delete</th>
+        <th></th>
       </tr>
     </thead>
-    <tbody *ngFor="let item of taxes">
-      <tr>
+    <tbody>
+      <tr *ngFor="let item of taxes" [hidden]="item.id<2">
         <td>{{item.code}}</td>
         <td>{{item.value}}</td>
-        <td class="text-center w-icon delete-icon">
+        <td class="text-right w-icon delete-icon">
           <a class="table-icon " title="Remove" (click)="deleteTax(item.id)">
-            <i class="fas fa-trash-alt"></i>
+            <i class="fas fa-trash-alt" *ngIf="item.id>1"></i>
           </a>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
-<ngx-spinner bdColor="rgba(0, 0, 0, 0.4)" size="default" type="ball-spin-clockwise">
-</ngx-spinner>
-<button class="btn btn-primary" type="submit" (click)="openAddTax()">Add Tax</button>

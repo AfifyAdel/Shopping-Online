@@ -1,3 +1,42 @@
-<p>
-  products works!
-</p>
+<button class="btn btn-dark mt-3" type="submit" (click)="openAddProduct()">Add Product</button>
+
+<div class="tabo">
+  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Description</th>
+        <th>UOM</th>
+        <th>Tax Code</th>
+        <th>Discount Code</th>
+        <th>Attributes</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of products">
+        <td>{{item.name}}</td>
+        <td>{{item.quantity}}</td>
+        <td>{{item.description}}</td>
+        <td>{{getUOM(item.uom)}}</td>
+        <td>{{getTax(item.taxId)}}</td>
+        <td>{{getDiscount(item.discountId)}}</td>
+        <td>{{item.attributes}}</td>
+        <td class="text-right w-icon delete-icon">
+          <a class="table-icon " title="Edit" (click)="editProduct(item.id)">
+            <i class="far fa-edit"></i>
+          </a>
+        </td>
+        <td class="text-right w-icon delete-icon">
+          <a class="table-icon " title="Remove" (click)="deleteProduct(item.id)">
+            <i class="fas fa-trash-alt"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.4)" size="default" type="ball-spin-clockwise">
+</ngx-spinner>

@@ -1,3 +1,43 @@
-<p>
-  orders works!
-</p>
+<div class="tabo order-c">
+  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+    <thead>
+      <tr>
+        <th>Request Date</th>
+        <th>Order Date</th>
+        <th>Due Date</th>
+        <th>Total Price</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of orders">
+        <td>{{item.requestDate | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{item.orderDate | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td><input id="dat{{item.id}}" type="date" value="{{item.dueDate}}">
+        </td>
+        <td>{{item.totalPrice}}</td>
+        <td>
+          <select class="form-control" id="st{{item.id}}">
+            <option value="1" [selected]="item.status===1">Open</option>
+            <option value="2" [selected]="item.status===2" selected>Pending</option>
+            <option value="3" [selected]="item.status===3">Close</option>
+          </select>
+        </td>
+        <td class="text-right w-icon delete-icon">
+          <a class="table-icon " title="View Details" (click)="openOrderDetails(item.id)">
+            <i class="far fa-eye"></i>
+          </a>
+        </td>
+        <td class="text-right w-icon delete-icon">
+          <a class="table-icon " title="Save Changes" (click)="saveChanges(item)">
+            <i class="far fa-save"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.4)" size="default" type="ball-spin-clockwise">
+</ngx-spinner>

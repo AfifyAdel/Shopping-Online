@@ -5,7 +5,7 @@ export class Util {
 
   constructor(private _router: Router) { }
   Route(userType: number) {
-    debugger;
+
     switch (userType) {
       case Eusertypes.Admin:
         this._router.navigate(["/admin/products"]);

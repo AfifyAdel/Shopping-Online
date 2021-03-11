@@ -36,7 +36,7 @@ export class AddtaxComponent implements OnInit {
     return this.addForm.controls;
   }
   submit() {
-    debugger;
+
     this.submittedAdd = true;
     if (this.addForm.invalid) {
       return;

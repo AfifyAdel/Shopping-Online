@@ -1,0 +1,52 @@
+<div class="tabo">
+  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Tax Value</th>
+        <th>Discount Value</th>
+        <th>Total Price</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of currentItems">
+        <td>{{getItemName(item.itemId)}}</td>
+        <td>{{item.quantity}}</td>
+        <td>{{getTaxValue(item.tax)}}%</td>
+        <td>{{getDiscountValue(item.discount)}}%</td>
+        <td>{{getPrice(item)}}</td>
+        <td class="text-right w-icon delete-icon">
+          <a class="table-icon " title="Add" (click)="addOne(item)">
+            <i class="fas fa-plus-square"></i>
+          </a>
+        </td>
+        <td class="text-right w-icon delete-icon">
+          <a class="table-icon " title="Minus" (click)="minusOne(item)">
+            <i class="fas fa-minus-square"></i>
+          </a>
+        </td>
+        <td class="text-right w-icon delete-icon">
+          <a class="table-icon " title="Remove" (click)="deleteItem(item)">
+            <i class="far fa-trash-alt"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="wrapper">
+  <button class="btn btn-dark mt-3 ord" style="margin-right: 30px;" type="submit" (click)="navigateToHome()">Back To
+    Home</button>
+  <button class="btn btn-dark mt-3 ord" style="margin-right: 30px;min-width: 126px;" type="submit"
+    (click)="print()">Print</button>
+  <button class="btn btn-dark mt-3 ord" style="min-width: 126px;" type="submit" (click)="order()">Order</button>
+</div>
+
+
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.4)" size="default" type="ball-spin-clockwise">
+</ngx-spinner>

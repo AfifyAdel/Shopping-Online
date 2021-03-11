@@ -40,7 +40,17 @@ namespace DataAccess.Repositories
         {
             using (var context = new OSDataContext())
             {
-                await context.AddAsync<Order>(order);
+                await context.Orders.AddAsync(order);
+                await context.SaveChangesAsync();
+                return true;
+            }
+        }
+
+        public async Task<bool> Update(Order order)
+        {
+            using (var context = new OSDataContext())
+            {
+                context.Orders.Update(order);
                 await context.SaveChangesAsync();
                 return true;
             }

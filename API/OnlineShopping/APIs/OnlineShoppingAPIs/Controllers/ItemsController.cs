@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingAPIs.Controllers
 {
-    [Authorize]
     [ApiController]
     public class ItemsController : ControllerBase
     {
@@ -45,13 +44,14 @@ namespace OnlineShoppingAPIs.Controllers
             {
                 var newItem = new Item()
                 {
-                    Id = Convert.ToInt64(Request.Form["id"].ToString()),
                     Name = Request.Form["name"].ToString(),
                     Quantity = Convert.ToInt32(Request.Form["quantity"].ToString()),
-                    DiscountId = Convert.ToInt32(Request.Form["discountid"].ToString()),
+                    Price = Convert.ToDecimal(Request.Form["price"].ToString()),
+                    DiscountId =  string.IsNullOrEmpty(Request.Form["discountid"]) ?  0 : Convert.ToInt32(Request.Form["discountid"].ToString()),
                     Description = Request.Form["description"].ToString(),
-                    TaxId = Convert.ToInt32(Request.Form["taxid"].ToString()),
+                    TaxId = string.IsNullOrEmpty(Request.Form["taxid"]) ? 0 : Convert.ToInt32(Request.Form["taxid"].ToString()),
                     UOM = Convert.ToInt32(Request.Form["uom"].ToString()),
+                    Attributes = string.IsNullOrEmpty(Request.Form["attributes"]) ? string.Empty :  Request.Form["attributes"].ToString()
                 };
                 if (Request.Form.Files.Count > 0)
                     newItem.ImagePath = await SaveItemImage(Request.Form.Files[0], newItem.Id);
@@ -76,10 +76,12 @@ namespace OnlineShoppingAPIs.Controllers
                     Id = Convert.ToInt64(Request.Form["id"].ToString()),
                     Name = Request.Form["name"].ToString(),
                     Quantity = Convert.ToInt32(Request.Form["quantity"].ToString()),
+                    Price = Convert.ToDecimal(Request.Form["price"].ToString()),
                     DiscountId = Convert.ToInt32(Request.Form["discountid"].ToString()),
                     Description = Request.Form["description"].ToString(),
                     TaxId = Convert.ToInt32(Request.Form["taxid"].ToString()),
                     UOM = Convert.ToInt32(Request.Form["uom"].ToString()),
+                    Attributes = Request.Form["attributes"].ToString()
                 };
                 if (Request.Form.Files.Count > 0)
                     newItem.ImagePath = await SaveItemImage(Request.Form.Files[0], newItem.Id);
@@ -105,6 +107,20 @@ namespace OnlineShoppingAPIs.Controllers
             catch (Exception ex)
             {
                 return new GeneralResponse<bool>(ex.Message, EResponseStatus.Exception);
+            }
+        }
+        [Route(ItemsURLs.GetItemById)]
+        [HttpGet]
+        public async Task<GeneralResponse<Item>> GetItemById(long id)
+        {
+            try
+            {
+                var response = await itemsService.GetItemById(id);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return new GeneralResponse<Item>(ex.Message, EResponseStatus.Exception);
             }
         }
 

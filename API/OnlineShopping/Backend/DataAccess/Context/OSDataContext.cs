@@ -38,7 +38,13 @@ namespace DataAccess.Context
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);            
+            base.OnModelCreating(builder);
+            builder.Entity<Discount>().Property(p => p.Id).ValueGeneratedOnAdd();
+            builder.Entity<Item>().Property(p => p.Id).ValueGeneratedOnAdd();
+            builder.Entity<Order>().Property(p => p.Id).ValueGeneratedOnAdd();
+            builder.Entity<OrderDetail>().Property(p => p.Id).ValueGeneratedOnAdd();
+            builder.Entity<Tax>().Property(p => p.Id).ValueGeneratedOnAdd();
+            builder.Entity<UnitOfMeasure>().Property(p => p.Id).ValueGeneratedOnAdd();
 
             //Customer Can Make Orders
             builder.Entity<User>()
@@ -89,6 +95,11 @@ namespace DataAccess.Context
             builder.Entity<Role>().HasData(
                 new Role{ Name = EUserRole.Admin.ToString(),NormalizedName = "ADMIN"},
                 new Role { Name = EUserRole.Customer.ToString(), NormalizedName = "CUSTOMER" });
+            builder.Entity<Tax>().HasData(
+                new Tax { Id = 1 ,Code = "0", Value = 0 }) ;
+            builder.Entity<Discount>().HasData(
+               new Discount { Id = 1, Code = "0", Value = 0 });
+
         }
     }
 }

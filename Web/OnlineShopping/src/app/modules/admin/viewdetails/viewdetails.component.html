@@ -1,0 +1,31 @@
+<div class="tabo" *ngIf="isLoaded == true">
+  <table id="tabpr" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Tax Value</th>
+        <th>Discount Value</th>
+        <th>Total Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of currentItems1">
+        <td>{{getItemName(item.itemId)}}</td>
+        <td>{{item.quantity}}</td>
+        <td>{{getTaxValue(item.tax)}}%</td>
+        <td>{{getDiscountValue(item.discount)}}%</td>
+        <td>{{getPrice(item)}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="wrapper">
+  <button class="btn btn-dark mt-3 ord" style="margin-right: 30px;" type="submit" (click)="navigateToOrders()">Back To
+    Orders</button>
+</div>
+
+
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.4)" size="default" type="ball-spin-clockwise">
+</ngx-spinner>

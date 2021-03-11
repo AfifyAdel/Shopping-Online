@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Responsestatus } from 'src/app/domain/constants/enums/responsestatus.enum';
 import { RegisterModel } from 'src/app/domain/models/accountModels/registerModel';
 import { AccountService } from 'src/app/domain/services/account.service';
@@ -14,7 +15,7 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
   submitted: boolean = false;
-  constructor(private formbulider: FormBuilder, private accountService: AccountService, private router: Router) { }
+  constructor(private formbulider: FormBuilder, private accountService: AccountService, private router: Router, private SpinnerService: NgxSpinnerService) { }
 
   ngOnInit() {
     this.registerForm = this.formbulider.group({
@@ -29,6 +30,7 @@ export class RegisterComponent implements OnInit {
     this.submitted = true;
     if (this.registerForm.invalid)
       return;
+    this.SpinnerService.show();
     var user = new RegisterModel();
     user.firstName = this.registerForm.controls.firstname.value;
     user.lastName = this.registerForm.controls.lastname.value;
@@ -37,14 +39,17 @@ export class RegisterComponent implements OnInit {
     user.password = this.registerForm.controls.password.value;
 
     this.accountService.Register(user).subscribe(((response) => {
-      debugger;
       if (response.status > 0) {
+        this.SpinnerService.hide();
         this.router.navigate(["/login"]);
       }
       else if (response.status === Responsestatus.error) {
+        this.SpinnerService.hide();
         alert(response.message);
       }
-
+      else {
+        this.SpinnerService.hide();
+      }
     }));
   }
 }

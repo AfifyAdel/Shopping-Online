@@ -29,5 +29,9 @@ export class OrderService {
   addOrder(order: Order): Observable<any> {
     return this._http.post<any>(Apis.addOrder, order, { headers: this.headers }).pipe();
   }
+  updateOrder(order: Order): Observable<any> {
+
+    return this._http.post<any>(Apis.updateOrder, order, { headers: this.headers }).pipe();
+  }
 }
 
