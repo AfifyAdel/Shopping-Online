@@ -9,7 +9,6 @@ namespace Domain.Entities
     public class Tax
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Code { get; set; }
         public decimal Value { get; set; }

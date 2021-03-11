@@ -10,12 +10,14 @@ using System.Text;
 
 namespace DataAccess.Context
 {
-    public class OSDataContext : IdentityDbContext<User,Role,string>
+    public class OSDataContext : DbContext
     {
         public OSDataContext()
         {
 
         }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrdersDetails { get; set; }
@@ -38,68 +40,14 @@ namespace DataAccess.Context
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
-            builder.Entity<Discount>().Property(p => p.Id).ValueGeneratedOnAdd();
-            builder.Entity<Item>().Property(p => p.Id).ValueGeneratedOnAdd();
-            builder.Entity<Order>().Property(p => p.Id).ValueGeneratedOnAdd();
-            builder.Entity<OrderDetail>().Property(p => p.Id).ValueGeneratedOnAdd();
-            builder.Entity<Tax>().Property(p => p.Id).ValueGeneratedOnAdd();
-            builder.Entity<UnitOfMeasure>().Property(p => p.Id).ValueGeneratedOnAdd();
-
-            //Customer Can Make Orders
-            builder.Entity<User>()
-            .HasMany<Order>(s => s.Orders)
-            .WithOne(g => g.Customer)
-            .HasForeignKey(s => s.CustomerId).OnDelete(DeleteBehavior.Cascade);
-
-            //Order have list of order detail
-            builder.Entity<Order>()
-            .HasMany<OrderDetail>(s => s.OrderDetails)
-            .WithOne(g => g.Order)
-            .HasForeignKey(s => s.OrderId).OnDelete(DeleteBehavior.Cascade);
-
-            //Order Has one tax and discount
-            builder.Entity<Order>()
-            .HasOne<Tax>(s => s.Tax)
-            .WithMany()
-            .HasForeignKey(s => s.TaxId).OnDelete(DeleteBehavior.Cascade);
-
-            builder.Entity<Order>()
-            .HasOne<Discount>(s => s.Discount)
-            .WithMany()
-            .HasForeignKey(s => s.DiscountId).OnDelete(DeleteBehavior.Cascade);
-
-            //Items Has one tax and discount and uom
-            builder.Entity<Item>()
-            .HasOne<Tax>(s => s.Tax)
-            .WithMany()
-            .HasForeignKey(s => s.TaxId).OnDelete(DeleteBehavior.Cascade);
-
-            builder.Entity<Item>()
-            .HasOne<Discount>(s => s.Discount)
-            .WithMany()
-            .HasForeignKey(s => s.DiscountId).OnDelete(DeleteBehavior.Cascade);
-
-            builder.Entity<Item>()
-            .HasOne<UnitOfMeasure>(s => s.UnitOfMeasure)
-            .WithMany()
-            .HasForeignKey(s => s.UOM).OnDelete(DeleteBehavior.Cascade);
-
-            //Customer Can Make Orders
-            builder.Entity<User>()
-            .HasMany<Order>(s => s.Orders)
-            .WithOne(g => g.Customer)
-            .HasForeignKey(s => s.CustomerId).OnDelete(DeleteBehavior.Cascade);
-
+            
             //Add Roles
             builder.Entity<Role>().HasData(
                 new Role{ Name = EUserRole.Admin.ToString(),NormalizedName = "ADMIN"},
                 new Role { Name = EUserRole.Customer.ToString(), NormalizedName = "CUSTOMER" });
-            builder.Entity<Tax>().HasData(
-                new Tax { Id = 1 ,Code = "0", Value = 0 }) ;
-            builder.Entity<Discount>().HasData(
-               new Discount { Id = 1, Code = "0", Value = 0 });
 
+
+            base.OnModelCreating(builder);
         }
     }
 }

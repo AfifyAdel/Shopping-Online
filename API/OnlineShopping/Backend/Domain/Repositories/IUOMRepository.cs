@@ -12,6 +12,7 @@ namespace Domain.Repositories
         Task<UnitOfMeasure> GetByCode(string code);
         Task<List<UnitOfMeasure>> GetUOMs();
         Task<bool> Insert(UnitOfMeasure uom);
-        Task<bool> Delete(int id);
+        void Delete(int id);
+        void Update(UnitOfMeasure uom);
     }
 }

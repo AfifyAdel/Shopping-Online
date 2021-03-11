@@ -6,8 +6,7 @@ namespace Domain.Constants.Enums
 {
     public enum EOrderStatus
     {
-        Open = 1,
-        Pending = 2,
-        Close = 3
+        Pending = 1,
+        Close = 2
     }
 }

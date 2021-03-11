@@ -1,19 +1,26 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Domain.Entities
 {
-    public class User : IdentityUser
+    public class User 
     {
+        [Key]
+        public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string CustomerDescriptionL { get; set; }
-        public string CustomerDescriptionA { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public string RoleId { get; set; }
-        public ICollection<Order> Orders { get; set; }
+        [StringLength(50)]
+        public string UserName { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public string Address { get; set; }
+        public string PhoneNumber { get; set; }
+        public int RoleId { get; set; }
+        public ICollection<long> Orders { get; set; }
     }
 }

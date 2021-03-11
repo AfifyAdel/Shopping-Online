@@ -11,52 +11,43 @@ namespace DataAccess.Repositories
 {
     public class UOMRepository : IUOMRepository
     {
-        public async Task<bool> Delete(int id)
+        private readonly OSDataContext _db;
+        public UOMRepository(OSDataContext context)
         {
-            var unitOfMeasure = new UnitOfMeasure()
-            {
-                Id = id
-            };
-            using (var context = new OSDataContext())
-            {
-                context.Remove<UnitOfMeasure>(unitOfMeasure);
-                await context.SaveChangesAsync();
-            }
-            return true;
+            _db = context;
+        }
+        public void Delete(int id)
+        {
+            _db.UnitOfMeasures.Remove(new UnitOfMeasure() { Id = id });
+            _db.SaveChanges();
         }
 
         public async Task<UnitOfMeasure> GetByCode(string code)
         {
-            using (var context = new OSDataContext())
-            {
-                return await context.UnitOfMeasures.FirstOrDefaultAsync(x => x.UOM == code);
-            }
+             return await _db.UnitOfMeasures.FirstOrDefaultAsync(x => x.UOM == code);
         }
 
         public async Task<UnitOfMeasure> GetById(int id)
         {
-            using (var context = new OSDataContext())
-            {
-                return await context.UnitOfMeasures.AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync(x => x.Id == id);
-            }
+            return await _db.UnitOfMeasures.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<List<UnitOfMeasure>> GetUOMs()
         {
-            using (var context = new OSDataContext())
-            {
-                return await context.UnitOfMeasures.ToListAsync();
-            }
+            return await _db.UnitOfMeasures.ToListAsync();
         }
 
         public async Task<bool> Insert(UnitOfMeasure uom)
         {
-            using (var context = new OSDataContext())
-            {
-                await context.AddAsync<UnitOfMeasure>(uom);
-                await context.SaveChangesAsync();
-                return true;
-            }
+            await _db.UnitOfMeasures.AddAsync(uom);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
+        public void Update(UnitOfMeasure uom)
+        {
+            _db.UnitOfMeasures.Update(uom);
+            _db.SaveChanges();
         }
     }
 }
