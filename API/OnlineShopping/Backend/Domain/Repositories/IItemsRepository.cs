@@ -11,7 +11,7 @@ namespace Domain.Repositories
         Task<Item> GetByID(long id);
         Task<List<Item>> GetItems();
         Task<bool> Insert(Item item);
-        Task<bool> Update(Item item);
-        Task<bool> DeleteAsync(long id);
+        void Update(Item item);
+        void Delete(long id);
     }
 }

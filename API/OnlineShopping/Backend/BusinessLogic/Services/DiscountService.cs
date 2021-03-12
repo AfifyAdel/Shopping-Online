@@ -22,30 +22,31 @@ namespace BusinessLogic.Services
         {
             try
             {
+                //Check if code already exist
                 var discountDB = await discountRepository.GetByCode(discount.Code);
                 if (discountDB != null)
                 {
                     return new GeneralResponse<bool>("This discount code already exist", EResponseStatus.Error);
                 }
-                var result = await discountRepository.Insert(discount);
+                await discountRepository.Insert(discount);
                 return new GeneralResponse<bool>(true);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error while adding new discount", ex);
             }
         }
 
-        public async Task<GeneralResponse<bool>> DeleteDiscount(int id)
+        public GeneralResponse<bool> DeleteDiscount(int id)
         {
             try
             {
-                var result = await discountRepository.Delete(id);
+                discountRepository.Delete(id);
                 return new GeneralResponse<bool>(true);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error while deleting discount", ex);
             }
         }
 

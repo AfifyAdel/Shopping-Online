@@ -11,8 +11,8 @@ namespace Domain.Services
     {
         Task<GeneralResponse<List<Item>>> GetItems();
         Task<GeneralResponse<bool>> AddItem(Item item);
-        Task<GeneralResponse<bool>> UpdateItem(Item item);
-        Task<GeneralResponse<bool>> DeleteItem(long id);
+        GeneralResponse<bool> UpdateItem(Item item);
+        GeneralResponse<bool> DeleteItem(long id);
         Task<GeneralResponse<Item>> GetItemById(long id);
     }
 }

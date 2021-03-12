@@ -14,41 +14,34 @@ namespace BusinessLogic.Services
     public class ItemsService : IItemsService
     {
         private readonly IItemsRepository itemsRepository;
-        private readonly IDiscountRepositoy discountRepositoy;
-        private readonly ITaxRepository taxRepository;
-        private readonly IUOMRepository uomRepository;
 
-        public ItemsService(IItemsRepository itemsRepository,IDiscountRepositoy discountRepositoy,
-            ITaxRepository taxRepository,IUOMRepository uomRepository)
+        public ItemsService(IItemsRepository itemsRepository)
         {
             this.itemsRepository = itemsRepository;
-            this.discountRepositoy = discountRepositoy;
-            this.taxRepository = taxRepository;
-            this.uomRepository = uomRepository;
         }
         public async Task<GeneralResponse<bool>> AddItem(Item item)
         {
             try
             {
-                var result = await itemsRepository.Insert(item);
+                await itemsRepository.Insert(item);
                 return new GeneralResponse<bool>(true);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error while adding new item", ex);
             }
         }
 
-        public async Task<GeneralResponse<bool>> DeleteItem(long id)
+        public GeneralResponse<bool> DeleteItem(long id)
         {
             try
             {
-                var result = await itemsRepository.DeleteAsync(id);
+                itemsRepository.Delete(id);
                 return new GeneralResponse<bool>(true);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error while deleting item", ex);
             }
         }
 
@@ -61,7 +54,7 @@ namespace BusinessLogic.Services
             }
             else
             {
-                return new GeneralResponse<Item>("Cann't find this item!",EResponseStatus.Error);
+                return new GeneralResponse<Item>("Can not find this item!",EResponseStatus.Error);
             }
         }
 
@@ -71,19 +64,16 @@ namespace BusinessLogic.Services
             return new GeneralResponse<List<Item>>(items);
         }
 
-        public async Task<GeneralResponse<bool>> UpdateItem(Item item)
+        public GeneralResponse<bool> UpdateItem(Item item)
         {
             try
             {
-                item.Discount = await discountRepositoy.GetById(item.DiscountId);
-                item.Tax = await taxRepository.GetById(item.TaxId);
-                item.UnitOfMeasure = await uomRepository.GetById(item.UOM);
-                var result = await itemsRepository.Update(item);
+                itemsRepository.Update(item);
                 return new GeneralResponse<bool>(true);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error while updating item", ex);
             }
         }
     }

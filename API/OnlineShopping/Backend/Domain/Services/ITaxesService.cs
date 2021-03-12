@@ -12,6 +12,6 @@ namespace Domain.Services
         Task<GeneralResponse<List<Tax>>> GetTaxes();
         Task<GeneralResponse<Tax>> GetTaxByCode(string code);
         Task<GeneralResponse<bool>> AddTax(Tax tax);
-        Task<GeneralResponse<bool>> DeleteTax(int id);
+        GeneralResponse<bool> DeleteTax(int id);
     }
 }

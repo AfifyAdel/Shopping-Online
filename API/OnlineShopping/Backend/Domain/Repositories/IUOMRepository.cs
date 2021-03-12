@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
-    public interface IUOMRepository
+    public interface IUomRepository
     {
         Task<UnitOfMeasure> GetById(int id);
         Task<UnitOfMeasure> GetByCode(string code);

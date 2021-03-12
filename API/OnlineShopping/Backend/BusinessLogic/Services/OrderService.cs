@@ -24,20 +24,8 @@ namespace BusinessLogic.Services
             this.orderDetailsRepository = orderDetailsRepository;
             this.itemsRepository = itemsRepository;
         }
-        public async Task<GeneralResponse<bool>> ChangeStatus(OrderStatusModel model)
-        {
-            try
-            {
-                await orderRepository.ChangeStatus(model.OrderId,model.OrderStatus);
-                return new GeneralResponse<bool>(true);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
 
-        public async Task<GeneralResponse<List<Order>>> GetCustomerOrders(string customerId)
+        public async Task<GeneralResponse<List<Order>>> GetCustomerOrders(long customerId)
         {
             var orders = await orderRepository.GetCustomerOrders(customerId);
             return new GeneralResponse<List<Order>>(orders);
@@ -59,41 +47,35 @@ namespace BusinessLogic.Services
         {
             try
             {
-                order.DiscountId = 1;
-                order.TaxId = 1;
                 var result = await orderRepository.Insert(order);
-                var ord = (await orderRepository.GetOrders());
                 foreach (var item in order.OrderDetails)
                 {
-                    item.OrderId = ord[ord.Count - 1].Id;
-                    item.Order = null;
-                    item.Id = 0;
-                    var it = await itemsRepository.GetByID(item.ItemId);
-                    it.Quantity -= item.Quantity;
-                    await itemsRepository.Update(it);
+                    item.OrderId = result;
+                    var product = await itemsRepository.GetByID(item.ItemId);
+                    if (product.Quantity - item.Quantity < 0)
+                        continue;
+                    product.Quantity -= item.Quantity;
+                    itemsRepository.Update(product);
                     await orderDetailsRepository.Insert(item);
                 }
                 return new GeneralResponse<bool>(true);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error while adding new order", ex);
             }
         }
 
-        public async Task<GeneralResponse<bool>> Update(Order order)
+        public GeneralResponse<bool> Update(Order order)
         {
             try
             {
-                order.DiscountId = 1;
-                order.TaxId = 1;
-                var result = await orderRepository.Update(order);
+                orderRepository.Update(order);
                 return new GeneralResponse<bool>(true);
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw new Exception("Error while updating order", ex);
             }
         }
     }

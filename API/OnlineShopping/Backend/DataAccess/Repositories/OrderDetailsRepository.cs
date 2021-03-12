@@ -12,22 +12,21 @@ namespace DataAccess.Repositories
 {
     public class OrderDetailsRepository : IOrderDetailsRepository
     {
+        private readonly OSDataContext _db;
+        public OrderDetailsRepository(OSDataContext context)
+        {
+            _db = context;
+        }
         public async Task<List<OrderDetail>> GetOrderItems(long orderId)
         {
-            using (var context = new OSDataContext())
-            {
-                return await context.OrdersDetails.Where(x => x.OrderId == orderId).ToListAsync();
-            }
+            return await _db.OrdersDetails.Where(x => x.OrderId == orderId).ToListAsync();
         }
 
         public async Task<bool> Insert(OrderDetail orderDetail)
         {
-            using (var context = new OSDataContext())
-            {
-                await context.AddAsync<OrderDetail>(orderDetail);
-                await context.SaveChangesAsync();
-                return true;
-            }
+            await _db.OrdersDetails.AddAsync(orderDetail);
+            await _db.SaveChangesAsync();
+            return true;
         }
     }
 }

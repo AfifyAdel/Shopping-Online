@@ -12,48 +12,33 @@ namespace DataAccess.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        public async Task ChangeStatus(long orderId, int orderStatus)
+        private readonly OSDataContext _db;
+        public OrderRepository(OSDataContext context)
         {
-            using (var context = new OSDataContext())
-            {
-                 (await context.Orders.FirstOrDefaultAsync(x => x.Id == orderId)).Status = orderStatus;
-            }
+            _db = context;
         }
 
-        public async Task<List<Order>> GetCustomerOrders(string customerId)
+        public async Task<List<Order>> GetCustomerOrders(long customerId)
         {
-            using (var context = new OSDataContext())
-            {
-                return await context.Orders.Where(x => x.CustomerId == customerId).ToListAsync();
-            }
+            return await _db.Orders.Where(x => x.UserId == customerId).ToListAsync();
         }
 
         public async Task<List<Order>> GetOrders()
         {
-            using (var context = new OSDataContext())
-            {
-                return await context.Orders.ToListAsync();
-            }
+            return await _db.Orders.ToListAsync();
         }
 
-        public async Task<bool> Insert(Order order)
+        public async Task<long> Insert(Order order)
         {
-            using (var context = new OSDataContext())
-            {
-                await context.Orders.AddAsync(order);
-                await context.SaveChangesAsync();
-                return true;
-            }
+            await _db.Orders.AddAsync(order);
+            await _db.SaveChangesAsync();
+            return order.Id;
         }
 
-        public async Task<bool> Update(Order order)
+        public void Update(Order order)
         {
-            using (var context = new OSDataContext())
-            {
-                context.Orders.Update(order);
-                await context.SaveChangesAsync();
-                return true;
-            }
+            _db.Orders.Update(order);
+            _db.SaveChanges();
         }
     }
 }

@@ -12,6 +12,6 @@ namespace Domain.Services
         Task<GeneralResponse<List<Discount>>> GetDiscounts();
         Task<GeneralResponse<Discount>> GetDiscountByCode(string code);
         Task<GeneralResponse<bool>> AddDiscount(Discount discount);
-        Task<GeneralResponse<bool>> DeleteDiscount(int id);
+        GeneralResponse<bool> DeleteDiscount(int id);
     }
 }

@@ -22,30 +22,31 @@ namespace BusinessLogic.Services
         {
             try
             {
+                //Check if code already exist
                 var taxDB = await taxRepository.GetByCode(tax.Code);
                 if (taxDB != null)
                 {
                     return new GeneralResponse<bool>("This tax code already exist",EResponseStatus.Error);
                 }
-                var result = await taxRepository.Insert(tax);
+                await taxRepository.Insert(tax);
                 return new GeneralResponse<bool>(true);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error while adding new tax", ex);
             }
         }
 
-        public async Task<GeneralResponse<bool>> DeleteTax(int id)
+        public GeneralResponse<bool> DeleteTax(int id)
         {
             try
             {
-                var result = await taxRepository.Delete(id);
+                taxRepository.Delete(id);
                 return new GeneralResponse<bool>(true);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error while deleting new tax", ex);
             }
         }
 

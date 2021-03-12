@@ -11,52 +11,43 @@ namespace DataAccess.Repositories
 {
     public class TaxRepository : ITaxRepository
     {
-        public async Task<bool> Delete(int id)
+        private readonly OSDataContext _db;
+        public TaxRepository(OSDataContext context)
         {
-            var tax = new Tax()
-            {
-                Id = id
-            };
-            using (var context = new OSDataContext())
-            {
-                context.Remove<Tax>(tax);
-                await context.SaveChangesAsync();
-            }
-            return true;
+            _db = context;
         }
-
+        public void Delete(int id)
+        {
+            _db.Taxes.Remove(new Tax() { Id = id });
+            _db.SaveChanges();
+        }
+       
         public async Task<Tax> GetByCode(string code)
         {
-            using (var context = new OSDataContext())
-            {
-                return await context.Taxes.FirstOrDefaultAsync(x => x.Code == code);
-            }
+            return await _db.Taxes.FirstOrDefaultAsync(x => x.Code == code);
         }
 
         public async Task<Tax> GetById(int id)
         {
-            using (var context = new OSDataContext())
-            {
-                return (await context.Taxes.FirstOrDefaultAsync(x => x.Id == id));
-            }
+            return await _db.Taxes.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<List<Tax>> GetTaxes()
         {
-            using (var context = new OSDataContext())
-            {
-                return await context.Taxes.ToListAsync();
-            }
+            return await _db.Taxes.ToListAsync();
         }
 
         public async Task<bool> Insert(Tax tax)
         {
-            using (var context = new OSDataContext())
-            {
-                await context.AddAsync<Tax>(tax);
-                await context.SaveChangesAsync();
-                return true;
-            }
+            await _db.Taxes.AddAsync(tax);
+            await _db.SaveChangesAsync();
+            return true;
         }
+
+        public void Update(Tax tax)
+        {
+            _db.Taxes.Update(tax);
+            _db.SaveChanges();
+        }     
     }
 }

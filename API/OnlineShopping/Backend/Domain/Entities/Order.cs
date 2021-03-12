@@ -17,7 +17,7 @@ namespace Domain.Entities
         public int TaxId { get; set; }
         public int DiscountId { get; set; }
         public decimal TotalPrice { get; set; }
-
-        public ICollection<long> OrderDetails { get; set; }
+        [NotMapped]
+        public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

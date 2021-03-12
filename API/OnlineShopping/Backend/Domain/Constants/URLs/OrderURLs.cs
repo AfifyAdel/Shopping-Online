@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain.Constants.URLs
 {
-    public abstract class OrderURLs
+    public static class OrderURLs
     {
         public const string GetOrders = "api/Order/GetOrders";
         public const string GetOrderItems = "api/Order/GetOrderItems/{orderId}";

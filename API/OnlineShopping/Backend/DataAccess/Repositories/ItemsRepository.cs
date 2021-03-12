@@ -11,54 +11,38 @@ namespace DataAccess.Repositories
 {
     public class ItemsRepository : IItemsRepository
     {
-        public async Task<bool> DeleteAsync(long id)
+        private readonly OSDataContext _db;
+        public ItemsRepository(OSDataContext context)
         {
-            var item = new Item()
-            {
-                Id = id
-            };
-            using (var context = new OSDataContext())
-            {
-                context.Remove<Item>(item);
-                await context.SaveChangesAsync();
-            }
-            return true;
+            _db = context;
+        }
+
+        public void Delete(long id)
+        {
+            _db.Items.Remove(new Item() {Id =id });
+            _db.SaveChanges();
         }
 
         public async Task<Item> GetByID(long id)
         {
-            using (var context = new OSDataContext())
-            {
-                return await context.Items.FirstOrDefaultAsync(x => x.Id == id);
-            }
+            return await _db.Items.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<List<Item>> GetItems()
         {
-            using (var context = new OSDataContext())
-            {
-                return await context.Items.ToListAsync();
-            }
+            return await _db.Items.ToListAsync();
         }
 
         public async Task<bool> Insert(Item item)
         {
-            using (var context = new OSDataContext())
-            {
-                await context.AddAsync<Item>(item);
-                await context.SaveChangesAsync();
-                return true;
-            }
+            await _db.Items.AddAsync(item);
+            await _db.SaveChangesAsync();
+            return true;
         }
-
-        public async Task<bool> Update(Item item)
+        public void Update(Item item)
         {
-            using (var context = new OSDataContext())
-            {
-                context.Update<Item>(item);
-                await context.SaveChangesAsync();
-                return true;
-            }
+            _db.Items.Update(item);
+            _db.SaveChanges();
         }
     }
 }

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    public interface IUOMService
+    public interface IUomService
     {
         Task<GeneralResponse<List<UnitOfMeasure>>> GetUOMs();
         Task<GeneralResponse<UnitOfMeasure>> GetUOMByCode(string code);
         Task<GeneralResponse<bool>> AddUOM(UnitOfMeasure uom);
-        Task<GeneralResponse<bool>> DeleteUOM(int id);
+        GeneralResponse<bool> DeleteUOM(int id);
     }
 }

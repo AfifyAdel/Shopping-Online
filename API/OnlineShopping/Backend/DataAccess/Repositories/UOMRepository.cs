@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
-    public class UOMRepository : IUOMRepository
+    public class UomRepository : IUomRepository
     {
         private readonly OSDataContext _db;
-        public UOMRepository(OSDataContext context)
+        public UomRepository(OSDataContext context)
         {
             _db = context;
         }

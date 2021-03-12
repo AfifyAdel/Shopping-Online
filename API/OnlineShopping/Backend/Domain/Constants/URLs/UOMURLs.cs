@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain.Constants.URLs
 {
-    public abstract class UOMURLs
+    public static class UomURLs
     {
         public const string GetUOMs = "api/UOM/GetUOMs";
         public const string GetUOMByCode = "api/UOM/GetUOMByCode/{code}";

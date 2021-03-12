@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.Services
 {
-    public class UOMService : IUOMService
+    public class UomService : IUomService
     {
-        private readonly IUOMRepository uomRepository;
+        private readonly IUomRepository uomRepository;
 
-        public UOMService(IUOMRepository uomRepository)
+        public UomService(IUomRepository uomRepository)
         {
             this.uomRepository = uomRepository;
         }
@@ -22,30 +22,31 @@ namespace BusinessLogic.Services
         {
             try
             {
+                //Check if code already exist
                 var uomDB = await uomRepository.GetByCode(uom.UOM);
                 if (uomDB != null)
                 {
                     return new GeneralResponse<bool>("This unit of measure already exist", EResponseStatus.Error);
                 }
-                var result = await uomRepository.Insert(uom);
+                await uomRepository.Insert(uom);
                 return new GeneralResponse<bool>(true);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error while adding new unit of measure", ex);
             }
         }
 
-        public async Task<GeneralResponse<bool>> DeleteUOM(int id)
+        public GeneralResponse<bool> DeleteUOM(int id)
         {
             try
             {
-                var result = await uomRepository.Delete(id);
+                uomRepository.Delete(id);
                 return new GeneralResponse<bool>(true);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error while deleting unit of measure", ex);
             }
         }
 

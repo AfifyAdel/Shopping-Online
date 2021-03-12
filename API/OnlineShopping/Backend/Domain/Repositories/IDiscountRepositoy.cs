@@ -12,6 +12,7 @@ namespace Domain.Repositories
         Task<Discount> GetByCode(string code);
         Task<List<Discount>> GetDiscounts();
         Task<bool> Insert(Discount discount);
-        Task<bool> Delete(int id);
+        void Update(Discount discount);
+        void Delete(int id);
     }
 }
