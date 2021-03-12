@@ -41,8 +41,8 @@ namespace DataAccess.Context
 
             //Add Roles
             modelBuilder.Entity<Role>().HasData(
-                new Role{ Name = EUserRole.Admin.ToString()},
-                new Role { Name = EUserRole.Customer.ToString() });
+                new Role{ Id=1, Name = EUserRole.Admin.ToString()},
+                new Role { Id = 2, Name = EUserRole.Customer.ToString() });
 
 
             base.OnModelCreating(modelBuilder);

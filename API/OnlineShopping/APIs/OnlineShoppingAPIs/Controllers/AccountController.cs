@@ -17,7 +17,7 @@ namespace OnlineShoppingAPIs.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private IAccountService _accountService;
+        private readonly IAccountService _accountService;
         public AccountController(IAccountService accountService)
         {
             _accountService = accountService;
