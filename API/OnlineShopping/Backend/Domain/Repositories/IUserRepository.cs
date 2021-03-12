@@ -12,8 +12,8 @@ namespace Domain.Repositories
         Task<User> GetByUsername(string username);
         Task<User> GetByEmail(string email);
         Task<List<User>> GetUsers();
-        Task<bool> Insert(User user, string password);
-        Task<bool> Update(User user);
-        Task<bool> Delete(long id);
+        Task<bool> Insert(User user);
+        void Update(User user);
+        void Delete(long id);
     }
 }

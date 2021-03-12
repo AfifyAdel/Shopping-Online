@@ -88,7 +88,7 @@ namespace OnlineShoppingAPIs.Controllers
                 else
                     newItem.ImagePath = Request.Form["imageUrl"].ToString();
 
-                return await itemsService.UpdateItem(newItem);
+                return itemsService.UpdateItem(newItem);
             }
             catch (Exception ex)
             {
@@ -97,18 +97,18 @@ namespace OnlineShoppingAPIs.Controllers
         }
         [Route(ItemsURLs.DeleteItem)]
         [HttpPost]
-        public async Task<GeneralResponse<bool>> DeleteItem([FromBody] long id)
+        public GeneralResponse<bool> DeleteItem([FromBody] long id)
         {
             try
             {
-                var response = await itemsService.DeleteItem(id);
-                return response;
+                return itemsService.DeleteItem(id);
             }
             catch (Exception ex)
             {
                 return new GeneralResponse<bool>(ex.Message, EResponseStatus.Exception);
             }
         }
+
         [Route(ItemsURLs.GetItemById)]
         [HttpGet]
         public async Task<GeneralResponse<Item>> GetItemById(long id)
@@ -140,6 +140,8 @@ namespace OnlineShoppingAPIs.Controllers
 
                 if (!Directory.Exists(filePath))
                     Directory.CreateDirectory(filePath);
+                else
+                    Directory.Delete(filePath,true);
 
                 using (var stream = new FileStream(Path.Combine(filePath, filename), FileMode.Create))
                 {

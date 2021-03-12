@@ -4,6 +4,7 @@ using DataAccess.Repositories;
 using Domain.Entities;
 using Domain.Repositories;
 using Domain.Services;
+using Domain.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JWT.Factories;
 
 namespace OnlineShoppingAPIs
 {
@@ -35,34 +37,22 @@ namespace OnlineShoppingAPIs
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
-            services.AddCors();
-
-            services.AddIdentity<User, Role>(option =>
+            services.AddCors(options =>
             {
-                option.Password.RequireDigit = true;
-                option.Password.RequireLowercase = false;
-                option.Password.RequiredUniqueChars = 0;
-                option.Password.RequireUppercase = false;
-                option.Password.RequireNonAlphanumeric = false;
-                option.SignIn.RequireConfirmedEmail = false;
-            }).AddEntityFrameworkStores<OSDataContext>();
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-            .AddCookie(options =>
-            {
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-                options.SlidingExpiration = true;
-                options.Cookie.SameSite = SameSiteMode.Lax;
-                options.Cookie.IsEssential = true;
+                options.AddPolicy("CorsPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins(Configuration.GetValue<string>("siteCors").Split(";"))
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                    });
             });
+            services.AddControllers();
+            services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
+            services.AddJwtAuthentication(Configuration);
+
+
             services.AddScoped(typeof(OSDataContext));
 
             //Inject Repositories
@@ -72,16 +62,17 @@ namespace OnlineShoppingAPIs
             services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<ITaxRepository, TaxRepository>();
-            services.AddScoped<IUOMRepository, UOMRepository>();
+            services.AddScoped<IUomRepository, UomRepository>();
 
 
             //Inject Services
+            services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IDiscountService, DiscountService>();
             services.AddScoped<IItemsService, ItemsService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ITaxesService, TaxesService>();
-            services.AddScoped<IUOMService, UOMService>();
+            services.AddScoped<IUomService, UomService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,15 +87,11 @@ namespace OnlineShoppingAPIs
 
             app.UseRouting();
 
-            app.UseCors(x => x
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .SetIsOriginAllowed(origin => true) // allow any origin
-                .AllowCredentials()); // allow credentials
+            app.UseStaticFiles();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
-
-            app.UseCookiePolicy();
 
             app.UseAuthorization();
 

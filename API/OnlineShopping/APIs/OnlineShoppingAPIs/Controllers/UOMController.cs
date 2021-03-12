@@ -15,16 +15,16 @@ using System.Threading.Tasks;
 namespace OnlineShoppingAPIs.Controllers
 {
     [ApiController]
-    public class UOMController : ControllerBase
+    public class UomController : ControllerBase
     {
-        private readonly IUOMService uomService;
+        private readonly IUomService uomService;
 
-        public UOMController(IUOMService uomService)
+        public UomController(IUomService uomService)
         {
             this.uomService = uomService;
         }
 
-        [Route(UOMURLs.GetUOMs)]
+        [Route(UomURLs.GetUOMs)]
         [HttpGet]
         public async Task<GeneralResponse<List<UnitOfMeasure>>> GetUOMs()
         {
@@ -38,7 +38,7 @@ namespace OnlineShoppingAPIs.Controllers
                 return new GeneralResponse<List<UnitOfMeasure>>(ex.Message, EResponseStatus.Exception);
             }
         }
-        [Route(UOMURLs.AddUOM)]
+        [Route(UomURLs.AddUOM)]
         [HttpPost]
         public async Task<GeneralResponse<bool>> AddUOM([FromBody] UnitOfMeasure uom)
         {
@@ -52,21 +52,20 @@ namespace OnlineShoppingAPIs.Controllers
                 return new GeneralResponse<bool>(ex.Message, EResponseStatus.Exception);
             }
         }
-        [Route(UOMURLs.DeleteUOM)]
+        [Route(UomURLs.DeleteUOM)]
         [HttpPost]
-        public async Task<GeneralResponse<bool>> DeleteUOM([FromBody] int id)
+        public GeneralResponse<bool> DeleteUOM([FromBody] int id)
         {
             try
             {
-                var response = await uomService.DeleteUOM(id);
-                return response;
+                return uomService.DeleteUOM(id);
             }
             catch (Exception ex)
             {
                 return new GeneralResponse<bool>(ex.Message, EResponseStatus.Exception);
             }
         }
-        [Route(UOMURLs.GetUOMByCode)]
+        [Route(UomURLs.GetUOMByCode)]
         [HttpGet]
         public async Task<GeneralResponse<UnitOfMeasure>> GetUOMByCode(string code)
         {

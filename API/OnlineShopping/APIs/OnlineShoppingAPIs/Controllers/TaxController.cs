@@ -53,12 +53,11 @@ namespace OnlineShoppingAPIs.Controllers
         }
         [Route(TaxesURLs.DeleteTax)]
         [HttpPost]
-        public async Task<GeneralResponse<bool>> DeleteTax([FromBody] int id)
+        public GeneralResponse<bool> DeleteTax([FromBody] int id)
         {
             try
             {
-                var response = await taxService.DeleteTax(id);
-                return response;
+                return taxService.DeleteTax(id);
             }
             catch (Exception ex)
             {

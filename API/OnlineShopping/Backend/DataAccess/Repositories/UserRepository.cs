@@ -1,7 +1,6 @@
 ﻿using DataAccess.Context;
 using Domain.Entities;
 using Domain.Repositories;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,11 +13,9 @@ namespace DataAccess.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly OSDataContext _db;
-        private readonly UserManager<User> _userManager;
-        public UserRepository(OSDataContext context, UserManager<User> userManager)
+        public UserRepository(OSDataContext context)
         {
              _db = context;
-            _userManager = userManager;
         }
 
         public async Task<User> GetByID(long id)
@@ -39,26 +36,21 @@ namespace DataAccess.Repositories
             return await _db.Users.ToListAsync();
         }
 
-        public async Task<bool> Insert(User user,string password)
+        public async Task<bool> Insert(User user)
         {
-            var res = await _userManager.CreateAsync(user, password);
+            await _db.Users.AddAsync(user);
             await _db.SaveChangesAsync();
-            if (res.Succeeded) return true;
-            else return false;
+            return true;
         }
-        public async Task<bool> Update(User user)
+        public void Update(User user)
         {
-            var res = await _userManager.UpdateAsync(user);
-            await _db.SaveChangesAsync();
-            if (res.Succeeded) return true;
-            else return false;
+            _db.Users.Update(user);
+            _db.SaveChanges();
         }
-        public async Task<bool> Delete(long id)
+        public void Delete(long id)
         {
-            var res = await _userManager.DeleteAsync(new User() { Id = id});
-            await _db.SaveChangesAsync();
-            if (res.Succeeded) return true;
-            else return false;
+            _db.Users.Remove(new User() { Id = id});
+            _db.SaveChanges();
         }
     }
 }

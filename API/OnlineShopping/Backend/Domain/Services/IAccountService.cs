@@ -10,7 +10,7 @@ namespace Domain.Services
 {
     public interface IAccountService
     {
-        Task<GeneralResponse<bool>> Register(RegisterModel registerModel);
-        Task<GeneralResponse<AuthModel>> Login(LoginModel loginModel);
+        Task<GeneralResponse<bool>> Register(User user);
+        Task<GeneralResponse<User>> Login(LoginModel loginModel);
     }
 }

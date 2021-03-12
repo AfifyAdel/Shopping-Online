@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingAPIs.Controllers
 {
-    [AllowAnonymous]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -26,7 +25,7 @@ namespace OnlineShoppingAPIs.Controllers
 
         [Route(AccountURLs.Login)]
         [HttpPost]
-        public async Task<GeneralResponse<AuthModel>> Login([FromBody] LoginModel model)
+        public async Task<GeneralResponse<User>> Login([FromBody] LoginModel model)
         {
             try
             {
@@ -35,17 +34,17 @@ namespace OnlineShoppingAPIs.Controllers
             }
             catch (Exception ex)
             {
-                return new GeneralResponse<AuthModel>(ex.Message, EResponseStatus.Exception);
+                return new GeneralResponse<User>(ex.Message, EResponseStatus.Exception);
             }
         }
 
         [Route(AccountURLs.Register)]
         [HttpPost]
-        public async Task<GeneralResponse<bool>> Register([FromBody] RegisterModel model)
+        public async Task<GeneralResponse<bool>> Register([FromBody] User user)
         {
             try
             {
-                var response = await _accountService.Register(model);
+                var response = await _accountService.Register(user);
                 return response;
             }
             catch (Exception ex)

@@ -39,24 +39,10 @@ namespace OnlineShoppingAPIs.Controllers
             }
         }
 
-        [Route(OrderURLs.ChangeStatus)]
-        [HttpPost]
-        public async Task<GeneralResponse<bool>> ChangeStatus([FromBody] OrderStatusModel model)
-        {
-            try
-            {
-                var response = await orderService.ChangeStatus(model);
-                return response;
-            }
-            catch (Exception ex)
-            {
-                return new GeneralResponse<bool>(ex.Message, EResponseStatus.Exception);
-            }
-        }
 
         [Route(OrderURLs.GetCustomerOrders)]
         [HttpGet]
-        public async Task<GeneralResponse<List<Order>>> GetCustomerOrders(string customerId)
+        public async Task<GeneralResponse<List<Order>>> GetCustomerOrders(long customerId)
         {
             try
             {
@@ -100,12 +86,11 @@ namespace OnlineShoppingAPIs.Controllers
         }
         [Route(OrderURLs.Update)]
         [HttpPost]
-        public async Task<GeneralResponse<bool>> Update([FromBody] Order order)
+        public GeneralResponse<bool> Update([FromBody] Order order)
         {
             try
             {
-                var response = await orderService.Update(order);
-                return response;
+                return orderService.Update(order);
             }
             catch (Exception ex)
             {

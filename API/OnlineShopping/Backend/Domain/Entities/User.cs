@@ -23,5 +23,7 @@ namespace Domain.Entities
         public int RoleId { get; set; }
         [NotMapped]
         public ICollection<Order> Orders { get; set; }
+        [NotMapped]
+        public string Token { get; set; }
     }
 }

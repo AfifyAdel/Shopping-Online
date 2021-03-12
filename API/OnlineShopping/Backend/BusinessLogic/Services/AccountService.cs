@@ -7,6 +7,7 @@ using Domain.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,79 +17,67 @@ namespace BusinessLogic.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly SignInManager<User> _signInManager;
-        private readonly RoleManager<Role> _roleManager;
-        private readonly IHttpContextAccessor _contextAccessor;
+        private readonly ITokenService _tokenService;
+        private readonly IPasswordHasher<User> _hasher;
+
         public AccountService(IUserRepository userRepository,
-            SignInManager<User> signInManager, RoleManager<Role> roleManager,
-             IHttpContextAccessor contextAccessor)
+            SignInManager<User> signInManager, IPasswordHasher<User> hasher,
+             IHttpContextAccessor contextAccessor,ITokenService tokenService)
         {
             _userRepository = userRepository;
             _signInManager = signInManager;
-            _roleManager = roleManager;
-            _contextAccessor = contextAccessor;
+            _tokenService = tokenService;
+            _hasher = hasher;
         }
-        public async Task<GeneralResponse<AuthModel>> Login(LoginModel loginModel)
+        public async Task<GeneralResponse<User>> Login(LoginModel loginModel)
         {
             await CreateAdmin();
             var user = await _userRepository.GetByUsername(loginModel.UserName);
 
             if (user == null)
             {
-                return new GeneralResponse<AuthModel>("Email or Password is not correct", EResponseStatus.Error);
+                return new GeneralResponse<User>("Email or Password is not correct", EResponseStatus.Error);
             }
-
             var response = await _signInManager.PasswordSignInAsync(user, loginModel.Password, true, false);
-
             if (response.Succeeded)
             {
-                var roleDB = await _roleManager.FindByIdAsync(user.RoleId);
-                var role = roleDB.Name == "Admin" ? EUserRole.Admin : EUserRole.Customer;
-                var auth = new AuthModel()
-                {
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    UserName = user.UserName,
-                    Role = (int)role,
-                    Id = user.Id
-                };
-                return new GeneralResponse<AuthModel>(auth);
+                var claims = new ClaimsIdentity(new Claim[]
+                            {
+                            new Claim(ClaimTypes.Name, user.Id.ToString())
+                            });
+                user.Token = _tokenService.GenerateAccessToken(claims);
+                user.Password = string.Empty;
+                return new GeneralResponse<User>(user);
             }
             else
             {
-                return new GeneralResponse<AuthModel>("Email or Password is not correct", EResponseStatus.Error);
+                return new GeneralResponse<User>("Email or Password is not correct", EResponseStatus.Error);
             }
         }
 
-        public async Task<GeneralResponse<bool>> Register(RegisterModel registerModel)
+        public async Task<GeneralResponse<bool>> Register(User user)
         {
             try
             {
                 // Check if username exist
-                var userDB = await _userRepository.GetByUsername(registerModel.UserName);
+                var userDB = await _userRepository.GetByUsername(user.UserName);
                 if (userDB != null)
                 {
                     return new GeneralResponse<bool>("Username already exists", EResponseStatus.Error);
                 }
 
                 // Check if email exist
-                userDB = await _userRepository.GetByEmail(registerModel.Email);
+                userDB = await _userRepository.GetByEmail(user.Email);
                 if (userDB != null)
                 {
                     return new GeneralResponse<bool>("Email already exists", EResponseStatus.Error);
                 }
-                var customerRole = await _roleManager.FindByNameAsync(EUserRole.Customer.ToString());
-                var newUser = new User()
-                {
-                    Email = registerModel.Email,
-                    FirstName=registerModel.FirstName,
-                    LastName=registerModel.LastName,
-                    UserName = registerModel.UserName,
-                    RoleId = customerRole.Id
-                };
-                
-                var result = await _userRepository.Insert(newUser, registerModel.Password);
+                user.RoleId = (int)EUserRole.Customer;
+                user.Password = _hasher.HashPassword(user, user.Password);
 
-                if (result.Succeeded)
+                var result = await _userRepository.Insert(user);
+
+                if (result)
                 {
                     return new GeneralResponse<bool>(true);
                 }
@@ -111,16 +100,15 @@ namespace BusinessLogic.Services
                 var admin = await _userRepository.GetByUsername("Admin");
                 if (admin == null)
                 {
-                    var adminRole = await _roleManager.FindByNameAsync(EUserRole.Admin.ToString());
                     var newUser = new User()
                     {
                         UserName = "Admin",
                         Email = "Admin@Admin.com",
-                        EmailConfirmed = true,
-                        RoleId = adminRole.Id
+                        Password="123456",
+                        RoleId = (int)EUserRole.Admin
                     };
-
-                    await _userRepository.Insert(newUser, "123456");
+                    newUser.Password = _hasher.HashPassword(newUser, newUser.Password);
+                    await _userRepository.Insert(newUser);
                 }
             }
             catch (Exception ex)

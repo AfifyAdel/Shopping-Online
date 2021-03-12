@@ -53,12 +53,11 @@ namespace OnlineShoppingAPIs.Controllers
         }
         [Route(DiscountURLs.DeleteDiscount)]
         [HttpPost]
-        public async Task<GeneralResponse<bool>> DeleteDiscount([FromBody] int id)
+        public GeneralResponse<bool> DeleteDiscount([FromBody] int id)
         {
             try
             {
-                var response = await discountService.DeleteDiscount(id);
-                return response;
+                return discountService.DeleteDiscount(id);
             }
             catch (Exception ex)
             {

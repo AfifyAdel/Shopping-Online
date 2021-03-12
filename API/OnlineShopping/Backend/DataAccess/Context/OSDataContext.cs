@@ -1,7 +1,5 @@
 ﻿using Domain.Constants.Enums;
 using Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -24,30 +22,30 @@ namespace DataAccess.Context
         public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<Tax> Taxes { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder builder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             try
             {
-                if (!builder.IsConfigured)
+                if (!optionsBuilder.IsConfigured)
                 {
-                    builder.UseSqlServer("server=.\\SQLExpress;Database=ShoppingOnlineDB;Trusted_Connection=True;MultipleActiveResultSets=True");
+                    optionsBuilder.UseSqlServer("server=.\\SQLExpress;Database=ShoppingOnlineDB;Trusted_Connection=True;MultipleActiveResultSets=True");
                 }
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
         }
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+
             //Add Roles
-            builder.Entity<Role>().HasData(
-                new Role{ Name = EUserRole.Admin.ToString(),NormalizedName = "ADMIN"},
-                new Role { Name = EUserRole.Customer.ToString(), NormalizedName = "CUSTOMER" });
+            modelBuilder.Entity<Role>().HasData(
+                new Role{ Name = EUserRole.Admin.ToString()},
+                new Role { Name = EUserRole.Customer.ToString() });
 
 
-            base.OnModelCreating(builder);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
