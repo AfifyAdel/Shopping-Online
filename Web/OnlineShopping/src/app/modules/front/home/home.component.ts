@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Apis } from 'src/app/domain/constants/apis';
 import { Responsestatus } from 'src/app/domain/constants/enums/responsestatus.enum';
+import { ConfigService } from 'src/app/domain/helpers/config.service';
 import { Discount } from 'src/app/domain/models/discount';
 import { Item } from 'src/app/domain/models/item';
 import { OrderDetail } from 'src/app/domain/models/orderDetail';
@@ -24,7 +25,8 @@ export class HomeComponent implements OnInit {
   myBag: Array<OrderDetail> = [];
   constructor(private itemService: ItemService, private SpinnerService: NgxSpinnerService,
     private router: Router, private _discountService: DiscountService,
-    private _taxService: TaxService, private currentItemsService: OrderdetailsService) {
+    private _taxService: TaxService, private currentItemsService: OrderdetailsService,
+    private config: ConfigService) {
   }
 
 
@@ -87,7 +89,7 @@ export class HomeComponent implements OnInit {
   }
 
   getImagePath(path) {
-    var img = (path == null || path == "" || path == "undefined") ? "assets/default-product.jpg" : Apis.domainName + 'ItemsImages/' + path;
+    var img = (path == null || path == "" || path == "undefined") ? "assets/default-product.jpg" : this.config.imagePath + 'ItemsImages/' + path;
     return img;
   }
 
@@ -104,9 +106,9 @@ export class HomeComponent implements OnInit {
       }
       var ordDetail = new OrderDetail();
       ordDetail.itemId = prod.id;
-      ordDetail.itemPrice = prod.price;
-      ordDetail.tax = prod.taxId;
-      ordDetail.discount = prod.discountId;
+      ordDetail.price = prod.price;
+      ordDetail.taxId = prod.taxId;
+      ordDetail.discountId = prod.discountId;
       prod.quantity--;
       ordDetail.quantity = 1;
       this.currentItemsService.addItem(ordDetail);

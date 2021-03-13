@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Util } from 'src/app/domain/communication/util';
 import { Responsestatus } from 'src/app/domain/constants/enums/responsestatus.enum';
 import { LoginModel } from 'src/app/domain/models/accountModels/loginModel';
-import { AccountService } from 'src/app/domain/services/account.service';
+import { AuthenticationService } from 'src/app/domain/services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -19,9 +19,8 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
     private router: Router,
-    private accountService: AccountService,
+    private authService: AuthenticationService,
     private SpinnerService: NgxSpinnerService
   ) { }
 
@@ -42,10 +41,9 @@ export class LoginComponent implements OnInit {
     user.password = this.loginForm.controls.password.value;
     user.userName = this.loginForm.controls.username.value;
 
-    this.accountService.Login(user).subscribe(((response) => {
+    this.authService.login(user).subscribe(((response) => {
       if (response.status > 0) {
-        this.SpinnerService.hide();
-        localStorage.setItem('_cuser', JSON.stringify(response.resource));
+        this.submitted = false;
         let util = new Util(this.router);
         util.Route(response.resource.role);
       }

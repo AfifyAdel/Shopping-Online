@@ -1,29 +1,35 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Apis } from '../constants/apis';
 import { UnitOfMeasure } from '../models/unitOfMeasure';
+import { ApimanagerService } from './apimanager.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UnitofmeasureService {
 
-  constructor(private _http: HttpClient) { }
-  headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+  constructor(private apimanager: ApimanagerService) { }
 
-  getUOMs(): Observable<any> {
+  getUOMs() {
 
-    return this._http.get<any>(Apis.getUOMs).pipe();
+    return this.apimanager.get(Apis.getUOMs).map((res) => {
+      return res;
+    });
   }
-  getUOMByCode(code: string): Observable<any> {
-    return this._http.get<any>(Apis.getUOMByCode + code).pipe();
+  getUOMByCode(code: string) {
+    return this.apimanager.get(Apis.getUOMByCode + code).map((res) => {
+      return res;
+    });
   }
 
-  addUOM(uom: UnitOfMeasure): Observable<any> {
-    return this._http.post<any>(Apis.addUOM, uom, { headers: this.headers }).pipe();
+  addUOM(uom: UnitOfMeasure) {
+    return this.apimanager.post(Apis.addUOM, uom).map((res) => {
+      return res;
+    });
   }
-  deleteUOM(id: number): Observable<any> {
-    return this._http.post<any>(Apis.deleteUOM, id, { headers: this.headers }).pipe();
+  deleteUOM(id: number) {
+    return this.apimanager.post(Apis.deleteUOM, id).map((res) => {
+      return res;
+    });
   }
 }

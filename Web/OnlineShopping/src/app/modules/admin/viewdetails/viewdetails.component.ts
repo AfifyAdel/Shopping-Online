@@ -121,9 +121,9 @@ export class ViewdetailsComponent implements OnInit {
   getPrice(item: OrderDetail) {
     if (!(!!item) || !(!!this.discounts) || !(!!this.taxes))
       return;
-    var tax = this.getTaxValue(item.tax);
-    var discount = this.getDiscountValue(item.discount);
-    var priceTax = ((item.itemPrice * (Number)(tax)) / 100) + item.itemPrice;
+    var tax = this.getTaxValue(item.taxId);
+    var discount = this.getDiscountValue(item.discountId);
+    var priceTax = ((item.price * (Number)(tax)) / 100) + item.price;
     var pricedis = priceTax - ((priceTax * (Number)(discount)) / 100);
     item.totalPrice = item.quantity * pricedis;
     return item.totalPrice;

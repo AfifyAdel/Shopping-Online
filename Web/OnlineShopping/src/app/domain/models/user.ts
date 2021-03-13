@@ -2,7 +2,7 @@ import { Order } from "./order";
 
 export class User {
   id: number;
-  irstName: string;
+  firstName: string;
   lastName: string;
   userName: string;
   email: string;

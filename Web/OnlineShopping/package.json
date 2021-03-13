@@ -23,11 +23,13 @@
     "@fortawesome/fontawesome-free": "^5.15.2",
     "angular-datatables": "^11.1.1",
     "bootstrap": "^4.6.0",
+    "crypto-js": "^4.0.0",
     "datatables.net": "^1.10.20",
     "datatables.net-dt": "^1.10.20",
     "jquery": "^3.6.0",
     "ngx-spinner": "^10.0.1",
     "rxjs": "~6.6.0",
+    "rxjs-compat": "^6.6.6",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },

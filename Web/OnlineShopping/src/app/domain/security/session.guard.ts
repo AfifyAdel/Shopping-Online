@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Util } from '../communication/util';
+import { CryptService } from './crypt.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Util } from '../communication/util';
 export class SessionGuard implements CanActivate {
   private _router: Router;
 
-  constructor(router: Router) {
+  constructor(router: Router, private cryptoService: CryptService) {
     this._router = router;
 
   }
@@ -17,8 +18,9 @@ export class SessionGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
-    const currentUser = JSON.parse(localStorage.getItem('_cuser') || '{}');
+    var cryptUser = this.cryptoService.Encrypt('_current_user');
+    var cryptValue = this.cryptoService.Encrypt(localStorage.getItem(cryptUser) || '');
+    const currentUser = JSON.parse(cryptValue || '{}');
     if (Object.keys(currentUser).length !== 0) {
       let util = new Util(this._router);
       util.Route(currentUser.role);

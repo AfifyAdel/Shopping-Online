@@ -13,8 +13,8 @@
       <tr *ngFor="let item of currentItems1">
         <td>{{getItemName(item.itemId)}}</td>
         <td>{{item.quantity}}</td>
-        <td>{{getTaxValue(item.tax)}}%</td>
-        <td>{{getDiscountValue(item.discount)}}%</td>
+        <td>{{getTaxValue(item.taxId)}}%</td>
+        <td>{{getDiscountValue(item.discountId)}}%</td>
         <td>{{getPrice(item)}}</td>
       </tr>
     </tbody>

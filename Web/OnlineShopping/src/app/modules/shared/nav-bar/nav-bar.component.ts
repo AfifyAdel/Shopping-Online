@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as $ from 'jquery';
-import { AuthModel } from 'src/app/domain/models/accountModels/authModel';
+import { User } from 'src/app/domain/models/user';
+import { CryptService } from 'src/app/domain/security/crypt.service';
 import { OrderdetailsService } from 'src/app/domain/services/orderdetails.service';
 
 @Component({
@@ -11,12 +12,14 @@ import { OrderdetailsService } from 'src/app/domain/services/orderdetails.servic
 })
 export class NavBarComponent implements OnInit {
   counter: number = 0;
-  model: AuthModel;
-  constructor(private router: Router, private currentItemsService: OrderdetailsService) { }
+  currentUser: User;
+  constructor(private router: Router, private currentItemsService: OrderdetailsService
+    , private cryptoService: CryptService) { }
 
   ngOnInit(): void {
 
-    this.model = JSON.parse(localStorage.getItem('_cuser') || '{}');
+    var cryptUser = this.cryptoService.Encrypt('_current_user');
+    this.currentUser = JSON.parse(this.cryptoService.Encrypt(localStorage.getItem(cryptUser) || '') || '{}');
     this.currentItemsService.count.subscribe(c => {
       this.counter = c;
     });

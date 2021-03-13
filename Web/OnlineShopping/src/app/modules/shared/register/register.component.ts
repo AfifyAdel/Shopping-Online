@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Responsestatus } from 'src/app/domain/constants/enums/responsestatus.enum';
-import { RegisterModel } from 'src/app/domain/models/accountModels/registerModel';
+import { User } from 'src/app/domain/models/user';
 import { AccountService } from 'src/app/domain/services/account.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid)
       return;
     this.SpinnerService.show();
-    var user = new RegisterModel();
+    var user = new User();
     user.firstName = this.registerForm.controls.firstname.value;
     user.lastName = this.registerForm.controls.lastname.value;
     user.userName = this.registerForm.controls.username.value;

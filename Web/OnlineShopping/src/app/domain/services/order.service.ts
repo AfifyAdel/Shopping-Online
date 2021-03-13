@@ -1,37 +1,41 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Apis } from '../constants/apis';
 import { Order } from '../models/order';
-import { OrderStatusModel } from '../models/orderStatusModel';
+import { ApimanagerService } from './apimanager.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
 
-  constructor(private _http: HttpClient) { }
-  headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+  constructor(private apimanager: ApimanagerService) { }
 
-  getOrders(): Observable<any> {
-    return this._http.get<any>(Apis.getOrders).pipe();
+  getOrders() {
+    return this.apimanager.get(Apis.getOrders).map((res) => {
+      return res;
+    });
   }
-  getOrderItems(orderId: number): Observable<any> {
-    return this._http.get<any>(Apis.getOrderItems + orderId).pipe();
+  getOrderItems(orderId: number) {
+    return this.apimanager.get(Apis.getOrderItems + orderId).map((res) => {
+      return res;
+    });
   }
-  getCustomerOrders(customerId: number): Observable<any> {
-    return this._http.get<any>(Apis.getCustomerOrders + customerId).pipe();
+  getCustomerOrders(customerId: number) {
+    return this.apimanager.get(Apis.getCustomerOrders + customerId).map((res) => {
+      return res;
+    });
   }
 
-  changeStatus(model: OrderStatusModel): Observable<any> {
-    return this._http.post<any>(Apis.changeStatus, model, { headers: this.headers }).pipe();
+  addOrder(order: Order) {
+    return this.apimanager.post(Apis.addOrder, order).map((res) => {
+      return res;
+    });
   }
-  addOrder(order: Order): Observable<any> {
-    return this._http.post<any>(Apis.addOrder, order, { headers: this.headers }).pipe();
-  }
-  updateOrder(order: Order): Observable<any> {
+  updateOrder(order: Order) {
 
-    return this._http.post<any>(Apis.updateOrder, order, { headers: this.headers }).pipe();
+    return this.apimanager.post(Apis.updateOrder, order).map((res) => {
+      return res;
+    });
   }
 }
 

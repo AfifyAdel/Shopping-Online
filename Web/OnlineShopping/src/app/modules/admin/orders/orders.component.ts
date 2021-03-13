@@ -4,7 +4,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { Responsestatus } from 'src/app/domain/constants/enums/responsestatus.enum';
 import { Order } from 'src/app/domain/models/order';
-import { OrderStatusModel } from 'src/app/domain/models/orderStatusModel';
 import { OrderService } from 'src/app/domain/services/order.service';
 
 @Component({
@@ -47,19 +46,7 @@ export class OrdersComponent implements OnInit {
 
     return new Date;
   }
-  changeStatus(id, status) {
-    var model = new OrderStatusModel();
-    model.orderId = Number(id);
-    model.orderStatus = Number(status);
 
-    this.orderService.changeStatus(id).subscribe(responce => {
-      if (responce.resource && responce.status == Responsestatus.success) {
-        alert("Order status changed successfully")
-      } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
-    });
-  }
 
   openOrderDetails(id) {
     this.router.navigate(['/admin/viewdetails/' + id]);

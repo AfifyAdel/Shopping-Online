@@ -1,29 +1,36 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Apis } from '../constants/apis';
 import { Discount } from '../models/discount';
+import { ApimanagerService } from './apimanager.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DiscountService {
 
-  constructor(private _http: HttpClient) { }
-  headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+  constructor(private apimanager: ApimanagerService) { }
 
-  getDiscounts(): Observable<any> {
-    return this._http.get<any>(Apis.getDiscounts).pipe();
+  getDiscounts() {
+    return this.apimanager.get(Apis.getDiscounts).map((res) => {
+      return res;
+    });
   }
-  getDiscountByCode(code: string): Observable<any> {
-    return this._http.get<any>(Apis.getDiscountByCode + code).pipe();
+  getDiscountByCode(code: string) {
+    return this.apimanager.get(Apis.getDiscountByCode + code).map((res) => {
+      return res;
+    });
   }
 
-  addDiscount(discount: Discount): Observable<any> {
-    return this._http.post<any>(Apis.addDiscount, discount, { headers: this.headers }).pipe();
+  addDiscount(discount: Discount) {
+    return this.apimanager.post(Apis.addDiscount, discount).map((res) => {
+      return res;
+    });
   }
-  deleteDiscount(id: number): Observable<any> {
-    return this._http.post<any>(Apis.deleteDiscount, id, { headers: this.headers }).pipe();
+  deleteDiscount(id: number) {
+    return this.apimanager.post(Apis.deleteDiscount, id).map((res) => {
+      return res;
+    });
   }
 
 }
