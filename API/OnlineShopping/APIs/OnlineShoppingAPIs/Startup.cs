@@ -66,7 +66,7 @@ namespace OnlineShoppingAPIs
 
 
             //Inject Services
-            services.AddSingleton<ITokenService, TokenService>();
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IDiscountService, DiscountService>();
             services.AddScoped<IItemsService, ItemsService>();

@@ -4,30 +4,25 @@ using Domain.Entities;
 using Domain.Models.AccountModels;
 using Domain.Repositories;
 using Domain.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Utilities;
 
 namespace BusinessLogic.Services
 {
     public class AccountService : IAccountService
     {
         private readonly IUserRepository _userRepository;
-        private readonly SignInManager<User> _signInManager;
         private readonly ITokenService _tokenService;
-        private readonly IPasswordHasher<User> _hasher;
 
         public AccountService(IUserRepository userRepository,
-            SignInManager<User> signInManager, IPasswordHasher<User> hasher,
-             IHttpContextAccessor contextAccessor,ITokenService tokenService)
+             ITokenService tokenService)
         {
             _userRepository = userRepository;
-            _signInManager = signInManager;
             _tokenService = tokenService;
-            _hasher = hasher;
         }
         public async Task<GeneralResponse<User>> Login(LoginModel loginModel)
         {
@@ -36,23 +31,25 @@ namespace BusinessLogic.Services
 
             if (user == null)
             {
-                return new GeneralResponse<User>("Email or Password is not correct", EResponseStatus.Error);
+                user = await _userRepository.GetByEmail(loginModel.UserName);
+                if (user == null)
+                {
+                    return new GeneralResponse<User>("Email or Password is not correct", EResponseStatus.Error);
+                }
             }
-            var response = await _signInManager.PasswordSignInAsync(user, loginModel.Password, true, false);
-            if (response.Succeeded)
-            {
-                var claims = new ClaimsIdentity(new Claim[]
-                            {
-                            new Claim(ClaimTypes.Name, user.Id.ToString())
-                            });
-                user.Token = _tokenService.GenerateAccessToken(claims);
-                user.Password = string.Empty;
-                return new GeneralResponse<User>(user);
-            }
-            else
+
+            if (user.Password != Cryptography.Encrypt(loginModel.Password))
             {
                 return new GeneralResponse<User>("Email or Password is not correct", EResponseStatus.Error);
             }
+            var claims = new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, user.Id.ToString()),
+                new Claim(ClaimTypes.Role, user.RoleId.ToString())
+            });
+            user.Token = _tokenService.GenerateAccessToken(claims);
+            user.Password = string.Empty;
+            return new GeneralResponse<User>(user);
         }
 
         public async Task<GeneralResponse<bool>> Register(User user)
@@ -73,7 +70,7 @@ namespace BusinessLogic.Services
                     return new GeneralResponse<bool>("Email already exists", EResponseStatus.Error);
                 }
                 user.RoleId = (int)EUserRole.Customer;
-                user.Password = _hasher.HashPassword(user, user.Password);
+                user.Password = Cryptography.Encrypt(user.Password);
 
                 var result = await _userRepository.Insert(user);
 
@@ -103,11 +100,15 @@ namespace BusinessLogic.Services
                     var newUser = new User()
                     {
                         UserName = "Admin",
+                        BirthDate = DateTime.UtcNow,
+                        FirstName = "Admin",
+                        LastName = "Admin",
+                        PhoneNumber = "+201154854755",
                         Email = "Admin@Admin.com",
                         Password="123456",
                         RoleId = (int)EUserRole.Admin
                     };
-                    newUser.Password = _hasher.HashPassword(newUser, newUser.Password);
+                    newUser.Password = Cryptography.Encrypt(newUser.Password);
                     await _userRepository.Insert(newUser);
                 }
             }

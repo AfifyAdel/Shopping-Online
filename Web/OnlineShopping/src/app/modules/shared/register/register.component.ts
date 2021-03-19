@@ -22,11 +22,13 @@ export class RegisterComponent implements OnInit {
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       username: ['', Validators.required],
+      birthdate: [new Date, Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
   onSubmit() {
+
     this.submitted = true;
     if (this.registerForm.invalid)
       return;
@@ -36,6 +38,7 @@ export class RegisterComponent implements OnInit {
     user.lastName = this.registerForm.controls.lastname.value;
     user.userName = this.registerForm.controls.username.value;
     user.email = this.registerForm.controls.email.value;
+    user.birthdate = this.registerForm.controls.birthdate.value;
     user.password = this.registerForm.controls.password.value;
 
     this.accountService.Register(user).subscribe(((response) => {

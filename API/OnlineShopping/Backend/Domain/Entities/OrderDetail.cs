@@ -10,10 +10,15 @@ namespace Domain.Entities
     {
         [Key]
         public long Id { get; set; }
+        [Required]
         public long OrderId { get; set; }
+        [Required]
         public long ItemId { get; set; }
+        [Required]
         public int Quantity { get; set; }
+        [Required]
         public decimal Price { get; set; }
+        [Required]
         public decimal TotalPrice { get; set; }
         public int TaxId { get; set; }
         public int DiscountId { get; set; }

@@ -19,11 +19,11 @@ export class SessionGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     var cryptUser = this.cryptoService.Encrypt('_current_user');
-    var cryptValue = this.cryptoService.Encrypt(localStorage.getItem(cryptUser) || '');
+    var cryptValue = this.cryptoService.Decrypt(localStorage.getItem(cryptUser) || '');
     const currentUser = JSON.parse(cryptValue || '{}');
     if (Object.keys(currentUser).length !== 0) {
       let util = new Util(this._router);
-      util.Route(currentUser.role);
+      util.Route(currentUser.roleId);
       return false;
     }
 

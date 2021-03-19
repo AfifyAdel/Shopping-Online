@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingAPIs.Controllers
 {
+    [Authorize(Roles = "1")]
     [ApiController]
     public class TaxController : ControllerBase
     {

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingAPIs.Controllers
 {
-    [AllowAnonymous]
+    [Authorize(Roles = "1")]
     [ApiController]
     public class DiscountController : ControllerBase
     {

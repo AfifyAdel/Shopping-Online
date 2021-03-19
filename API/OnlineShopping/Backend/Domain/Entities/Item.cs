@@ -12,10 +12,15 @@ namespace Domain.Entities
     {
         [Key]
         public long Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Required]
         public int UOM { get; set; }
+        [Required]
         public long Quantity { get; set; }
+        [Required]
         public decimal Price { get; set; }
         public int TaxId { get; set; }
         public int DiscountId { get; set; }

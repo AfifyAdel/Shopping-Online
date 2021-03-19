@@ -10,10 +10,6 @@ namespace DataAccess.Context
 {
     public class OSDataContext : DbContext
     {
-        public OSDataContext()
-        {
-
-        }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Item> Items { get; set; }

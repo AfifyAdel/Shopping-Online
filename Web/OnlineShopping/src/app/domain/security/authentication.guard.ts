@@ -15,20 +15,20 @@ export class AuthenticationGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    var cryptUser = this.cryptoService.Encrypt('_current_user');
-    let currentUser = JSON.parse(this.cryptoService.Encrypt(localStorage.getItem(cryptUser) || '') || '{}');
 
+    var cryptUser = this.cryptoService.Encrypt('_current_user');
+    let currentUser = JSON.parse(this.cryptoService.Decrypt(localStorage.getItem(cryptUser) || '') || '{}');
     if (Object.keys(currentUser).length !== 0) {
       if (next.url.length == 0) {
-        if (currentUser.role !== Eusertypes.Admin)
+        if (currentUser.roleId !== Eusertypes.Admin)
           return true;
         else
           return this._router.navigate(['/login']);;
       }
       else
-        if (next.url[0].path == "admin" && currentUser.role == Eusertypes.Admin)
+        if (next.url[0].path == "admin" && currentUser.roleId == Eusertypes.Admin)
           return true;
-        else if (next.url.length == 0 && currentUser.role !== Eusertypes.Admin)
+        else if (next.url.length == 0 && currentUser.roleId !== Eusertypes.Admin)
           return true;
         else
           this._router.navigate(['/login']);;

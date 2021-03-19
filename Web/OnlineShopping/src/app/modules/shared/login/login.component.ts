@@ -43,9 +43,11 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(user).subscribe(((response) => {
       if (response.status > 0) {
+
+        this.SpinnerService.hide();
         this.submitted = false;
         let util = new Util(this.router);
-        util.Route(response.resource.role);
+        util.Route(response.resource.roleId);
       }
       else if (response.status === Responsestatus.error) {
         alert(response.message);

@@ -32,7 +32,6 @@ export class DiscountsComponent implements OnDestroy, OnInit {
     this.discountService.getDiscounts().subscribe(responce => {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.discounts = responce.resource;
-        this.discounts = this.discounts.filter(x => x.id !== 1);
         this.dtTrigger.next();
       } else if (responce.status == Responsestatus.error) {
         alert(responce.message);

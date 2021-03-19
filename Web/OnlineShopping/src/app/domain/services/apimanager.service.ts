@@ -26,6 +26,7 @@ export class ApimanagerService {
   }
 
   post(url: string, data: any): Observable<any> {
+
     let body = JSON.stringify(data);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
     return this._http.post<any>(new Apis(this.config).domainName + url, body, { headers: headers }).catch(this.handleError);

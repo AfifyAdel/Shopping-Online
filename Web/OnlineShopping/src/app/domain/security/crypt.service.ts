@@ -29,6 +29,7 @@ export class CryptService {
   Decrypt(value: string): string {
     if (!(!!value))
       return '';
+
     const key = CryptoJS.enc.Utf8.parse(this.secretKey);
     const iv = CryptoJS.enc.Utf8.parse(this.secretKey);
     const decrypted = CryptoJS.AES.decrypt(value, key, {

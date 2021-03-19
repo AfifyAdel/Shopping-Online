@@ -16,9 +16,10 @@ export class AuthenticationService {
   private _manager: ApimanagerService;
 
   constructor(apimanager: ApimanagerService, private cryptService: CryptService) {
+
     var cryptUser = this.cryptService.Encrypt('_current_user');
     if (localStorage.getItem(cryptUser))
-      this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem(cryptUser) || '{}'));
+      this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.cryptService.Decrypt(localStorage.getItem(cryptUser) || '') || '{}'));
     else
       this.currentUserSubject = new BehaviorSubject<User>(null as any);
     this._manager = apimanager;
@@ -30,6 +31,7 @@ export class AuthenticationService {
   }
 
   public login(data: any) {
+
     return this._manager.post(Apis.login, data).map(((data) => {
       if (data.status > 0) {
         data.resource.session = new Date();
