@@ -188,6 +188,7 @@ export class AddproductComponent implements OnInit {
     this.formData.append("description", controls.description.toString());
     this.formData.append("taxid", controls.taxcode.toString());
     this.formData.append("uom", controls.uom.toString());
+    this.formData.append("category", controls.category.toString());
     this.formData.append("attributes", controls.attributes.toString());
     if (this.editMode) {
       this.formData.append("id", this.editItemId.toString());

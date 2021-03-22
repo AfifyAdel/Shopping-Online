@@ -2,6 +2,7 @@ export class Item {
   id: number;
   name: string;
   description: string;
+  category: string;
   uom: number;
   quantity: number;
   taxId: number;

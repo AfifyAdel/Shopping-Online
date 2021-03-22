@@ -3,10 +3,12 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { Responsestatus } from 'src/app/domain/constants/enums/responsestatus.enum';
+import { Category } from 'src/app/domain/models/category';
 import { Discount } from 'src/app/domain/models/discount';
 import { Item } from 'src/app/domain/models/item';
 import { Tax } from 'src/app/domain/models/tax';
 import { UnitOfMeasure } from 'src/app/domain/models/unitOfMeasure';
+import { CategoryService } from 'src/app/domain/services/category.service';
 import { DiscountService } from 'src/app/domain/services/discount.service';
 import { ItemService } from 'src/app/domain/services/item.service';
 import { TaxService } from 'src/app/domain/services/tax.service';
@@ -19,6 +21,7 @@ import { UnitofmeasureService } from 'src/app/domain/services/unitofmeasure.serv
 })
 export class ProductsComponent implements OnInit {
   products: Array<Item>;
+  categories: Category[] = [];
   taxes: Array<Tax>;
   discounts: Array<Discount>;
   uoms: Array<UnitOfMeasure>;
@@ -26,7 +29,7 @@ export class ProductsComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   constructor(private itemService: ItemService, private SpinnerService: NgxSpinnerService,
     private router: Router, private _discountService: DiscountService,
-    private _taxService: TaxService, private _uomService: UnitofmeasureService) {
+    private _taxService: TaxService, private _uomService: UnitofmeasureService, private _categoryService: CategoryService) {
   }
 
   async ngOnInit() {
@@ -49,6 +52,18 @@ export class ProductsComponent implements OnInit {
       } else if (responce.status == Responsestatus.error) {
         alert(responce.message);
       } else alert("Server Error");
+    });
+  }
+  async getCategories() {
+
+    this.SpinnerService.show();
+    this._categoryService.getCategories().subscribe(responce => {
+      if (responce.resource && responce.status == Responsestatus.success) {
+        this.categories = responce.resource;
+      } else if (responce.status == Responsestatus.error) {
+        alert(responce.message);
+      } else alert("Server Error");
+      this.SpinnerService.hide();
     });
   }
   async getTaxes() {
@@ -80,7 +95,11 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-
+  getCategoryName(id) {
+    if (!(!!id) || !(!!this.categories))
+      return;
+    return this.categories.find(x => x.id == id)?.name;
+  }
   getTax(id) {
     if (!(!!id) || !(!!this.taxes))
       return;
