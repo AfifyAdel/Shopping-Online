@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingAPIs.Controllers
 {
-    [Authorize(Roles = "1")]
+    [Authorize]
     [ApiController]
     public class OrderController : ControllerBase
     {

@@ -15,37 +15,36 @@ namespace OnlineShoppingAPIs.Controllers
 {
     [Authorize]
     [ApiController]
-    public class TaxController : ControllerBase
+    public class CategoryController : ControllerBase
     {
-        private readonly ITaxesService taxService;
+        private readonly ICategoryService categoryService;
 
-        public TaxController(ITaxesService taxService)
+        public CategoryController(ICategoryService categoryService)
         {
-            this.taxService = taxService;
+            this.categoryService = categoryService;
         }
-
-        [Route(TaxesURLs.GetTaxes)]
+        [Route(CategoryURLs.GetCategories)]
         [HttpGet]
-        public async Task<GeneralResponse<List<Tax>>> GetTaxes()
+        public async Task<GeneralResponse<List<Category>>> GetCategorys()
         {
             try
             {
-                var response = await taxService.GetTaxes();
+                var response = await categoryService.GetCategories();
                 return response;
             }
             catch (Exception ex)
             {
-                return new GeneralResponse<List<Tax>>(ex.Message, EResponseStatus.Exception);
+                return new GeneralResponse<List<Category>>(ex.Message, EResponseStatus.Exception);
             }
         }
         [Authorize(Roles = "1")]
-        [Route(TaxesURLs.AddTax)]
+        [Route(CategoryURLs.AddCategory)]
         [HttpPost]
-        public async Task<GeneralResponse<bool>> AddTax([FromBody] Tax tax)
+        public async Task<GeneralResponse<bool>> AddCategory([FromBody] Category Category)
         {
             try
             {
-                var response = await taxService.AddTax(tax);
+                var response = await categoryService.AddCategory(Category);
                 return response;
             }
             catch (Exception ex)
@@ -54,31 +53,31 @@ namespace OnlineShoppingAPIs.Controllers
             }
         }
         [Authorize(Roles = "1")]
-        [Route(TaxesURLs.DeleteTax)]
+        [Route(CategoryURLs.DeleteCategory)]
         [HttpPost]
-        public GeneralResponse<bool> DeleteTax([FromBody] int id)
+        public GeneralResponse<bool> DeleteCategory([FromBody] int id)
         {
             try
             {
-                return taxService.DeleteTax(id);
+                return categoryService.DeleteCategory(id);
             }
             catch (Exception ex)
             {
                 return new GeneralResponse<bool>(ex.Message, EResponseStatus.Exception);
             }
         }
-        [Route(TaxesURLs.GetTaxByCode)]
+        [Route(CategoryURLs.GetCategoryByName)]
         [HttpGet]
-        public async Task<GeneralResponse<Tax>> GetTaxByCode(string code)
+        public async Task<GeneralResponse<Category>> GetCategoryByName(string name)
         {
             try
             {
-                var response = await taxService.GetTaxByCode(code);
+                var response = await categoryService.GetCategoryByName(name);
                 return response;
             }
             catch (Exception ex)
             {
-                return new GeneralResponse<Tax>(ex.Message, EResponseStatus.Exception);
+                return new GeneralResponse<Category>(ex.Message, EResponseStatus.Exception);
             }
         }
     }

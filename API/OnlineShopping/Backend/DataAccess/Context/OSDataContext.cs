@@ -14,6 +14,7 @@ namespace DataAccess.Context
         public DbSet<Role> Roles { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<OrderDetail> OrdersDetails { get; set; }
         public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
         public DbSet<Discount> Discounts { get; set; }

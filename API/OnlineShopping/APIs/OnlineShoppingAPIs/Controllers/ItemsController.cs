@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingAPIs.Controllers
 {
-    [Authorize(Roles = "1")]
+    [Authorize]
     [ApiController]
     public class ItemsController : ControllerBase
     {
@@ -37,6 +37,7 @@ namespace OnlineShoppingAPIs.Controllers
                 return new GeneralResponse<List<Item>>(ex.Message, EResponseStatus.Exception);
             }
         }
+        [Authorize(Roles = "1")]
         [Route(ItemsURLs.AddItem)]
         [HttpPost]
         public async Task<GeneralResponse<bool>> AddItem()
@@ -66,6 +67,7 @@ namespace OnlineShoppingAPIs.Controllers
                 return new GeneralResponse<bool>(ex.Message, EResponseStatus.Exception);
             }
         }
+        [Authorize(Roles = "1")]
         [Route(ItemsURLs.UpdateItem)]
         [HttpPost]
         public async Task<GeneralResponse<bool>> UpdateItem()
@@ -96,6 +98,7 @@ namespace OnlineShoppingAPIs.Controllers
                 return new GeneralResponse<bool>(ex.Message, EResponseStatus.Exception);
             }
         }
+        [Authorize(Roles = "1")]
         [Route(ItemsURLs.DeleteItem)]
         [HttpPost]
         public GeneralResponse<bool> DeleteItem([FromBody] long id)

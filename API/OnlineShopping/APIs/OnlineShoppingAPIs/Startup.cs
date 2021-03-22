@@ -63,7 +63,7 @@ namespace OnlineShoppingAPIs
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<ITaxRepository, TaxRepository>();
             services.AddScoped<IUomRepository, UomRepository>();
-
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             //Inject Services
             services.AddScoped<ITokenService, TokenService>();
@@ -73,6 +73,7 @@ namespace OnlineShoppingAPIs
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ITaxesService, TaxesService>();
             services.AddScoped<IUomService, UomService>();
+            services.AddScoped<ICategoryService, CategoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingAPIs.Controllers
 {
-    [Authorize(Roles = "1")]
+    [Authorize]
     [ApiController]
     public class DiscountController : ControllerBase
     {
@@ -37,6 +37,7 @@ namespace OnlineShoppingAPIs.Controllers
                 return new GeneralResponse<List<Discount>>(ex.Message, EResponseStatus.Exception);
             }
         }
+        [Authorize(Roles = "1")]
         [Route(DiscountURLs.AddDiscount)]
         [HttpPost]
         public async Task<GeneralResponse<bool>> AddDiscount([FromBody] Discount discount)
@@ -51,6 +52,7 @@ namespace OnlineShoppingAPIs.Controllers
                 return new GeneralResponse<bool>(ex.Message, EResponseStatus.Exception);
             }
         }
+        [Authorize(Roles = "1")]
         [Route(DiscountURLs.DeleteDiscount)]
         [HttpPost]
         public GeneralResponse<bool> DeleteDiscount([FromBody] int id)

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShoppingAPIs.Controllers
 {
-    [Authorize(Roles = "1")]
+    [Authorize]
     [ApiController]
     public class UnitOfMeatureController : ControllerBase
     {
@@ -39,6 +39,7 @@ namespace OnlineShoppingAPIs.Controllers
                 return new GeneralResponse<List<UnitOfMeasure>>(ex.Message, EResponseStatus.Exception);
             }
         }
+        [Authorize(Roles = "1")]
         [Route(UomURLs.AddUOM)]
         [HttpPost]
         public async Task<GeneralResponse<bool>> AddUOM([FromBody] UnitOfMeasure uom)
@@ -53,6 +54,7 @@ namespace OnlineShoppingAPIs.Controllers
                 return new GeneralResponse<bool>(ex.Message, EResponseStatus.Exception);
             }
         }
+        [Authorize(Roles = "1")]
         [Route(UomURLs.DeleteUOM)]
         [HttpPost]
         public GeneralResponse<bool> DeleteUOM([FromBody] int id)
