@@ -53,6 +53,7 @@ namespace OnlineShoppingAPIs.Controllers
                     Description = Request.Form["description"].ToString(),
                     TaxId = string.IsNullOrEmpty(Request.Form["taxid"]) ? 0 : Convert.ToInt32(Request.Form["taxid"].ToString()),
                     UOM = Convert.ToInt32(Request.Form["uom"].ToString()),
+                    Category = Convert.ToInt32(Request.Form["category"].ToString()),
                     Attributes = string.IsNullOrEmpty(Request.Form["attributes"]) ? string.Empty :  Request.Form["attributes"].ToString()
                 };
                 if (Request.Form.Files.Count > 0)
@@ -84,6 +85,7 @@ namespace OnlineShoppingAPIs.Controllers
                     Description = Request.Form["description"].ToString(),
                     TaxId = Convert.ToInt32(Request.Form["taxid"].ToString()),
                     UOM = Convert.ToInt32(Request.Form["uom"].ToString()),
+                    Category = Convert.ToInt32(Request.Form["category"].ToString()),
                     Attributes = Request.Form["attributes"].ToString()
                 };
                 if (Request.Form.Files.Count > 0)

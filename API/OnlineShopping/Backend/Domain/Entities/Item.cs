@@ -17,6 +17,8 @@ namespace Domain.Entities
         [Required]
         public string Description { get; set; }
         [Required]
+        public int Category { get; set; }
+        [Required]
         public int UOM { get; set; }
         [Required]
         public long Quantity { get; set; }
