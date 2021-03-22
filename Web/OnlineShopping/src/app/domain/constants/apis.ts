@@ -25,6 +25,11 @@ export class Apis {
   static addTax = 'api/Tax/AddTax';
   static deleteTax = 'api/Tax/DeleteTax';
 
+  //Category
+  static getCategories = 'api/Category/GetCategories';
+  static getCategoryByName = 'api/Category/GetCategoryByName/';
+  static addCategory = 'api/Category/AddCategory';
+  static deleteCategory = 'api/Category/DeleteCategory';
 
   //Discount
   static getDiscounts = 'api/Discount/GetDiscounts';

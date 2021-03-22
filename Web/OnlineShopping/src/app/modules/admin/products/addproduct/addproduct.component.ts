@@ -3,10 +3,12 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Responsestatus } from 'src/app/domain/constants/enums/responsestatus.enum';
+import { Category } from 'src/app/domain/models/category';
 import { Discount } from 'src/app/domain/models/discount';
 import { Item } from 'src/app/domain/models/item';
 import { Tax } from 'src/app/domain/models/tax';
 import { UnitOfMeasure } from 'src/app/domain/models/unitOfMeasure';
+import { CategoryService } from 'src/app/domain/services/category.service';
 import { DiscountService } from 'src/app/domain/services/discount.service';
 import { ItemService } from 'src/app/domain/services/item.service';
 import { TaxService } from 'src/app/domain/services/tax.service';
@@ -26,6 +28,7 @@ export class AddproductComponent implements OnInit {
   defaultImage: string = "assets/default-product.jpg";
   imgURL: any;
   taxes: Tax[] = new Array<Tax>();
+  categories: Category[] = [];
   discounts: Discount[] = new Array<Discount>();
   uoms: UnitOfMeasure[] = new Array<UnitOfMeasure>();
   editMode: boolean = false;
@@ -33,6 +36,7 @@ export class AddproductComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder,
     private _router: Router,
     private _itemsService: ItemService,
+    private _categoryService: CategoryService,
     private _uomService: UnitofmeasureService,
     private _discountService: DiscountService,
     private _taxService: TaxService,
@@ -77,6 +81,7 @@ export class AddproductComponent implements OnInit {
       {
         name: new FormControl("", Validators.required),
         quantity: new FormControl(0, Validators.required),
+        category: new FormControl("", Validators.required),
         price: new FormControl(0, Validators.required),
         description: new FormControl("", Validators.required),
         uom: new FormControl("", Validators.required),
@@ -85,10 +90,23 @@ export class AddproductComponent implements OnInit {
         attributes: new FormControl(""),
       }
     );
+    await this.getCategories();
     await this.getTaxes();
     await this.getUOMs();
     await this.getDiscounts();
     this.SpinnerService.hide();
+  }
+  async getCategories() {
+
+    this.SpinnerService.show();
+    this._categoryService.getCategories().subscribe(responce => {
+      if (responce.resource && responce.status == Responsestatus.success) {
+        this.categories = responce.resource;
+      } else if (responce.status == Responsestatus.error) {
+        alert(responce.message);
+      } else alert("Server Error");
+      this.SpinnerService.hide();
+    });
   }
   async getTaxes() {
     this._taxService.getTaxes().subscribe(responce => {

@@ -1,0 +1,23 @@
+<button class="btn btn-dark mt-3" type="submit" (click)="openAddCategory()">Add Category</button>
+<div class="tabo">
+  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+    <thead>
+      <tr>
+        <th>Category Name</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of categories">
+        <td>{{item.name}}</td>
+        <td class="text-right w-icon delete-icon">
+          <a class="table-icon " title="Remove" (click)="deleteCategory(item.id)">
+            <i class="fas fa-trash-alt"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.4)" size="default" type="ball-spin-clockwise">
+</ngx-spinner>

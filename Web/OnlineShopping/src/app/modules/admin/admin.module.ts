@@ -16,6 +16,8 @@ import { AddtaxComponent } from './taxes/addtax/addtax.component';
 import { AdddiscountComponent } from './discounts/adddiscount/adddiscount.component';
 import { AddproductComponent } from './products/addproduct/addproduct.component';
 import { ViewdetailsComponent } from './viewdetails/viewdetails.component';
+import { CategoryComponent } from './category/category.component';
+import { AddcategoryComponent } from './category/addcategory/addcategory.component';
 
 
 
@@ -24,7 +26,7 @@ import { ViewdetailsComponent } from './viewdetails/viewdetails.component';
   declarations: [
     LayoutComponent, ProductsComponent, OrdersComponent, UnitOfMeasuresComponent,
     TaxesComponent, DiscountsComponent, AdduomComponent, AddtaxComponent, AdddiscountComponent,
-    AddproductComponent, ViewdetailsComponent
+    AddproductComponent, ViewdetailsComponent, CategoryComponent, AddcategoryComponent
   ],
 
   imports: [

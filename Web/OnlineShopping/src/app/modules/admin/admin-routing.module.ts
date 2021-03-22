@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AddcategoryComponent } from './category/addcategory/addcategory.component';
+import { CategoryComponent } from './category/category.component';
 import { AdddiscountComponent } from './discounts/adddiscount/adddiscount.component';
 import { DiscountsComponent } from './discounts/discounts.component';
 import { LayoutComponent } from './layout/layout.component';
@@ -28,7 +30,9 @@ const routes: Routes = [
       { path: "adddiscount", component: AdddiscountComponent },
       { path: "additem", component: AddproductComponent },
       { path: "edititem/:id", component: AddproductComponent },
-      { path: "viewdetails/:id", component: ViewdetailsComponent }
+      { path: "viewdetails/:id", component: ViewdetailsComponent },
+      { path: "categories", component: CategoryComponent },
+      { path: "addcategory", component: AddcategoryComponent }
     ]
   }
 ];
