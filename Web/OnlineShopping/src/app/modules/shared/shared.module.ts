@@ -8,10 +8,10 @@ import { RegisterComponent } from './register/register.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { Register2Component } from './register2/register2.component';
+import { SliderComponent } from './slider/slider.component';
 
 @NgModule({
-  declarations: [LoginComponent, NotFoundComponent, RegisterComponent, NavBarComponent, SideBarComponent, Register2Component],
+  declarations: [LoginComponent, NotFoundComponent, RegisterComponent, NavBarComponent, SideBarComponent, SliderComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -19,6 +19,6 @@ import { Register2Component } from './register2/register2.component';
     ReactiveFormsModule,
     NgxSpinnerModule
   ],
-  exports: [LoginComponent, NotFoundComponent, RegisterComponent, NavBarComponent, SideBarComponent]
+  exports: [LoginComponent, NotFoundComponent, RegisterComponent, NavBarComponent, SideBarComponent, SliderComponent]
 })
 export class SharedModule { }

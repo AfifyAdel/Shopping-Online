@@ -5,13 +5,11 @@ import { SessionGuard } from './domain/security/session.guard';
 import { LoginComponent } from './modules/shared/login/login.component';
 import { NotFoundComponent } from './modules/shared/not-found/not-found.component';
 import { RegisterComponent } from './modules/shared/register/register.component';
-import { Register2Component } from './modules/shared/register2/register2.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent, canActivate: [SessionGuard] },
   { path: 'login', component: LoginComponent, canActivate: [SessionGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [SessionGuard] },
-  { path: 'register2', component: Register2Component, canActivate: [SessionGuard] },
   { path: 'admin', loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthenticationGuard] },
   { path: '', loadChildren: () => import('./modules/front/front.module').then(m => m.FrontModule), canActivate: [AuthenticationGuard] },
   { path: '**', component: NotFoundComponent }

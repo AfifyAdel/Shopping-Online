@@ -32,7 +32,6 @@ export class TaxesComponent implements OnDestroy, OnInit {
     this.taxService.getTaxes().subscribe(responce => {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.taxes = responce.resource;
-        this.taxes = this.taxes.filter(x => x.id !== 1);
         this.dtTrigger.next();
       } else if (responce.status == Responsestatus.error) {
         alert(responce.message);

@@ -4,7 +4,7 @@
 
   window.__config.apiUrl = "https://localhost:44329/";
 
-  window.__config.imagePath = "https://localhost:44329/ProfileImages/";
+  window.__config.imagePath = "https://localhost:44329/";
 
   window.__config.enableDebug = true;
 

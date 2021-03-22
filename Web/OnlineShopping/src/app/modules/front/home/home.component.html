@@ -1,32 +1,84 @@
-<div class="row p-3">
-  <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 pb-4" *ngFor="let item of products">
-    <div class="card">
-      <div class="row">
-        <div class="col-12">
-          <div class="containe">
+<header>
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+      <!-- Slide One - Set the background image for this slide in the line below -->
+      <div class="carousel-item active" style="background-image: url('../../../../assets/slider-images/sale.jpg')">
+        <div class="carousel-caption d-none d-md-block">
+        </div>
+      </div>
+      <!-- Slide Two - Set the background image for this slide in the line below -->
+      <div class="carousel-item" style="background-image: url('../../../../assets/slider-images/product0.jpg')">
+        <div class="carousel-caption d-none d-md-block">
+        </div>
+      </div>
+      <!-- Slide Three - Set the background image for this slide in the line below -->
+      <div class="carousel-item" style="background-image: url('../../../../assets/slider-images/product.jpg')">
+        <div class="carousel-caption d-none d-md-block">
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</header>
+<div class="row py-3">
+  <div class="col-3 w-20">
+    <div class=" border-dark mb-3 ml-3" style="max-width: 18rem; border: groove;">
+      <div class="card-header">Categories</div>
+      <div class="card-body text-primary">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">An item</li>
+          <li class="list-group-item">A second item</li>
+          <li class="list-group-item">A third item</li>
+          <li class="list-group-item">An item</li>
+          <li class="list-group-item">A second item</li>
+          <li class="list-group-item">A third item</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-9 w-80">
+    <div class="row">
+      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 pb-4" *ngFor="let item of products">
+        <div class="card">
+          <div class="row">
+            <div class="col-12">
+              <div class="containe">
 
-            <div class="image">
-              <img src={{getImagePath(item.imagePath)}} alt="img">
+                <div class="image">
+                  <img src={{getImagePath(item.imagePath)}} alt="img">
+                </div>
+              </div>
+            </div>
+            <div class="col-12 details">
+              <p>{{item.name}} <span style="color: red;">(available {{item.quantity}})</span></p>
+            </div>
+            <div class="col-12 price">
+              <p>{{clacDiscount(calcTax(item.price,item.taxId),item.discountId)}} <span style="color: green;">EGP</span>
+              </p>
+              <p class="discount"
+                *ngIf="clacDiscount(calcTax(item.price,item.taxId),item.discountId) !== calcTax(item.price,item.taxId)">
+                {{calcTax(item.price,item.taxId)}}</p>
+            </div>
+            <div class="col-12 card-button">
+              <button class="btn-success form-control" (click)="addItemToCard(item.id)">Add to Cart</button>
             </div>
           </div>
-        </div>
-        <div class="col-12 details">
-          <p>{{item.name}} <span style="color: red;">(available {{item.quantity}})</span></p>
-        </div>
-        <div class="col-12 price">
-          <p>{{clacDiscount(calcTax(item.price,item.taxId),item.discountId)}}</p>
-          <p class="discount"
-            *ngIf="clacDiscount(calcTax(item.price,item.taxId),item.discountId) !== calcTax(item.price,item.taxId)">
-            {{calcTax(item.price,item.taxId)}}</p>
-        </div>
-        <div class="col-12 card-button">
-          <button class="btn-success form-control" (click)="addItemToCard(item.id)">Add to Cart</button>
         </div>
       </div>
     </div>
   </div>
-
-
 </div>
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.4)" size="default" type="ball-spin-clockwise">
 </ngx-spinner>
