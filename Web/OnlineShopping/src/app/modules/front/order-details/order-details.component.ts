@@ -8,6 +8,7 @@ import { Item } from 'src/app/domain/models/item';
 import { Order } from 'src/app/domain/models/order';
 import { OrderDetail } from 'src/app/domain/models/orderDetail';
 import { Tax } from 'src/app/domain/models/tax';
+import { AuthenticationService } from 'src/app/domain/services/authentication.service';
 import { DiscountService } from 'src/app/domain/services/discount.service';
 import { ItemService } from 'src/app/domain/services/item.service';
 import { OrderService } from 'src/app/domain/services/order.service';
@@ -31,7 +32,7 @@ export class OrderDetailsComponent implements OnInit {
   constructor(private itemService: ItemService, private SpinnerService: NgxSpinnerService,
     private router: Router, private _discountService: DiscountService,
     private _taxService: TaxService, private currentItemsService: OrderdetailsService,
-    private orderService: OrderService) {
+    private orderService: OrderService, private auth: AuthenticationService) {
   }
 
   async ngOnInit() {
@@ -173,8 +174,9 @@ export class OrderDetailsComponent implements OnInit {
     var newOrder = new Order();
     newOrder.orderDetails = this.currentItems;
     newOrder.requestDate = new Date;
-    newOrder.status = 2;
+    newOrder.status = 1;
     newOrder.totalPrice = this.getTotalPrice();
+    newOrder.userId = this.auth.currentUserValue.id;
     this.orderService.addOrder(newOrder).subscribe(responce => {
       if (responce.resource && responce.status == Responsestatus.success) {
         alert("Order done successfully");

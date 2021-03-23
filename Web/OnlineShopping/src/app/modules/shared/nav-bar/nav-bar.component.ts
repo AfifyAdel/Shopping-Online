@@ -41,6 +41,6 @@ export class NavBarComponent implements OnInit {
 
   }
   navigateToOrders() {
-
+    this.router.navigate(["/myorders"]);
   }
 }

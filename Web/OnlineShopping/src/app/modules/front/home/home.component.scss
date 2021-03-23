@@ -3,13 +3,16 @@
     max-width: 20%;
 }
 
+label{
+  cursor: pointer;
+}
 .card{
   height: 415px;
   border: 1px solid #888;
       transition:.8s;
-  &:hover{
+        &:hover{
         transition:.8s;
-    box-shadow: 1px 1px 20px #888;
+    box-shadow: 1px 1px 10px #888;
     transform: translateY(-3px);
   }
   .containe{
@@ -19,7 +22,7 @@
   .image{
 
     img{
-      max-width: 100%;
+      width: 100%;
          height: 200px;
     }
   }

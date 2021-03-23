@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ViewdetailsComponent } from '../front/viewdetails/viewdetails.component';
 import { AddcategoryComponent } from './category/addcategory/addcategory.component';
 import { CategoryComponent } from './category/category.component';
 import { AdddiscountComponent } from './discounts/adddiscount/adddiscount.component';
@@ -12,7 +13,6 @@ import { AddtaxComponent } from './taxes/addtax/addtax.component';
 import { TaxesComponent } from './taxes/taxes.component';
 import { AdduomComponent } from './unitOfMeasures/adduom/adduom.component';
 import { UnitOfMeasuresComponent } from './unitOfMeasures/unitOfMeasures.component';
-import { ViewdetailsComponent } from './viewdetails/viewdetails.component';
 
 
 
@@ -30,9 +30,9 @@ const routes: Routes = [
       { path: "adddiscount", component: AdddiscountComponent },
       { path: "additem", component: AddproductComponent },
       { path: "edititem/:id", component: AddproductComponent },
-      { path: "viewdetails/:id", component: ViewdetailsComponent },
       { path: "categories", component: CategoryComponent },
-      { path: "addcategory", component: AddcategoryComponent }
+      { path: "addcategory", component: AddcategoryComponent },
+      { path: "viewdetails/:id", component: ViewdetailsComponent },
     ]
   }
 ];

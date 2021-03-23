@@ -8,12 +8,14 @@ import { LayoutComponent } from './layout/layout.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { DataTablesModule } from 'angular-datatables';
+import { MyordersComponent } from './myorders/myorders.component';
+import { ViewdetailsComponent } from './viewdetails/viewdetails.component';
 
 
 
 @NgModule({
   declarations: [
-    HomeComponent, LayoutComponent, OrderDetailsComponent
+    HomeComponent, LayoutComponent, OrderDetailsComponent, MyordersComponent, ViewdetailsComponent
   ],
   providers: [
     DatePipe

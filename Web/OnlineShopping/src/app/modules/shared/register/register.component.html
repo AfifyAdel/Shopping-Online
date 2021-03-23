@@ -49,8 +49,14 @@
                     (registerForm.controls.password.touched && registerForm.controls.password.invalid) ||
                     (submitted && registerForm.controls.password.invalid) }">
               </div>
-
-              <button type="submit" class="btn btn-block btn-dark">Register</button>
+              <div class="row">
+                <div class="col-6">
+                  <button type="submit" class="btn btn-dark px-4">Register</button>
+                </div>
+                <div class="col-6 text-right">
+                  <button type="button" class="btn btn-link px-0" routerLink="/login">Login</button>
+                </div>
+              </div>
             </form>
           </div>
         </div>

@@ -6,8 +6,22 @@ body{
   padding: 0;
   overflow-y: auto ;
   overflow-x: hidden;
-  background-color: #fafafa;
+  
 }
+a{
+  cursor: pointer;
+}
+table.dataTable thead .sorting_asc,table.dataTable thead .sorting_desc,table.dataTable thead .sorting{
+  background-image: none !important;
+}
+table.dataTable thead th, table.dataTable tfoot th ,table.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td{
+    font-weight: bold;
+    
+    padding: 5px 10px!important;
+  }
+  
+ 
+
 .container-fluid{
       overflow: auto;
     height: calc(100vh - 76px);

@@ -10,6 +10,11 @@
         <i class="fas fa-th-list" aria-hidden="true"></i> Orders
       </a>
     </li>
+    <li (click)="currentSelected = 'Categories'" [ngClass]="{'active': currentSelected === 'Categories'}">
+      <a routerLink="/admin/categories">
+        <i class="fab fa-perbyte" aria-hidden="true"></i> Categories
+      </a>
+    </li>
     <li (click)="currentSelected = 'Measures'" [ngClass]="{'active': currentSelected === 'Measures'}">
       <a routerLink="/admin/uom">
         <i class="fas fa-weight" aria-hidden="true"></i> Unit Of Measures

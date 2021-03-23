@@ -9,6 +9,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SliderComponent } from './slider/slider.component';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [LoginComponent, NotFoundComponent, RegisterComponent, NavBarComponent, SideBarComponent, SliderComponent],
@@ -17,7 +18,8 @@ import { SliderComponent } from './slider/slider.component';
     SharedRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    DataTablesModule
   ],
   exports: [LoginComponent, NotFoundComponent, RegisterComponent, NavBarComponent, SideBarComponent, SliderComponent]
 })

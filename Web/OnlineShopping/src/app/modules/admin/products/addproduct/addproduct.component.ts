@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Responsestatus } from 'src/app/domain/constants/enums/responsestatus.enum';
+import { ConfigService } from 'src/app/domain/helpers/config.service';
 import { Category } from 'src/app/domain/models/category';
 import { Discount } from 'src/app/domain/models/discount';
 import { Item } from 'src/app/domain/models/item';
@@ -41,7 +42,8 @@ export class AddproductComponent implements OnInit {
     private _discountService: DiscountService,
     private _taxService: TaxService,
     private SpinnerService: NgxSpinnerService,
-    private activeRoute: ActivatedRoute) {
+    private activeRoute: ActivatedRoute,
+    private config: ConfigService) {
     this.imgURL = this.defaultImage;
     this.createForm();
   }
@@ -66,14 +68,24 @@ export class AddproductComponent implements OnInit {
               uom: it.uom,
               taxcode: it.taxId,
               discountcode: it.discountId,
-              attributes: it.attributes
+              attributes: it.attributes,
+              category: it.category
             });
+            debugger;
+            if (it.imagePath) {
+              this.imgURL = this.getImagePath(it.imagePath);
+              this.profileFile = it.imagePath;
+            }
           } else if (responce.status == Responsestatus.error) {
             alert(responce.message);
           } else alert("Server Error");
         });
       }
     })
+  }
+  getImagePath(path) {
+    debugger;
+    return (path == null || path == "" || path == "undefined") ? "assets/default-product.jpg" : this.config.imagePath + 'ItemsImages/' + path;
   }
   async createForm() {
     this.SpinnerService.show();
@@ -164,7 +176,7 @@ export class AddproductComponent implements OnInit {
     };
   }
   deleteImage() {
-    this.profileFile = null;
+    this.profileFile = '';
     // this.imageChanged = true;
     $('#btnUploadEdit').val('');
     this.imgURL = this.defaultImage;

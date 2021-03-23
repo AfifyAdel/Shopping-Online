@@ -1,4 +1,4 @@
-<header>
+<!-- <header>
   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
       <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -6,17 +6,17 @@
       <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
     </ol>
     <div class="carousel-inner" role="listbox">
-      <!-- Slide One - Set the background image for this slide in the line below -->
+      Slide One - Set the background image for this slide in the line below
       <div class="carousel-item active" style="background-image: url('../../../../assets/slider-images/sale.jpg')">
         <div class="carousel-caption d-none d-md-block">
         </div>
       </div>
-      <!-- Slide Two - Set the background image for this slide in the line below -->
+      <Slide Two - Set the background image for this slide in the line below
       <div class="carousel-item" style="background-image: url('../../../../assets/slider-images/product0.jpg')">
         <div class="carousel-caption d-none d-md-block">
         </div>
       </div>
-      <!-- Slide Three - Set the background image for this slide in the line below -->
+      Slide Three - Set the background image for this slide in the line below
       <div class="carousel-item" style="background-image: url('../../../../assets/slider-images/product.jpg')">
         <div class="carousel-caption d-none d-md-block">
         </div>
@@ -31,26 +31,30 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
-</header>
+</header> -->
 <div class="row py-3">
   <div class="col-3 w-20">
-    <div class=" border-dark mb-3 ml-3" style="max-width: 18rem; border: groove;">
+    <div class=" border-dark mb-3 ml-3" style="max-width: 18rem;">
       <div class="card-header">Categories</div>
-      <div class="card-body text-primary">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">A second item</li>
-          <li class="list-group-item">A third item</li>
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">A second item</li>
-          <li class="list-group-item">A third item</li>
-        </ul>
+      <div class="card-body" style="background: #f1f1f1;">
+        <div class="form-check form-switch" *ngFor="let cat of categories">
+          <input class="form-check-input" type="checkbox" id={{cat.id}} (change)="fieldsChange($event,cat.id)" checked
+            (change)="filterProducts(cat.id)">
+          <label class="form-check-label" for={{cat.id}}>{{cat.name}}</label>
+        </div>
+
+        <!-- <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let cat of categories" value={{cat.id}}>{{cat.name}}</li>
+        </ul> -->
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-danger form-control" (click)="clearFilters()">Clear Filter</button>
       </div>
     </div>
   </div>
   <div class="col-9 w-80">
     <div class="row">
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 pb-4" *ngFor="let item of products">
+      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 pb-4" *ngFor="let item of filteredProducts">
         <div class="card">
           <div class="row">
             <div class="col-12">

@@ -38,6 +38,7 @@ export class ProductsComponent implements OnInit {
       pagingType: 'full_numbers'
     };
     await this.getProducts();
+    await this.getCategories();
     await this.getDiscounts();
     await this.getTaxes();
     await this.getUOMs();

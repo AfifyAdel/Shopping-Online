@@ -49,6 +49,7 @@ export class OrdersComponent implements OnInit {
 
 
   openOrderDetails(id) {
+    debugger;
     this.router.navigate(['/admin/viewdetails/' + id]);
   }
   saveChanges(item: Order) {

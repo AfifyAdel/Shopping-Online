@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
+import { Eusertypes } from 'src/app/domain/constants/enums/eusertypes.enum';
 import { Responsestatus } from 'src/app/domain/constants/enums/responsestatus.enum';
 import { Discount } from 'src/app/domain/models/discount';
 import { Item } from 'src/app/domain/models/item';
 import { OrderDetail } from 'src/app/domain/models/orderDetail';
 import { Tax } from 'src/app/domain/models/tax';
+import { AuthenticationService } from 'src/app/domain/services/authentication.service';
 import { DiscountService } from 'src/app/domain/services/discount.service';
 import { ItemService } from 'src/app/domain/services/item.service';
 import { OrderService } from 'src/app/domain/services/order.service';
@@ -27,14 +29,17 @@ export class ViewdetailsComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>();
   dtOptions: DataTables.Settings = {};
   totalPrice: number = 0;
+  backValue: string = 'Back To My Orders';
   constructor(private itemService: ItemService, private SpinnerService: NgxSpinnerService,
     private router: Router, private _discountService: DiscountService,
     private _taxService: TaxService, private activeRoute: ActivatedRoute,
-    private orderService: OrderService) {
+    private orderService: OrderService, private auth: AuthenticationService) {
   }
 
   async ngOnInit() {
     this.SpinnerService.show();
+    if (this.auth.currentUserValue.roleId == (Number)(Eusertypes.Admin))
+      this.backValue = 'Back To Orders';
     this.dtOptions = {
       pagingType: 'full_numbers'
     };
@@ -47,7 +52,7 @@ export class ViewdetailsComponent implements OnInit {
   }
   async getOrderItems() {
     this.activeRoute.paramMap.subscribe(param => {
-
+      debugger;
       var id = param.get('id');
       if (id != null) {
         this.orderService.getOrderItems(Number(id)).subscribe(responce => {
@@ -129,7 +134,10 @@ export class ViewdetailsComponent implements OnInit {
     return item.totalPrice;
   }
 
-  navigateToOrders() {
-    this.router.navigate(['/admin/orders']);
+  back() {
+    if (this.auth.currentUserValue.roleId == (Number)(Eusertypes.Admin))
+      this.router.navigate(['/admin/orders']);
+    else
+      this.router.navigate(['/myorders']);
   }
 }

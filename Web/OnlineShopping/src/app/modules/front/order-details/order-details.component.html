@@ -41,8 +41,8 @@
 <div class="wrapper">
   <button class="btn btn-dark mt-3 ord" style="margin-right: 30px;" type="submit" (click)="navigateToHome()">Back To
     Home</button>
-  <button class="btn btn-dark mt-3 ord" style="margin-right: 30px;min-width: 126px;" type="submit" (click)="print()"
-    [disabled]="currentItems == null || currentItems.length<1">Print</button>
+  <button class="btn btn-dark mt-3 ord d-none" style="margin-right: 30px;min-width: 126px;" type="submit"
+    (click)="print()" [disabled]="currentItems == null || currentItems.length<1">Print</button>
   <button class="btn btn-dark mt-3 ord" style="min-width: 126px;" type="submit" (click)="order()"
     [disabled]="currentItems == null || currentItems.length<1">Order</button>
 </div>
