@@ -30,6 +30,8 @@ export class ViewdetailsComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   totalPrice: number = 0;
   backValue: string = 'Back To My Orders';
+  showAlert: boolean = false;
+  message: string = '';
   constructor(private itemService: ItemService, private SpinnerService: NgxSpinnerService,
     private router: Router, private _discountService: DiscountService,
     private _taxService: TaxService, private activeRoute: ActivatedRoute,
@@ -66,8 +68,8 @@ export class ViewdetailsComponent implements OnInit {
             this.currentItems1 = unique;
             this.dtTrigger.next();
           } else if (responce.status == Responsestatus.error) {
-            alert(responce.message);
-          } else alert("Server Error");
+            this.openPopup(responce.message);
+          } else this.openPopup("Server Error");
         });
       }
     })
@@ -77,8 +79,8 @@ export class ViewdetailsComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.products = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
   async getTaxes() {
@@ -86,8 +88,8 @@ export class ViewdetailsComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.taxes = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
   async getDiscounts() {
@@ -95,8 +97,8 @@ export class ViewdetailsComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.discounts = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
   getItemName(itemId) {
@@ -127,7 +129,9 @@ export class ViewdetailsComponent implements OnInit {
     if (!(!!item) || !(!!this.discounts) || !(!!this.taxes))
       return;
     var tax = this.getTaxValue(item.taxId);
+    if (!(!!tax)) tax = 0;
     var discount = this.getDiscountValue(item.discountId);
+    if (!(!!discount)) discount = 0;
     var priceTax = ((item.price * (Number)(tax)) / 100) + item.price;
     var pricedis = priceTax - ((priceTax * (Number)(discount)) / 100);
     item.totalPrice = item.quantity * pricedis;
@@ -139,5 +143,14 @@ export class ViewdetailsComponent implements OnInit {
       this.router.navigate(['/admin/orders']);
     else
       this.router.navigate(['/myorders']);
+  }
+
+  openPopup(mess) {
+    debugger;
+    this.showAlert = true;
+    this.message = mess;
+  }
+  closePopup() {
+    this.showAlert = false;
   }
 }

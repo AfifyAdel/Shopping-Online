@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
+  showAlert: boolean = false;
+  message: string = '';
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -50,12 +52,20 @@ export class LoginComponent implements OnInit {
         util.Route(response.resource.roleId);
       }
       else if (response.status === Responsestatus.error) {
-        alert(response.message);
+        this.openPopup(response.message);
         this.SpinnerService.hide();
       }
       else {
         this.SpinnerService.hide();
       }
     }));
+  }
+  openPopup(mess) {
+    debugger;
+    this.showAlert = true;
+    this.message = mess;
+  }
+  closePopup() {
+    this.showAlert = false;
   }
 }

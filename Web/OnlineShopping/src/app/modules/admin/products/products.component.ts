@@ -27,6 +27,8 @@ export class ProductsComponent implements OnInit {
   uoms: Array<UnitOfMeasure>;
   dtTrigger: Subject<any> = new Subject<any>();
   dtOptions: DataTables.Settings = {};
+  showAlert: boolean = false;
+  message: string = '';
   constructor(private itemService: ItemService, private SpinnerService: NgxSpinnerService,
     private router: Router, private _discountService: DiscountService,
     private _taxService: TaxService, private _uomService: UnitofmeasureService, private _categoryService: CategoryService) {
@@ -51,8 +53,8 @@ export class ProductsComponent implements OnInit {
         this.products = responce.resource;
         this.dtTrigger.next(this.products);
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
   async getCategories() {
@@ -62,8 +64,8 @@ export class ProductsComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.categories = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
       this.SpinnerService.hide();
     });
   }
@@ -72,8 +74,8 @@ export class ProductsComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.taxes = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
   async getDiscounts() {
@@ -81,8 +83,8 @@ export class ProductsComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.discounts = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
 
@@ -91,8 +93,8 @@ export class ProductsComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.uoms = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
 
@@ -122,8 +124,8 @@ export class ProductsComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.getUOMs();
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
   editProduct(id) {
@@ -136,5 +138,13 @@ export class ProductsComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
+  }
+  openPopup(mess) {
+    debugger;
+    this.showAlert = true;
+    this.message = mess;
+  }
+  closePopup() {
+    this.showAlert = false;
   }
 }

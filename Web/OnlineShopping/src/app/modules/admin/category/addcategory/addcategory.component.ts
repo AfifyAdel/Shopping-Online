@@ -16,7 +16,8 @@ export class AddcategoryComponent implements OnInit {
   validationMsgAdd: string;
   validationErrorAdd: boolean;
   submittedAdd: boolean = false;
-
+  showAlert: boolean = false;
+  message: string = '';
   constructor(private categoryService: CategoryService,
     private _formBuilder: FormBuilder, private router: Router) {
     this.createAddForm();
@@ -47,10 +48,18 @@ export class AddcategoryComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.router.navigate(['/admin/categories']);
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
+        this.openPopup(responce.message);
       } else {
-        alert("Server Error");
+        this.openPopup("Server Error");
       }
     });
+  }
+  openPopup(mess) {
+    debugger;
+    this.showAlert = true;
+    this.message = mess;
+  }
+  closePopup() {
+    this.showAlert = false;
   }
 }

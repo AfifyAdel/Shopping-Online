@@ -16,6 +16,8 @@ export class TaxesComponent implements OnDestroy, OnInit {
   taxes: Tax[] = [];
   dtTrigger: Subject<any> = new Subject<any>();
   dtOptions: DataTables.Settings = {};
+  showAlert: boolean = false;
+  message: string = '';
   constructor(private taxService: TaxService, private SpinnerService: NgxSpinnerService,
     private router: Router) {
   }
@@ -34,8 +36,8 @@ export class TaxesComponent implements OnDestroy, OnInit {
         this.taxes = responce.resource;
         this.dtTrigger.next();
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
 
@@ -44,8 +46,8 @@ export class TaxesComponent implements OnDestroy, OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.getTaxes();
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
 
@@ -55,5 +57,13 @@ export class TaxesComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
+  }
+  openPopup(mess) {
+    debugger;
+    this.showAlert = true;
+    this.message = mess;
+  }
+  closePopup() {
+    this.showAlert = false;
   }
 }

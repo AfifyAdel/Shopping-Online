@@ -6,7 +6,7 @@ body{
   padding: 0;
   overflow-y: auto ;
   overflow-x: hidden;
-  
+
 }
 a{
   cursor: pointer;
@@ -16,11 +16,37 @@ table.dataTable thead .sorting_asc,table.dataTable thead .sorting_desc,table.dat
 }
 table.dataTable thead th, table.dataTable tfoot th ,table.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td{
     font-weight: bold;
-    
+
     padding: 5px 10px!important;
   }
-  
- 
+
+ .modal-backdrop.fade.show{
+  display: none !important;
+}
+.modal{
+  background-color: rgba(0,0,0,.4);
+  .modal-content{
+border-radius: 10px;
+  }
+  .modal-header{
+    background-color: #343a40;
+        padding: 5px 10px;
+        h5{
+          font-size:16px;
+          color: #fff;
+        }
+        .close{
+          color: #fff;
+        }
+  }
+  .modal-body{
+    padding-bottom: 0;
+  }
+  .modal-footer{
+padding: 8px;
+    border: none;
+  }
+}
 
 .container-fluid{
       overflow: auto;

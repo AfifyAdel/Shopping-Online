@@ -34,6 +34,8 @@ export class AddproductComponent implements OnInit {
   uoms: UnitOfMeasure[] = new Array<UnitOfMeasure>();
   editMode: boolean = false;
   editItemId: number = 0;
+  showAlert: boolean = false;
+  message: string = '';
   constructor(private _formBuilder: FormBuilder,
     private _router: Router,
     private _itemsService: ItemService,
@@ -77,8 +79,8 @@ export class AddproductComponent implements OnInit {
               this.profileFile = it.imagePath;
             }
           } else if (responce.status == Responsestatus.error) {
-            alert(responce.message);
-          } else alert("Server Error");
+            this.openPopup(responce.message);
+          } else this.openPopup("Server Error");
         });
       }
     })
@@ -115,8 +117,8 @@ export class AddproductComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.categories = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
       this.SpinnerService.hide();
     });
   }
@@ -125,8 +127,8 @@ export class AddproductComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.taxes = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
   async getUOMs() {
@@ -134,8 +136,8 @@ export class AddproductComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.uoms = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
   async getDiscounts() {
@@ -143,8 +145,8 @@ export class AddproductComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.discounts = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
   get formControls() {
@@ -166,7 +168,7 @@ export class AddproductComponent implements OnInit {
       ext.toLowerCase() != "jpeg"
     ) {
       this.profileFile = null;
-      alert("Please upload a valid image");
+      this.openPopup("Please upload a valid image");
       return;
     }
     var reader = new FileReader();
@@ -208,8 +210,8 @@ export class AddproductComponent implements OnInit {
         if (responce.resource && responce.status == Responsestatus.success) {
           this.navigateToProducts();
         } else if (responce.status == Responsestatus.error) {
-          alert(responce.message);
-        } else alert("Server Error");
+          this.openPopup(responce.message);
+        } else this.openPopup("Server Error");
       });
     }
     else {
@@ -217,8 +219,8 @@ export class AddproductComponent implements OnInit {
         if (responce.resource && responce.status == Responsestatus.success) {
           this.navigateToProducts();
         } else if (responce.status == Responsestatus.error) {
-          alert(responce.message);
-        } else alert("Server Error");
+          this.openPopup(responce.message);
+        } else this.openPopup("Server Error");
       });
     }
   }
@@ -226,5 +228,12 @@ export class AddproductComponent implements OnInit {
     this._router.navigate(["/admin/products"]);
   }
 
-
+  openPopup(mess) {
+    debugger;
+    this.showAlert = true;
+    this.message = mess;
+  }
+  closePopup() {
+    this.showAlert = false;
+  }
 }

@@ -146,8 +146,7 @@ namespace OnlineShoppingAPIs.Controllers
 
                 if (!Directory.Exists(filePath))
                     Directory.CreateDirectory(filePath);
-                else
-                    Directory.Delete(filePath,true);
+                
 
                 using (var stream = new FileStream(Path.Combine(filePath, filename), FileMode.Create))
                 {

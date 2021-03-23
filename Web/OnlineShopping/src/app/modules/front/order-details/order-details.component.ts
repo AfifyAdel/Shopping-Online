@@ -29,6 +29,9 @@ export class OrderDetailsComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>();
   dtOptions: DataTables.Settings = {};
   totalPrice: number = 0;
+  showAlert: boolean = false;
+  message: string = '';
+  goHome: boolean = false;
   constructor(private itemService: ItemService, private SpinnerService: NgxSpinnerService,
     private router: Router, private _discountService: DiscountService,
     private _taxService: TaxService, private currentItemsService: OrderdetailsService,
@@ -36,7 +39,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   async ngOnInit() {
-
+    this.goHome = false;
     this.SpinnerService.show();
     this.dtOptions = {
       pagingType: 'full_numbers'
@@ -58,8 +61,8 @@ export class OrderDetailsComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.products = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
   async getTaxes() {
@@ -67,8 +70,8 @@ export class OrderDetailsComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.taxes = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
   async getDiscounts() {
@@ -76,8 +79,8 @@ export class OrderDetailsComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.discounts = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
   getItemName(itemId) {
@@ -107,8 +110,11 @@ export class OrderDetailsComponent implements OnInit {
   getPrice(item: OrderDetail) {
     if (!(!!item) || !(!!this.discounts) || !(!!this.taxes))
       return;
+    debugger;
     var tax = this.getTaxValue(item.taxId);
+    if (!(!!tax)) tax = 0;
     var discount = this.getDiscountValue(item.discountId);
+    if (!(!!discount)) discount = 0;
     var priceTax = ((item.price * (Number)(tax)) / 100) + item.price;
     var pricedis = priceTax - ((priceTax * (Number)(discount)) / 100);
     item.totalPrice = item.quantity * pricedis;
@@ -125,7 +131,7 @@ export class OrderDetailsComponent implements OnInit {
         this.totalPrice += item.totalPrice;
       }
       else {
-        alert("Not more items in store!");
+        this.openPopup("Not more items in store!");
       }
     }
     return;
@@ -141,7 +147,7 @@ export class OrderDetailsComponent implements OnInit {
         this.totalPrice -= item.totalPrice;
       }
       else {
-        alert("You don't have any quantity of this item!");
+        this.openPopup("You don't have any quantity of this item!");
       }
     }
     return;
@@ -179,15 +185,16 @@ export class OrderDetailsComponent implements OnInit {
     newOrder.userId = this.auth.currentUserValue.id;
     this.orderService.addOrder(newOrder).subscribe(responce => {
       if (responce.resource && responce.status == Responsestatus.success) {
-        alert("Order done successfully");
+        this.openPopup("Order done successfully");
         this.SpinnerService.hide();
         this.currentItemsService.orderDone();
-        this.router.navigate(['/home']);
+        this.goHome = true;
+        //this.router.navigate(['/home']);
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
+        this.openPopup(responce.message);
         this.SpinnerService.hide();
       } else {
-        alert("Server Error");
+        this.openPopup("Server Error");
         this.SpinnerService.hide();
       }
     });
@@ -202,5 +209,17 @@ export class OrderDetailsComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
+  }
+
+  openPopup(mess) {
+    debugger;
+    this.showAlert = true;
+    this.message = mess;
+  }
+  closePopup() {
+    this.showAlert = false;
+    if (this.goHome) {
+      this.router.navigate(['/home']);
+    }
   }
 }

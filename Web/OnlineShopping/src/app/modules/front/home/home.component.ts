@@ -27,6 +27,8 @@ export class HomeComponent implements OnInit {
   taxes: Array<Tax>;
   discounts: Array<Discount>;
   myBag: Array<OrderDetail> = [];
+  showAlert: boolean = false;
+  message: string = '';
   constructor(private itemService: ItemService, private SpinnerService: NgxSpinnerService,
     private router: Router, private _discountService: DiscountService,
     private _taxService: TaxService, private currentItemsService: OrderdetailsService,
@@ -65,8 +67,8 @@ export class HomeComponent implements OnInit {
         this.products = responce.resource;
         this.filteredProducts = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
   async getCategories() {
@@ -76,8 +78,8 @@ export class HomeComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.categories = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
       this.SpinnerService.hide();
     });
   }
@@ -86,8 +88,8 @@ export class HomeComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.taxes = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
   async getDiscounts() {
@@ -95,14 +97,16 @@ export class HomeComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.discounts = responce.resource;
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
 
   clacDiscount(price, discountId) {
     if (!(!!price) || !(!!discountId) || !(!!this.discounts))
       return;
+    if (discountId == 0)
+      return price;
     var disc = this.discounts.find(x => x.id == discountId);
     if (disc) {
       return price - ((disc.value * price) / 100);
@@ -112,13 +116,22 @@ export class HomeComponent implements OnInit {
   calcTax(price, taxId) {
     if (!(!!price) || !(!!taxId) || !(!!this.taxes))
       return;
+    if (taxId == 0)
+      return price;
     var tax = this.taxes.find(x => x.id == taxId);
     if (tax) {
       return price + ((tax.value * price) / 100);
     }
     return price;
   }
-
+  getPrice(item: Item) {
+    var tot = item.price;
+    if (item.taxId !== 0)
+      tot += this.calcTax(item.price, item.taxId);
+    if (item.discountId !== 0)
+      tot -= this.clacDiscount(item.price, item.discountId)
+    return tot;
+  }
   getImagePath(path) {
     var img = (path == null || path == "" || path == "undefined") ? "assets/default-product.jpg" : this.config.imagePath + 'ItemsImages/' + path;
     return img;
@@ -137,7 +150,7 @@ export class HomeComponent implements OnInit {
     if (prod) {
       var itemEx = this.myBag.find(x => x.itemId == id);
       if (itemEx) {
-        alert("Item already exist in your bag!");
+        this.openPopup("Item already exist in your bag!");
         return;
       }
       var ordDetail = new OrderDetail();
@@ -157,5 +170,13 @@ export class HomeComponent implements OnInit {
     this.categories.forEach(element => {
       (document.getElementById(element.id.toString()) as HTMLInputElement).checked = true;
     });
+  }
+  openPopup(mess) {
+    debugger;
+    this.showAlert = true;
+    this.message = mess;
+  }
+  closePopup() {
+    this.showAlert = false;
   }
 }

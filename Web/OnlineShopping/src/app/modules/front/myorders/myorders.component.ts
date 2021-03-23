@@ -16,6 +16,8 @@ export class MyordersComponent implements OnInit {
   orders: Array<Order>
   dtTrigger: Subject<any> = new Subject<any>();
   dtOptions: DataTables.Settings = {};
+  showAlert: boolean = false;
+  message: string = '';
   constructor(private orderService: OrderService, private SpinnerService: NgxSpinnerService,
     private router: Router, private auth: AuthenticationService) {
   }
@@ -37,9 +39,9 @@ export class MyordersComponent implements OnInit {
         this.dtTrigger.next();
         this.SpinnerService.hide();
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
+        this.openPopup(responce.message);
         this.SpinnerService.hide();
-      } else { alert("Server Error"); this.SpinnerService.hide(); }
+      } else { this.openPopup("Server Error"); this.SpinnerService.hide(); }
 
     });
   }
@@ -60,7 +62,18 @@ export class MyordersComponent implements OnInit {
         return 'Pendding'
     }
   }
+  navigateToHome() {
+    this.router.navigate(['/home']);
+  }
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
+  }
+  openPopup(mess) {
+    debugger;
+    this.showAlert = true;
+    this.message = mess;
+  }
+  closePopup() {
+    this.showAlert = false;
   }
 }

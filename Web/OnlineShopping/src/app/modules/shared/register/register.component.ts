@@ -15,6 +15,8 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
   submitted: boolean = false;
+  showAlert: boolean = false;
+  message: string = ''
   constructor(private formbulider: FormBuilder, private accountService: AccountService, private router: Router, private SpinnerService: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -48,11 +50,19 @@ export class RegisterComponent implements OnInit {
       }
       else if (response.status === Responsestatus.error) {
         this.SpinnerService.hide();
-        alert(response.message);
+        this.openPopup(response.message);
       }
       else {
         this.SpinnerService.hide();
       }
     }));
+  }
+  openPopup(mess) {
+    debugger;
+    this.showAlert = true;
+    this.message = mess;
+  }
+  closePopup() {
+    this.showAlert = false;
   }
 }

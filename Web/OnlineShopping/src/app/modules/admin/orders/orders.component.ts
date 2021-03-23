@@ -15,6 +15,8 @@ export class OrdersComponent implements OnInit {
   orders: Array<Order>
   dtTrigger: Subject<any> = new Subject<any>();
   dtOptions: DataTables.Settings = {};
+  showAlert: boolean = false;
+  message: string = '';
   constructor(private orderService: OrderService, private SpinnerService: NgxSpinnerService,
     private router: Router) {
   }
@@ -36,9 +38,9 @@ export class OrdersComponent implements OnInit {
         this.dtTrigger.next();
         this.SpinnerService.hide();
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
+        this.openPopup(responce.message);
         this.SpinnerService.hide();
-      } else { alert("Server Error"); this.SpinnerService.hide(); }
+      } else { this.openPopup("Server Error"); this.SpinnerService.hide(); }
 
     });
   }
@@ -57,31 +59,40 @@ export class OrdersComponent implements OnInit {
     var dudate = (<HTMLInputElement>document.getElementById("dat" + item.id.toString()))?.value;
     var stat = (<HTMLInputElement>document.getElementById("st" + item.id.toString()))?.value;
     if (!(!!dudate)) {
-      alert("Duo date not valid!")
+      this.openPopup("Duo date not valid!");
       return;
     }
-    else {
-      var inputDate = new Date(dudate);
-      if (new Date(inputDate).getDate() < new Date().getDate()) {
-        alert("Duo date not valid!")
-        return;
-      }
-    }
+    // else {
+    //   var inputDate = new Date(dudate);
+    //   if (new Date(inputDate).getDate() < new Date().getDate()) {
+    //     this.openPopup("Duo date not valid!");
+    //     return;
+    //   }
+    // }
     this.SpinnerService.show();
     item.dueDate = new Date(dudate);
     item.status = Number(stat);
 
     this.orderService.updateOrder(item).subscribe(responce => {
       if (responce.resource && responce.status == Responsestatus.success) {
-        alert("Order Updated successfully")
+        this.openPopup("Order Updated successfully");
         this.SpinnerService.hide();
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
+        this.openPopup(responce.message);
         this.SpinnerService.hide();
-      } else { alert("Server Error"); this.SpinnerService.hide() }
+      } else { this.openPopup("Server Error"); this.SpinnerService.hide() }
     });
   }
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
+  }
+
+  openPopup(mess) {
+    debugger;
+    this.showAlert = true;
+    this.message = mess;
+  }
+  closePopup() {
+    this.showAlert = false;
   }
 }

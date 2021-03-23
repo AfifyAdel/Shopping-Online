@@ -17,6 +17,8 @@ export class UnitOfMeasuresComponent implements OnInit {
   uoms: Array<UnitOfMeasure>
   dtTrigger: Subject<any> = new Subject<any>();
   dtOptions: DataTables.Settings = {};
+  showAlert: boolean = false;
+  message: string = '';
   constructor(private uomService: UnitofmeasureService, private SpinnerService: NgxSpinnerService,
     private router: Router) {
   }
@@ -37,8 +39,8 @@ export class UnitOfMeasuresComponent implements OnInit {
         this.uoms = responce.resource;
         this.dtTrigger.next();
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
       this.SpinnerService.hide();
     });
   }
@@ -48,8 +50,8 @@ export class UnitOfMeasuresComponent implements OnInit {
       if (responce.resource && responce.status == Responsestatus.success) {
         this.getUOMs();
       } else if (responce.status == Responsestatus.error) {
-        alert(responce.message);
-      } else alert("Server Error");
+        this.openPopup(responce.message);
+      } else this.openPopup("Server Error");
     });
   }
 
@@ -59,6 +61,15 @@ export class UnitOfMeasuresComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
+  }
+
+  openPopup(mess) {
+    debugger;
+    this.showAlert = true;
+    this.message = mess;
+  }
+  closePopup() {
+    this.showAlert = false;
   }
 }
 
